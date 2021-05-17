@@ -1,0 +1,96 @@
+___________ API LISTS ____________
+url = api.socialite.heroku.com
+
+----Login----
+post: url/Login
+
+---register---
+post: url/register
+
+---forgot password---
+post: url/forgot-password
+
+---profile---
+get: url/{slug}/profile
+post, put: url/{slug}/profile[edit]
+
+---posts post---
+get: url/posts?page=
+get, put, delete: url/post/{id}
+get: url/post/{slug} --> ambil post per user
+post: url/post/post
+
+---comment---
+get, post: url/posts/{id}/comments
+delete: url/posts/{id}/comment/{id}
+
+---likes---
+get, post, delete: url/post/{id}/likes
+
+---follow---
+get: url/{slug}/follower
+get: url/{slug}/following
+post, delete: url/{slug}/follow
+
+---search---
+get: url/search/{query}
+
+---notification---
+get: url/{slug}/notification
+
+___________ DATABASE MODEL ___________
+
+User {
+    id
+    username/slug
+    email
+    password
+
+}
+
+---one to one---
+Profile {
+    user_id
+    avatar
+    fullname
+    bio desc
+    phone
+}
+---one to many---
+Posts {
+    user_id
+    caption
+    images
+    tag
+}
+
+---many to many---
+Comment {
+    user_id
+    posts_id
+    comment
+}
+
+---many to many---
+Likes {
+    user_id
+    posts_id
+}
+
+---many to many---
+Follows {
+    from_user_id
+    to_user_id
+}
+
+---many to many---
+Comment on comment {
+    user_id
+    comment_id
+}
+
+---one to many---
+Notification {
+    user_id
+    notif_message
+}
