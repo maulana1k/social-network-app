@@ -1,63 +1,110 @@
-import Posts from '../db/Posts.js'
+import Posts from '../db/PostsModel.js'
+
 
 const PostsController = {
-
+    getPagination: (req,res,next)=>{
+        let page = req.query.page
+        let limit = req.query.limit
+        let load = page*limit - 1
+        Posts.find()
+            .slice(page,load)
+            .toArray((err,result)=>{
+                if (err) throw err
+                return res.json(result)
+            })
+        
+    },
     getByUser: (req,res,next)=>{
         Posts.find({
-            user_id : req.params.userId
-        }).exec((err,data)=>{
-            if (err) return res.status(500).send(err)
-            if (!data) return res.status(404).send({msg:'post not found'})
-            res.status(200).send(data)
+            username : req.params.username
+        }).exec((err,result)=>{
+            if (err) throw err
+            if (!result) return res.status(404).send({msg:'post not found'})
+            return res.json(result)
         })
-        next()
+       
     },
     getDetail: (req,res,next)=>{
-        Posts.findOne({
-            _id : req.params.postId
-        }).exec((err,data)=>{
-            if (err) return res.status(500).send(err)
-            if (!data) return res.status(404).send({msg:'post not found'})
-            res.status(200).send(data)
+        Posts.findById(req.params.postId)
+            .exec((err,result)=>{
+            if (err) throw err
+            if (!result) return res.status(404).send({msg:'post not found'})
+            return res.json(result)
         })
-        next()
+        
     },
     post: (req,res,next)=>{
-        if(!req.file){
-            return res.send(401).send({msg:'image not found'})
-        }  
-        let images = req.file.path
-        let {user_id,caption,tag} = req.body
+        // if(!req.file){
+        //     return res.json({msg:'image not found'})
+        // }  
+        
+        let images = ''
+        if (req.file) images = req.file.path
+        console.log(images)
+            
+        let {username,caption,tag} = req.body
         let post = new Posts({
-            user_id,images,caption,tag 
+            username,
+            images ,
+            caption,tag 
         })     
         post.save((err,result)=>{
-            if (err) return res.status(500).send(err)
-            res.status(200).send('success')
+            if (err) throw err 
+            console.log(result)
+            return res.json(result)
         }) 
-        next()
+        
     },
     edit: (req,res,next)=>{
         let {caption,tag} = req.body
-        Posts.findOneAndUpdate(
-            { _id : req.params.postId },
-            {$set:{ caption,tag  }},
-            {new:true},
-            (err,result)=>{
-                if (err) return res.status(500).send(err)
-                res.status(200).send(result)
-            }
-        )
-        next()
+        Posts.findByIdAndUpdate(
+            req.params.postId,
+            {$set:{ caption,
+                tag:[tag]  }},
+            {new:true}
+            ).exec((err,result)=>{
+                if (err) throw err
+                return res.json(result)
+            })
     },
     delete: (req,res,next)=>{
         Posts.deleteOne({
             _id : req.params.postId
         }).exec((err,result)=>{
-            if(err)return res.status(500).send(err)
-            res.status(200)
+            if(err) throw err
+            return res.json({msg:'delete success'})
         })
-        next()
+        
+    },
+    likes:(req,res,next)=>{
+        let {postId,username} = req.params
+        Posts.findByIdAndUpdate(
+            postId,
+            {$push:{
+                likes:{username}
+            }},
+            {new:true}
+            ).exec((err,result)=>{
+                if (err) console.log(err);
+                res.json(result)
+        
+                return 
+            })
+    },
+    unlike:(req,res,next)=>{
+        let {postId,username} = req.params
+        Posts.findByIdAndUpdate(postId,
+            {$pull:{
+                likes: {username:username}
+            }},
+            {new:true}
+            ).exec((err,result)=>{
+                 if (err) console.log(err)
+                 res.json(result)
+
+                 return 
+             })
+            
     }
 }
 

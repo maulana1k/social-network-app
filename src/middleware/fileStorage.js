@@ -6,7 +6,7 @@ const avatarStorage = multer.diskStorage({
         cb(null,'../../public/uploads')
     },
     filename: (req,file,cb)=>{
-        cb(null,`av_${req.body.username}_${new Date().toTimeString()}_${file.originalname}` )
+        cb(null,`av_${req.params.username}_${new Date().toTimeString()}_${file.originalname}` )
     }
 })
 const postStorage = multer.diskStorage({
@@ -18,7 +18,7 @@ const postStorage = multer.diskStorage({
     }
 })
 
-export function fileFilter(req,file,cb){
+const fileFilter = (req,file,cb)=>{
     if(file.mimetype === ('image/jpg'||'image/png'||'image/jpeg'))
     {   cb(null,true)
     }else{ 
@@ -26,4 +26,4 @@ export function fileFilter(req,file,cb){
     
 }
 
-export {avatarStorage,postStorage}
+export {avatarStorage,postStorage,fileFilter}

@@ -2,7 +2,7 @@ import express  from 'express'
 import jwt  from 'jsonwebtoken'
 const SECRET_KEY = 'socialnetappwysiwyg'
 import bcrypt from 'bcryptjs'
-import User from '../db/User.js'
+import User from '../db/UserModel.js'
 
 
 export function authRegister  (req,res,next)  {

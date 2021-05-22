@@ -17,10 +17,19 @@ const UserModel = new mongoose.Schema({
         type: String,
         required: true
     },
-    verified: {
-        type: Boolean,
-        required: false
-    }
+    verified: Boolean,
+    profile: {
+        avatar:{ type:String, default: ''},
+        fullname: { type:String, default: ''},
+        bio: { type:String, default: ''},
+        phone: { type:Number, default: ''}
+     },
+    follower: [{ username: String }],
+    following: [{ username: String}],
+    notification:[ {
+        notif_message: String, 
+        timestamps:{ type:Date, default: Date.now }
+    }]
 })
 const User = mongoose.model('User',UserModel)
 export default User

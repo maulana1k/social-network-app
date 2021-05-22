@@ -1,12 +1,12 @@
-// const express = require('express')
 import express from 'express'
-const API = express.Router()
 import multer from 'multer'
+
+const API = express.Router()
 
 //Controller
 import UserController from '../controller/UserController.js'
-import ProfileController from '../controller/ProfileController.js'
 import PostsController from '../controller/PostsController.js'
+import CommentController from '../controller/CommentController.js'
 
 //Middleware
 import { authRegister }  from '../middleware/jwtAuth.js'
@@ -22,42 +22,47 @@ const postMiddleware = (req,res,next)=>{
 
 //User api
 API.post('/auth/login',UserController.login)
+
 API.post('/auth/register',authRegister,UserController.register)
+
 API.post('/auth/reset-password')
 
-//Profile api
-API.get('/:userId/profile',ProfileController.get)
-API.post('/:userId/profile',profileMiddleware,ProfileController.post)
-API.put('/:userId/profile/edit',profileMiddleware,ProfileController.edit)
+API.get('/:username/profile',UserController.getProfile)
+
+API.put('/:username/profile',profileMiddleware,UserController.updateProfile)
+
+API.put('/:username/follow/:toUsername',UserController.follow)
+
+API.put('/:username/follow/:toUsername',UserController.unfollow)
 
 //Posts api
-API.get('/posts?page=') //get post per page
-API.get('/posts/:userId',PostsController.getByUser) //get posts per user
-API.get('/post/:postId',PostsController.getDetail) //post detail
+API.get('/posts?',PostsController.getPagination) 
+//get post per page '?page=&limit='
+API.get('/posts/:username',PostsController.getByUser)
+ //get posts per user
+API.get('/post/:postId',PostsController.getDetail)
+ //post detail
 API.post('/post',postMiddleware,PostsController.post)
+
 API.put('/post/:postId',PostsController.edit)
+
 API.delete('/post/:postId',PostsController.delete)
 
+API.put('/post/:postId/likes/:username',PostsController.likes)
+
+API.put('/post/:postId/unlikes/:username',PostsController.unlike)
+
 //Comment api
-API.get('/post/:postId/comments')
-API.post('/post/:postId/comment')
-API.delete('/post/:postId/comment/:commentId')
+API.put('/post/:postId/comment/:username',CommentController.post)
 
-//Likes api
-API.get('/post/:postId/likes')
-API.post('/post/:postId/likes')
-API.delete('/post/:postId/likes')
+API.put('/post/:postId/uncomment/:commentId',CommentController.delete)
 
-//Follow api
-API.get('/:userId/follower')
-API.get('/:userId/following')
-API.post('/:userId/follow')
-API.delete('/:userId/follow')
 
 //Search api
-API.get('/search/:query')
+API.get('/search',UserController.searchQuery)
 
 //Notification api
-API.get('/:userId/notification')
+API.get('/:username/notification',UserController.getNotification)
+API.put('/:username/notification/push',UserController.pushNotification)
 
 export default API
