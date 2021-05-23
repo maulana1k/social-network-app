@@ -46,7 +46,7 @@ export default function Profile(){
             </div>
         </div>
         <div className="container space-x-4 my-4">
-            <Button colorScheme="blue" size="sm" >Follow</Button>
+            <Button colorScheme="blue"  size="sm" >Follow</Button>
 
         </div>
         <Tabs isFitted >

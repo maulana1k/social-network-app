@@ -10,7 +10,7 @@ import {Route,Switch,Link} from 'react-router-dom'
 import Feeds from './Feeds.js'
 import Profile from './Profile.js'
 import Search from './Search.js'
-
+import Notification from './Notification.js'
 
 export default function Home(){
 
@@ -22,16 +22,17 @@ export default function Home(){
                         <Search/>
                     </Route>
                     <Route path="/notification" >
-                    <div className="container h-14 flex items-center bg-white justify-center ">
-                        <div className="text-gray-700 text-2xl">Notifications</div>
-                    </div>
+                        <div className="container h-14 flex items-center bg-white px-4  ">
+                            <div className="text-gray-700 text-xl"><b>Notifications</b></div>
+                        </div>
+                        <Notification/>
                     </Route>
                     <Route path="/profile" >
                         <Profile/>
                     </Route>
                     <Route path="/" exact  >
-                    <div className="container h-14 flex items-center bg-white justify-center ">
-                        <div className="text-gray-700 text-2xl">Feeds</div>
+                    <div className="container h-14 flex items-center bg-white px-4 ">
+                        <div className="text-gray-700 text-xl"><b>Feeds</b></div>
                     </div>
                         <Feeds/>
                     </Route>

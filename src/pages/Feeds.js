@@ -7,7 +7,7 @@ export default function Feeds(){
         
         
         <div className="container flex-col p-3 space-y-6">
-            <div className="container flex flex-col rounded-xl shadow bg-white ">
+            <div className="container flex flex-col rounded-md shadow bg-white ">
                 <div className="container flex p-2 items-center space-x-4">
                     <Avatar size="sm" />
                     <div className="text-gray-700 text-md"> felicia </div> 

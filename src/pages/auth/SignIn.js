@@ -11,26 +11,37 @@ export default function SignIn(){
                         <div className="text-2xl mb-4"><b>Sign in to your account</b></div>
                     </div>
                     <form action="">
-                        <div>
-                            <div className="text-md"><b>Username</b></div>
-                            <Input name="username" variant="filled" isFullWidth="true" placeholder="e,g firstname.lastname" />
-                        </div>
-                        <div>
-                            <div className="text-md"><b>Password</b></div>
-                            <Input name="password" type="password" variant="filled" isFullWidth="true" placeholder="*******" />
-                        </div>
-                        <Checkbox name="remember" > Remember me </Checkbox>
-                        <Button type="submit" colorScheme="teal" isFullWidth="true" > Signin</Button>
-                        <div className="text-sm text-blue-400">
-                            <Link to="/signup" > Don't have an account?</Link>
+                        <div className="container space-y-2">
+                            <div>
+                                <div className="text-md"><b>Username</b></div>
+                                <Input 
+                                name="username" 
+                                variant="filled" 
+                                isFullWidth 
+                                placeholder="e,g firstname.lastname" />
+                            </div>
+                            <div>
+                                <div className="text-md"><b>Password</b></div>
+                                <Input 
+                                name="password" 
+                                type="password" 
+                                variant="filled" 
+                                isFullWidth 
+                                placeholder="*******" />
+                            </div>
+                            <Checkbox name="remember" > Remember me </Checkbox>
+                            <Button type="submit" colorScheme="blue" isFullWidth="true" > Signin</Button>
+                            <div className="text-sm text-blue-400">
+                                <Link to="/signup" > Don't have an account?</Link>
+                            </div>
                         </div>
                     </form>
-                        <hr/>
+                        {/*<hr/>
                         <div className="text-gray-600 flex justify-center container">Or continue with</div>
                         <div className="flex justify-center space-x-2">
                             <Button colorScheme="red" >Google</Button>
                             <Button colorScheme="facebook" >Facebook</Button>
-                        </div>
+                        </div>*/}
             </div>
         </div>
     )
