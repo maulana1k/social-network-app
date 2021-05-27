@@ -1,13 +1,15 @@
 import Posts from '../db/PostsModel.js'
-
-
+import User from '../db/UserModel.js'
+ 
 const PostsController = {
     getPagination: (req,res,next)=>{
         let page = req.query.page
         let limit = req.query.limit
-        let load = page*limit - 1
+        let from = page*limit
+        let load = (page+1)*limit - 1
         Posts.find()
-            .slice(page,load)
+            .sort({timestmaps: -1})
+            .slice(from,load)
             .toArray((err,result)=>{
                 if (err) throw err
                 return res.json(result)
@@ -19,7 +21,7 @@ const PostsController = {
             username : req.params.username
         }).exec((err,result)=>{
             if (err) throw err
-            if (!result) return res.status(404).send({msg:'post not found'})
+            if (!result) return res.status(404).send('empty post')
             return res.json(result)
         })
        
@@ -28,7 +30,7 @@ const PostsController = {
         Posts.findById(req.params.postId)
             .exec((err,result)=>{
             if (err) throw err
-            if (!result) return res.status(404).send({msg:'post not found'})
+            if (!result) return resjson({msg:'post not found'})
             return res.json(result)
         })
         
@@ -37,11 +39,8 @@ const PostsController = {
         // if(!req.file){
         //     return res.json({msg:'image not found'})
         // }  
-        
-        let images = ''
-        if (req.file) images = req.file.path
+        let images = req.file ? req.file.path : ''
         console.log(images)
-            
         let {username,caption,tag} = req.body
         let post = new Posts({
             username,
@@ -80,15 +79,22 @@ const PostsController = {
         let {postId,username} = req.params
         Posts.findByIdAndUpdate(
             postId,
-            {$push:{
-                likes:{username}
+            {$push:{likes:{username}
             }},
             {new:true}
             ).exec((err,result)=>{
                 if (err) console.log(err);
-                res.json(result)
-        
-                return 
+                let notif_message =  'just likes to your post'
+                User.findOneAndUpdate(
+                    {username:result.username},
+                    {$push:{notification:{
+                        subject:username,
+                        purpose:postId,
+                        notif_type:'likes',
+                        notif_message:notif_message
+                        }
+                    }},{new:true})
+                return res.json(result) 
             })
     },
     unlike:(req,res,next)=>{

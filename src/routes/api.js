@@ -1,6 +1,6 @@
 import express from 'express'
 import multer from 'multer'
-
+ 
 const API = express.Router()
 
 //Controller
@@ -63,6 +63,5 @@ API.get('/search',UserController.searchQuery)
 
 //Notification api
 API.get('/:username/notification',UserController.getNotification)
-API.put('/:username/notification/push',UserController.pushNotification)
 
 export default API

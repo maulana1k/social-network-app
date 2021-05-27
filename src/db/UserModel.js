@@ -27,6 +27,9 @@ const UserModel = new mongoose.Schema({
     follower: [{ username: String }],
     following: [{ username: String}],
     notification:[ {
+        subject:  String,
+        purpose:  String,
+        notif_type: String,
         notif_message: String, 
         timestamps:{ type:Date, default: Date.now }
     }]

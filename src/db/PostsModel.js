@@ -10,6 +10,7 @@ const PostsModel = new mongoose.Schema({
     comments: [{
         username: {type:String, default: ''},
         comment: {type:String, default: ''},
+        avatar: {type:String, default:''},
         tag: [{username: String }]
     }],
     likes: [{
