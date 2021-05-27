@@ -1,19 +1,31 @@
-import react from 'react'
-import {HomeOutlined,
-        SearchRounded,
-        AddCircleRounded,
-        PersonOutlined,
-        NotificationsNoneRounded
-    } from '@material-ui/icons'
-import {Route,Switch,Link} from 'react-router-dom'
+import react,{useState,useContext} from 'react'
+import {UserContext} from '../utilities/UserContext.js'
 
+import HomeOutlined from '@material-ui/icons/HomeOutlined'
+import SearchRounded from '@material-ui/icons/SearchRounded'
+import  AddBox from '@material-ui/icons/AddBox'
+import  PersonOutlined from '@material-ui/icons/PersonOutlined'
+import  NotificationsNoneRounded from '@material-ui/icons/NotificationsNoneRounded'
+     
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import Button from '@material-ui/core/Button'
+import {Route,Switch,Link,Redirect,useHistory} from 'react-router-dom'
+
+//pages
 import Feeds from './Feeds.js'
 import Profile from './Profile.js'
 import Search from './Search.js'
 import Notification from './Notification.js'
+import Uploads from './Uploads.js'
+
 
 export default function Home(){
-
+    const [user,setUser] = useContext(UserContext)
+    const [menu,setMenu] = useState(null)
+    const [file,setFile] = useState(null)
+    const [fileURL,setFileURL] = useState('')
+    
     return(
         <div className="container h-screen  ">
             <div className="container flex-col p-0 bg-gray-50">
@@ -27,14 +39,20 @@ export default function Home(){
                         </div>
                         <Notification/>
                     </Route>
-                    <Route path="/profile" >
+                    <Route path="/:username"  >
                         <Profile/>
                     </Route>
                     <Route path="/" exact  >
-                    <div className="container h-14 flex items-center bg-white px-4 ">
-                        <div className="text-gray-700 text-xl"><b>Feeds</b></div>
-                    </div>
+                        <div className="container h-14 flex items-center bg-white px-4 ">
+                            <div className="text-gray-700 text-xl"><b>Feeds</b></div>
+                        </div>
                         <Feeds/>
+                    </Route>
+                    <Route to="/uploads" >
+                        <div className="container h-14 flex items-center bg-white px-4 ">
+                            <div className="text-gray-700 text-xl"><b>Uploads</b></div>
+                        </div>
+                        <Uploads  />
                     </Route>
                 </Switch>
                 
@@ -48,13 +66,14 @@ export default function Home(){
                    <Link to="/search" > <SearchRounded /></Link>
                     </div>
                 <div > 
-                    <Link to="/post" > <AddCircleRounded fontSize="large" /></Link>
+                    <Link to="/uploads" > <AddBox fontSize="large"  /></Link>
+                    
                     </div>
                 <div > 
                     <Link to="/notification" > <NotificationsNoneRounded/></Link>
                     </div>
                 <div > 
-                    <Link to="/profile" ><PersonOutlined/></Link> 
+                    <Link to={`/${user.username}`} ><PersonOutlined /></Link> 
                 </div>
             </div>
 

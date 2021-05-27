@@ -1,5 +1,6 @@
 import {InputGroup,InputLeftElement,Input,Avatar} from '@chakra-ui/react'
 import {SearchRounded} from '@material-ui/icons'
+import {Link} from 'react-router-dom'
 
 export default function Search(){
     return (<>
@@ -11,9 +12,9 @@ export default function Search(){
                 />
                 <Input variant="filled" name="search" placeholder="Search people" />
             </InputGroup>
-            
         </div>
         <div className="container px-4 space-y-6  items-center bg-white ">
+            <Link to="/profile" >  
             <div className="container flex items-center space-x-4 text-gray-600 bg-white flex">
                <Avatar size="md" />
                <div className="container">
@@ -21,6 +22,7 @@ export default function Search(){
                    <div className="text-gray-400 text-sm">@miskah__</div>
                </div>
             </div>
+            </Link>
             <div className="container flex items-center space-x-4 text-gray-600 bg-white flex">
                <Avatar size="md" />
                <div className="container">

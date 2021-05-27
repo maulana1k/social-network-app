@@ -1,25 +1,34 @@
+import React, {useState,useContext} from 'react'
 import {Route,Switch,Redirect} from 'react-router-dom'
-
+import {UserContext} from './UserContext.js'
 //pages
 import SignIn from '../pages/auth/SignIn.js'
 import SignUp from '../pages/auth/SignUp.js'
 import Home from '../pages/Home.js'
 
 export default function Router(){
+    const [user,setUser] = useContext(UserContext)
 
+    const AuthRoute =({user,...props}) =>{
+        if (user) {return <Route {...props} />}
+            else{ return <Redirect to='/signup' /> }
+    }
+    const SignRoute = ({user,...props}) => {
+        if (!user){ return <Route {...props} /> }
+            else{ return <Redirect to='/' /> }
+    }
     return(<>
         <div className="md:bg-gray-100" >
         <Switch>
-            <Route path='/signin' >
+            <SignRoute user={user} path='/signin' >
                 <SignIn/>
-            </Route>
-            <Route path='/signup' >
+            </SignRoute>
+            <SignRoute user={user} path='/signup' >
                 <SignUp/>
-            </Route>
-            <Route path='/' >
+            </SignRoute>
+            <AuthRoute user={user} path='/' >
                 <Home/>
-
-            </Route>
+            </AuthRoute>
         </Switch>
         </div>
         </>

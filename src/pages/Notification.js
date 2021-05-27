@@ -1,31 +1,17 @@
 
+import {Timeline} from 'antd'
+import {Link} from 'react-router-dom'
 
 export default function Notification(){
-
+	
     return (
-        <div className="container px-4 my-6 space-y-2  flex flex-col">
-	        <div>
-	        	<div className="container text-gray-700 h-min-12 bg-white rounded shadow px-4 py-2">
-	        		felicia has followed you
-	        		
-		        	<div className="flex container  text-gray-400 text-xs">14 Jun 2020</div>
-	        	</div>
-	        </div>
-	        <div>
-	        	<div className="container text-gray-700 h-min-12 bg-white rounded shadow px-4 py-2">
-	        		Notification
-	        		Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-		        	<div className="flex container  text-gray-400 text-xs">14 Jun 2020</div>
-	        	</div>
-	        </div>
-	        <div>
-	        	<div className="container text-gray-700 h-min-12 bg-white rounded shadow px-4 py-2">
-	        		Notification
-	        		Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-		        	<div className="flex container  text-gray-400 text-xs">14 Jun 2020</div>
-	        	</div>
-	        </div>
-        	
+        <div className="container px-4 py-8 divide-y-2 space-y-2 bg-white flex flex-col">
+	       <Timeline>
+	       	<Timeline.Item  ><Link to="/profile" ><b>felicia.angelique_</b></Link>  started to following you</Timeline.Item>
+	       	<Timeline.Item  >miskah started to following you</Timeline.Item>
+	       	<Timeline.Item  >Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias molestiae inventore ratione sunt, consectetur tempore placeat ipsum assumenda iste numquam rem esse, aliquam temporibus praesentium asperiores cum quibusdam! Ipsum, error?</Timeline.Item>
+	       	<Timeline.Item  >Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum iste, voluptatibus incidunt dolor illum obcaecati quod praesentium nesciunt quam esse in suscipit tenetur vero necessitatibus error, eaque tempore illo nobis.</Timeline.Item>
+	       </Timeline>
         </div>
     )
 }
