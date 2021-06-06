@@ -11,7 +11,10 @@ export default function Router(){
 
     const AuthRoute =({user,...props}) =>{
         if (user) {return <Route {...props} />}
-            else{ return <Redirect to='/signup' /> }
+            else{ 
+                 //<Route {...props} /> 
+            return <Redirect to='/signup' />
+                 }
     }
     const SignRoute = ({user,...props}) => {
         if (!user){ return <Route {...props} /> }
