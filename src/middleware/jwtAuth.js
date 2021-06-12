@@ -10,25 +10,25 @@ export function authRegister  (req,res,next)  {
     User.findOne({
         username: req.body.username
     }).exec((err,user)=>{
-        if (err) return
-        if (user) return res.status(400).send('Username or email is already in use!')
+        if (err) return res.status(500).send(err)
+        if (user) return res.status(400).send('Username is already in use!')
     })
     User.findOne({
         email: req.body.email
     }).exec((err,user)=>{
-        if (err) return 
-        if (user) return res.status(400).send('Email or email is already in use!')
+        if (err) return res.status(500).send(err)
+        if (user) return res.status(400).send('Email is already in use!')
     }) 
     next()
 }
 
 export function verifyToken  (req,res,next) {
-    let token = req.headers['x-access-token']
-    if (!token) return res.status(403).send({msg:'no token'})
-    jwt.verify(token,SECRET_KEY,(err,decoded)=>{
-    if (err) return res.status(401).send({msg:'unauthorized'})
-    
-    req.userId = decoded.id      
+    let token = req.headers['authorization']
+    if (!token) return res.status(403).send('no token')
+    // let authToken = token && token.split(' ')[1]
+    jwt.verify(token,SECRET_KEY,(err,user)=>{
+        if (err) return res.status(401).send('unauthorized')
+        req.user = user      
     })
     next()
 }

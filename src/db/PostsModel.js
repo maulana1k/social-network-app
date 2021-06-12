@@ -1,21 +1,23 @@
 import mongoose from 'mongoose'
-
+const Schema = mongoose.Schema;
 const PostsModel = new mongoose.Schema({
-    username: { type: String, required: true },
+    author:{ type:Schema.Types.ObjectId, ref:'User',required:true },
+    username:{type:String, default:''},
     caption: {type: String, default: '' },
     images: { type: String, default: ''},
-    tag: [{
-        username: String
-    }],
+    tag: Array,
     comments: [{
-        username: {type:String, default: ''},
-        comment: {type:String, default: ''},
-        avatar: {type:String, default:''},
-        tag: [{username: String }]
+        username: String,
+        comment: String,
+        fullname:String,
+        avatar:String,
+        replies:[{
+            username: String,
+            comment: String,
+            avatar:String
+        }]
     }],
-    likes: [{
-        username: String
-    }],
+    likes: [{username:{type:String,dropDups:true},fullname:String,avatar:String}] ,
     timestamps:{ type:Date, default: Date.now }
 })
 

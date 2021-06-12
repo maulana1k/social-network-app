@@ -6,8 +6,9 @@ const SECRET_KEY = 'socialnetappwysiwyg'
 const UserController = {
 
      register: (req,res,next)=> {
-        let {username,email,password} = req.body
+        let {fullname,username,email,password} = req.body
         let user = new User({
+            profile:{fullname},
             username,
             email,
             password: bcryptjs.hashSync(password,8)
@@ -18,8 +19,8 @@ const UserController = {
                 return
             } 
             let token = jwt.sign({id:user._id},SECRET_KEY)
-            res.json(user)
-            return
+            let {_id,username,profile,posts,follower,following,notification} = user
+            return res.json({_id,username,profile,posts,follower,following,notification,token})
         })
     },
 
@@ -27,120 +28,127 @@ const UserController = {
         User.findOne({
             username: req.body.username
         }).exec((err,user)=>{
-            if (err) throw err
-            if (!user) return res.status(400).send('Wrong password or username!')
-            let passwordValid = bcryptjs.compareSync(
-                req.body.password,user.password)
+            if (err) return res.status(500).send(err)
+            if (!user) { return res.status(400).send('Username not found!')}
+            let passwordValid = bcryptjs.compareSync(req.body.password,user.password)
             console.log(passwordValid);
-            if (!passwordValid) return res.status(400).send('Wrong password or username!')
-            let token = jwt.sign({id:user._id},SECRET_KEY,{
-                expiresIn: 86400
-            })
-            res.json(user)
-            return
+            if (!passwordValid) {
+                return res.status(400).send('Wrong password!')
+            }
+            let token = jwt.sign({id:user._id},SECRET_KEY)
+            let {_id,username,profile,posts,follower,following,notification} = user
+            return res.json({_id,username,profile,posts,follower,following,notification,token})
         })
     },
     updateProfile: (req,res,next)=>{
-        let avatar = req.file? req.file.path : ''
-        let {fullname,bio,phone} = req.body
-        
+        let avatar = req.file? req.file.path : req.body.avatar
+        let {fullname,bio,phone,websites} = req.body
+        console.log('phone',phone)
         User.findOneAndUpdate(
             {username: req.params.username},
             {$set:{
-                profile:{fullname,avatar,bio,phone}
+                profile:{fullname,avatar,bio,phone,websites}
             }},
-            {new:true},
-            (err,result)=>{
-                if (err) return
+            {new:true})
+            .exec((err,result)=>{
+                if (err) return res.status(500).send(err)
                 return res.json(result)
-            }
-        )
+            })
+        
     },
     getProfile:(req,res,next)=>{
         User.findOne({username : req.params.username})
             .exec((err,result)=>{
-                if (err) throw err
-                if (!user) return res.status(404).send('user not found!')
+                if (err) return res.status(500).send(err)
+                if (!result) return res.status(404).send('user not found!')
                 let {profile,username,follower,following} = result
                 return res.json({profile,username,follower,following})
             })
     },
     follow:(req,res,next)=>{
         let {username,toUsername} = req.params
+        let {fullname,avatar} = req.body
         //follower on target user
-        let resData = []
-        let notif_message =  'started to following you'
-        User.findOneAndUpdate(
-            {username: username},
-            {$push:{
-                follower: {username:toUsername},
-                notification:{
-                    subject:username,
-                    puspose:toUsername,
-                    notif_type:'follow',
-                    notif_message : notif_message
-                }
-            }},{new:true}
-            ).exec((err,result1)=>{
-                if (err) throw err
-                resData.push(result1)
-                console.log(result1)
-            })
-        //following on subject user
         User.findOneAndUpdate(
             {username:toUsername},
             {$push:{
-                following:{username:username}
+                follower:{username:username,fullname,avatar}
             }},{new:true}
-            ).exec((err,result2)=>{
-                if (err) throw err
-                resData.push(result2)
-                res.json(resData)
-                resData = []
-                return 
+            ).exec((err,result)=>{
+                if (err) return res.status(500)
+                //following on subject user
+                User.findOneAndUpdate(
+                    {username:username},
+                    {$push:{
+                        following:{
+                            username:toUsername,
+                            fullname:result.profile.fullname,
+                            avatar:result.profile.avatar}
+                    }},{new:true}
+                    ).exec((err,result)=>{
+                        if (err) return res.status(500)
+                        
+                        //notif
+                        let notif_message =  'started to following you'
+                        User.findOne(
+                            {username:toUsername,
+                            notification:{subject:username,refer:toUsername,notif_type:'follow'}})
+                            .exec((err,data)=>{
+                            let alreadyNotif = data 
+                            console.log('notif',alreadyNotif)
+                            if(alreadyNotif==null)
+                            User.findOneAndUpdate(
+                                {username: toUsername},
+                                {$push:{notification:{
+                                        subject:username,
+                                        refer:toUsername,
+                                        notif_type:'follow',
+                                        notif_message : notif_message}
+                                }},{new:true}
+                                ).exec((err,result)=>{
+                                    if (err) throw err
+                                })
+                        })
+                        
+                    })
+            let {profile,follower,following} = result
+            let usrname = result.username
+            return res.json({profile,username:usrname,follower,following})
             })
-            console.log(resData)
     },
     unfollow:(req,res,next)=>{
         let {username,toUsername} = req.params
-        let resData = []
+       
         User.findOneAndUpdate(
             {username:username},
             {$pull:{
-                follower: {username:toUsername}
-            }}
-            ).exec((err,result1)=>{
-                if (err) throw err
-                resData.push(result1)
+                following: {username:toUsername}
+            }},{new:true}
+            ).exec((err,result)=>{
+                if (err) return res.status(500)
             })
             
         User.findOneAndUpdate(
             {username:toUsername},
             {$pull:{
-                following:{username:username}
-            }}
-            ).exec((err,result2)=>{
+                follower:{username:username}
+            }},{new:true}
+            ).exec((err,result)=>{
                 if (err) throw err
-                resData.push(result2)
+                let {profile,username,follower,following} = result
+                return res.json({profile,username,follower,following})
             })
         
-        return res.json(resData)
+        
     },
     searchQuery:(req,res,next)=>{
-        let data = []
         User.find({
             username:{$regex: `${req.query.username}` }
-        }).exec((err,result1)=>{
-            if (err) throw err
-            data.push(result1)
+        }).exec((err,result)=>{
+            if (err) return res.status(500).send(err)
+            return res.json(result)
         })
-        User.find({
-            profile:{fullname:{$regex: `${req.query.username}`}}
-        }).exec((err,result2)=>{
-            if (err) throw err
-            data.push(result2)
-            return res.json(data)
-        })
+        
     },
     getNotification:(req,res,next)=>{
         User.findOne({ username: req.params.username })
@@ -149,7 +157,21 @@ const UserController = {
                 return res.json(result.notification)
             })
     },
-    
+    suggestion:(req,res,next)=>{
+        User.find().exec((err,result)=>{
+            if(err) return res.status(500).send(err)
+            // return res.send(result)
+            let resFil = result.filter(el=>{
+                return( el.profile.fullname.length>0 &&
+                        el.profile.avatar.length>0 &&
+                        el.profile.phone.length>0 && 
+                        el.profile.websites.length>0 &&
+                        el.profile.bio.length>0)
+            })
+            resFil.slice(0,8)
+            return res.send(resFil)
+        })
+    },
     resetPassword: (req,res,next)=>{
         
     }

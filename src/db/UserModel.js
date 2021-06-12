@@ -1,5 +1,7 @@
 import mongoose from 'mongoose'
 
+const Schema = mongoose.Schema;
+
 const UserModel = new mongoose.Schema({
     username: {
         type: String,
@@ -22,17 +24,23 @@ const UserModel = new mongoose.Schema({
         avatar:{ type:String, default: ''},
         fullname: { type:String, default: ''},
         bio: { type:String, default: ''},
-        phone: { type:Number, default: ''}
+        phone: { type:String, default: ''},
+        websites:{ type:String, default: ''}
      },
-    follower: [{ username: String }],
-    following: [{ username: String}],
+    follower: [{ username:{type:String,unique:true,dropDups:true},
+                fullname:String,
+                avatar:String}],
+    following: [{ username:{type:String,unique:true,dropDups:true},
+                fullname:String,
+                avatar:String}],
     notification:[ {
         subject:  String,
-        purpose:  String,
+        refer:  String,
         notif_type: String,
         notif_message: String, 
         timestamps:{ type:Date, default: Date.now }
-    }]
+    }],
+    posts: [{ type:Schema.Types.ObjectId, ref:'Posts' }]
 })
 const User = mongoose.model('User',UserModel)
 export default User
