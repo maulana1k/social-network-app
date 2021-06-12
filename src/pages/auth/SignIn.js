@@ -2,37 +2,43 @@ import React,{useState,useContext} from 'react'
 import {UserContext} from '../../utilities/UserContext.js'
 import axios from 'axios'
 
-import {Form,Input,Button,Checkbox,Alert} from 'antd'
+import {Form,Input,Button,Checkbox,Alert,notification} from 'antd'
 import {Link,useHistory} from 'react-router-dom'
 
 export default function SignIn(){
     const [,setUser] = useContext(UserContext)
     const [error,setError] = useState(false)
     const [errData, setErrData] = useState('')
+    const [loading,setLoading] = useState(false)
 
     const url =  'http://localhost:8080'
     const history = useHistory()
     const handleSubmit = values => {
         let {username,password} = values
+        setLoading(true)
         axios.post(`${url}/auth/login`,{username,password},{headers:{'Content-Type':'application/json'}})
         .then( res=>{ 
             let currentUser = res.data
             console.log(res.data)
             setUser(currentUser)
-            localStorage.setItem('user',JSON.stringify(currentUser))
+            localStorage.setItem('socialite-user',JSON.stringify(currentUser))
             history.push('/')
+            notification['success']({
+                    message:`Welcome ${res.data.profile.fullname}`
+                })
         }).catch(err=>{
             if(err.response){
                 console.log(err.response)
                 setErrData(err.response.data)
             }
-             setError(true);
+            setLoading(false)
+            setError(true);
         })
     }
     const radius = {borderRadius:'6px'} 
     return(
 
-        <div className="container-md flex h-screen md:bg-gray-100">
+        <div className="container-md flex h-screen bg-white sm:bg-gray-50">
             <div className="container text-gray-700 w-96  m-auto flex-col p-10 space-y-4 rounded-md md:shadow-md bg-white">
                     <div className="container justify-center flex">
                         <div className="text-2xl mb-4"><b>Sign in to your account</b></div>
@@ -60,7 +66,7 @@ export default function SignIn(){
                             <Form.Item name="remember" >
                                 <Checkbox checked> Remember me </Checkbox>
                             </Form.Item>
-                                <Button style={radius} htmlType="submit" type="primary" block > Signup</Button>
+                                <Button style={radius} loading={loading} htmlType="submit" type="primary" block > Signin</Button>
                                 <div className="text-sm text-blue-400">
                                     <Link to="/signup" > Dont have an account? Sign up</Link>
                                     </div>

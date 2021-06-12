@@ -21,7 +21,7 @@ export default function Router(){
             else{ return <Redirect to='/' /> }
     }
     return(<>
-        <div className="md:bg-gray-100" >
+        <div className="bg-gray-50" >
         <Switch>
             <SignRoute user={user} path='/signin' >
                 <SignIn/>

@@ -1,30 +1,42 @@
+import react,{useState,useEffect,useContext} from 'react'
+import {UserContext} from '../utilities/UserContext.js'
 
-import {Timeline} from 'antd'
+import axios from 'axios'
+import {Timeline,Button} from 'antd'
 import {Link} from 'react-router-dom'
 
 export default function Notification(){
-	
+	const [user] = useContext(UserContext)
+	const [notif,setNotif] = useState(null)
+	const url = 'http://localhost:8080'
+	console.log('notif',notif)
+	useEffect(()=>{
+		axios.get(`${url}/${user.username}/notification`)
+		.then(res=>{
+			let data = res.data.reverse()
+			setNotif(data)
+		}).catch(err=>{ console.log(err.response) })
+	},[])
     return (<>
-    	<div className="container h-14 flex items-center bg-white px-4  ">
+    	<div className="container h-14 flex items-center bg-white border-b px-4  ">
             <div className="text-gray-700 text-xl"><b>Notifications</b></div>
         </div>
-        <div className="container px-4 py-2 space-y-2 bg-white flex flex-col">
+        <div className="container px-4 py-6 space-y-2 flex flex-col">
 	       <Timeline>
-	       	<Timeline.Item  >
-	       		<div className="container p-2 rounded-md shadow-md">
-	       		<Link to="/profile" ><b>felicia.angelique_</b></Link>  started to following you
-	       		</div>
-       		</Timeline.Item>
-	       	<Timeline.Item  >
-	       		<div className="container p-2 rounded-md shadow-md">
-	       		miskah started to following you
-	       		</div>
-       		</Timeline.Item>
-	       	<Timeline.Item  >
-	       		<div className="container p-2 rounded-md shadow-md">
-	       		Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias molestiae inventore ratione sunt, consectetur tempore placeat ipsum assumenda iste numquam rem esse, aliquam temporibus praesentium asperiores cum quibusdam! Ipsum, error?
-	       		</div>
-       		</Timeline.Item>
+	       { notif ? notif.map((el,index)=>{
+	       	return(
+		       	<Timeline.Item key={index} >
+		       		<div className="container p-4 bg-white rounded-md ">
+		       		<Link to={`/${el.subject}`} ><b>{el.subject}</b></Link> {el.notif_message}
+		       		{(el.notif_type=='comment'||el.notif_type=='likes'||el.notif_type=='tag') 
+		       		&& <div className="w-2/3 mx-auto pt-2" >
+			       		<Button  size="small" block  >
+			       		<Link to={`/post/${el.refer}`}>view</Link>
+			       		</Button></div> }
+		       		</div>
+	       		</Timeline.Item>
+	       		)
+	       }) : <div className="text-gray-500 text-lg flex justify-center">No Notifications</div> }
 	       </Timeline>
         </div>
         </>

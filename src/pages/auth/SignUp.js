@@ -2,7 +2,7 @@ import React,{useState,useContext} from 'react'
 import axios from 'axios'
 import {UserContext} from '../../utilities/UserContext.js'
 
-import {Form,Input,Button,Checkbox,Alert} from 'antd'
+import {Form,Input,Button,Checkbox,Alert,notification} from 'antd'
 import {Link,useHistory} from 'react-router-dom'
 
 export default function SignUp(){
@@ -11,6 +11,7 @@ export default function SignUp(){
     const [help, setHelp] = useState(null)
     const [error,setError] = useState(false)
     const [errData, setErrData] = useState('')
+    const [loading,setLoading] = useState(false)
     const url = 'http://localhost:8080'
     const history = useHistory()
 
@@ -19,13 +20,17 @@ export default function SignUp(){
         if(values.confirm_password !== values.password){
             setStatus('error');setHelp('Password doesnt match!')
         }else{
+            setLoading(true)
             let data = {fullname,username,email,password}
             axios.post(`${url}/auth/register`,data,{headers:{'Content-Type':'application/json'}})
             .then( res => {
                 let currentUser = res.data
                 setUser(currentUser)
-                if(values.remember===true) localStorage.setItem('user',JSON.stringify(currentUser))
+                if(values.remember===true) localStorage.setItem('socialite-user',JSON.stringify(currentUser))
                 history.push('/')
+                notification['success']({
+                        message:`Welcome ${res.data.profile.fullname}`
+                    })
             }).catch( err =>{
                 if(err.response){
                     console.log(err.response)
@@ -37,7 +42,7 @@ export default function SignUp(){
     }
     const radius = {borderRadius:'6px'} 
     return(
-        <div className="container-md flex h-screen md:bg-indigo-100">
+        <div className="container-md flex h-screen bg-white sm:bg-gray-50">
             <div className="container text-gray-800 w-96  m-auto flex-col p-10 space-y-2 rounded-md md:shadow-md bg-white">
                 <div className="container justify-center flex">
                     <div className="text-2xl mb-4"><b>Join Us!</b></div>

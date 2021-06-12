@@ -14,54 +14,49 @@ export default function Uploads(){
 	const [tags, setTags] = useState([])
 	const [images,setImages] = useState('')
 	const [imgPrev,setImgPrev] = useState('')
+	const [loading,setLoading] = useState(false)
 	console.log('tags\n',tags,'file\n',images)
 	const history = useHistory()
 	const url = 'http://localhost:8080'
+	
 	const handleUpload= async (values)=>{
+		setLoading(true)
 		let {caption,tag} = values
-		let tagsUser = tags.length>0 ? tags.split('@').slice(1) : []
-		console.log('tags\n',tags)
+		console.log('tag',tag)
+		let tagsUser = tag ? tag.replace(/\s/ig,"").split('@') : []
+		tagsUser.shift()
+		console.log('tagsUser\n',tagsUser)
 		const data = new FormData();
 		data.append('author',user._id);
 		data.append('username',user.username)
 		data.append('images',images);
-		data.append('tag',tagsUser) 
-		data.append('caption',caption);
+		tagsUser.forEach(item=> data.append('tag[]',item) ) 
+		data.append('caption',caption?caption:'');
 		console.log('data\n',data);
-		try{
-			await axios.post(`${url}/post/${user.username}`,data
-				,{headers:{'content-type':'multipart/form-data',}}
+		
+			axios.post(`${url}/post/${user.username}`,data
+				,{headers:{'content-type':'multipart/form-data','authorization':user.token}}
 			).then( res => {
+				history.push(`/${user.username}`)
 				notification['success']({
-					message:'Upload success! ',
+					message:'Post success! ',
 					description:'Let see what your friend reacts.'
 				})
 				console.log(res.data)
-				history.push('/p/'+user.username)
-			})
-		} catch (err) { console.log(err.response) }
+			}).catch(err=>{
+			setLoading(false)
+			console.log(err.response)})
+		
 	}	
 	
 	const tagSearch = params => {
 		axios.get(`${url}/search?username=${params}`)
 		.then( res =>{
-			setTags(res.data)
+			let data = res.data.filter(el=>{return el.username!==user.username})
+			setTags(data)
 		} ).catch(err=>{ console.log(err) })
 	}
-	// const onPreview = async file => {
-	//     let src = file.url;
-	//     if (!src) {
-	//       src = await new Promise(resolve => {
-	//         const reader = new FileReader();
-	//         reader.readAsDataURL(file.originFileObj);
-	//         reader.onload = () => resolve(reader.result);
-	//       });
-	//     }
-	//     const image = new Image();
-	//     image.src = src;
-	//     const imgWindow = window.open(src);
-	//     imgWindow.document.write(image.outerHTML);
-	//   };
+	
 	const getImage = file =>{
 	  	let imgURL = URL.createObjectURL(file)
 	  	setImgPrev(imgURL)
@@ -69,17 +64,17 @@ export default function Uploads(){
 	  	return false
 	}
 	return (<>
-		<div className="container h-14 flex items-center bg-white px-4 ">
+		<div className="container h-14 flex border-b items-center bg-white px-4 ">
             <div className="text-gray-700 text-xl"><b>Uploads</b></div>
         </div>
-		<div className="container bg-white flex flex-col p-5 pb-12 space-y-4">
+		<div className="container  flex flex-col p-5 pb-12 space-y-4">
 			<div className="container items-center flex space-x-3">
-				<Avatar size="large" />
+				<Avatar size="large" src={`${url}/${user.profile.avatar}`} />
 				<div className="text-gray-700">Whats on your mind?</div>
 			</div>
 		<Form name="uploads" onFinish={handleUpload} encType="multipart/form-data" >
 			<Form.Item name="caption" >
-				<TextArea placeholder="Text here..." showCount maxLength={200} autoSize={{minRows:4,maxRows:8}}  />
+				<TextArea autoFocus placeholder="Text here..." showCount maxLength={200} autoSize={{minRows:4,maxRows:8}}  />
 			</Form.Item>
 			<Form.Item name="images" >
 				{ imgPrev && ( 
@@ -96,14 +91,13 @@ export default function Uploads(){
 					}) 
 			</div>
 				}*/}
-			{/*<ImgCrop>
-			</ImgCrop>*/}
+			<ImgCrop>
 				<Upload
 				beforeUpload={getImage}
-				
 				maxCount={1}>
 				{ !imgPrev ? <Button type="primary" > Add photo </Button>:<Button type="primary" > Change photo </Button>}
 				</Upload>
+			</ImgCrop>
 			</Form.Item>
 			<div className="text-gray-700">Mentions</div>
 			<Form.Item name="tag" >
@@ -126,7 +120,7 @@ export default function Uploads(){
 					<Button style={{alignItems:'center',display:'flex'}} 
 					type="primary" 
 					htmlType="submit" 
-					
+					loading={loading}
 					icon={<CheckOutlined/>}>Post</Button>
 				</div>	
 			</Form.Item>

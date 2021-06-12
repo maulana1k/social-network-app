@@ -1,27 +1,55 @@
-import react,{useState} from 'react'
+import react,{useState,useContext} from 'react'
 import axios from 'axios'
-import {Avatar,Upload,Button,Input,Form} from 'antd'
+import {UserContext} from '../utilities/UserContext.js'
+import {useHistory,useLocation} from 'react-router-dom'
+
+import {Avatar,Upload,Button,Input,Form,notification} from 'antd'
 import ImgCrop from 'antd-img-crop'
-import {CloseOutlined,CheckOutlined} from '@ant-design/icons'
+import {CloseOutlined,CheckOutlined,DeleteOutlined,UploadOutlined} from '@ant-design/icons'
 
 const {TextArea} = Input
-export default function UpdateProfile({userProfile}) {
+
+export default function UpdateProfile() {
+	const location = useLocation()
+	const {userProfile} = location
+	console.log(userProfile)
+	const [user] = useContext(UserContext)
 	const [imgFile,setImgFile] = useState(null)
+	const [currentAvatar,setCurrentAvatar] = useState(userProfile.avatar)
 	const [fullname,setFullname] = useState(userProfile.fullname)
 	const [bio,setBio] = useState(userProfile.bio)
 	const [phone,setPhone] = useState(userProfile.phone)
-	const [imgPrev,setImgPrev] = useState(userProfile.avatar)
-	console.log('prev',imgPrev,'av',imgFile)
+	const [websites,setWebsites] = useState(userProfile.websites)
+	const [loading,setLoading] = useState(false)
 
-	const handleSubmit = () => {
-		console.log('val',fullname,bio,phone)
+	const url = 'http://localhost:8080'
+	const [imgPrev,setImgPrev] = useState(`${url}/${userProfile.avatar}`)
+	console.log('prev',imgPrev,'av',imgFile,bio,phone,fullname)
+	const history = useHistory()
+
+	const handleSubmit = async () => {
+		setLoading(true)
+		let avatar = imgFile ? imgFile : currentAvatar		
 		const data = new FormData()
 		data.append('fullname',fullname)
 		data.append('bio',bio)
 		data.append('phone',phone)
-		data.append('avatar',imgFile)
+		data.append('avatar',avatar)
+		data.append('websites',websites)
 		console.log('data',data)
-
+		try{
+			await axios.put(`${url}/${user.username}/profile`,data
+				,{headers:{'content-type':'multipart/form-data','authorization':user.token}}
+			).then(res=>{
+				notification['success']({
+					message:'Profile updated! '
+				})
+				console.log(res.data)
+				history.push('/'+user.username)
+			})
+		}catch(err){ 
+			setLoading(false) 
+			console.log(err.response) }
 	}
 	const changePrev = file =>{
 		let imgURL = URL.createObjectURL(file)
@@ -31,17 +59,20 @@ export default function UpdateProfile({userProfile}) {
 	}
 	
 	return(
-		<div className="container flex flex-col bg-white justify-center text-gray-700 space-y-6 p-12">
-			
-			<Avatar size={112} src={imgPrev} />
-			<ImgCrop>
-				<Upload 
-				maxCount={1} 
-				beforeUpload={changePrev}
-				>
-					<Button>Change Avatar</Button>
-				</Upload>
-			</ImgCrop>
+		<div className="container flex flex-col bg-white justify-center text-gray-700 space-y-6 p-12">	
+				<Avatar size={112} src={imgPrev} />
+				
+				<div className="flex space-x-4 " >
+				<ImgCrop>
+					<Upload 
+					maxCount={1} 
+					beforeUpload={changePrev}
+					>
+						<Button style={{alignItems:'center',display:'flex'}} ><UploadOutlined/></Button>
+					</Upload>
+				</ImgCrop>
+				<Button onClick={()=>{setImgPrev('');setCurrentAvatar('')}} danger style={{alignItems:'center',display:'flex'}} ><DeleteOutlined/></Button>
+				</div>
 		
 			
 				<div className="container space-y-4 ">
@@ -61,18 +92,24 @@ export default function UpdateProfile({userProfile}) {
 					</div>				
 				
 					<div>
-					<b>Phone</b>
-					<Input type="number" value={phone} onChange={e=>{setPhone(e.target.value)}} />
+						<b>Phone</b>
+						<Input type="number" value={phone} onChange={e=>{setPhone(e.target.value)}} />
 					</div>
-				
+					<div>
+						<b>Websites</b>
+						<Input value={websites} onChange={e=>setWebsites(e.target.value)} />
+					</div>
+					
 					
 					<div className="space-x-4 container flex justify-end">
 						<Button style={{alignItems:'center',display:'flex'}} 
 						onClick={()=>window.history.back()}
-						icon={<CloseOutlined style={{color:'orangered'}} />} >Cancel</Button>
+						danger
+						icon={<CloseOutlined />} >Cancel</Button>
 						<Button style={{alignItems:'center',display:'flex'}} 
 						type="primary" 
 						htmlType="submit" 
+						loading={loading}
 						onClick={handleSubmit}
 						icon={<CheckOutlined/>}>Save</Button>
 					</div>	
