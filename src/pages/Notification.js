@@ -1,5 +1,6 @@
 import react,{useState,useEffect,useContext} from 'react'
 import {UserContext} from '../utilities/UserContext.js'
+import moment from 'moment'
 
 import axios from 'axios'
 import {Timeline,Button} from 'antd'
@@ -18,21 +19,25 @@ export default function Notification(){
 		}).catch(err=>{ console.log(err.response) })
 	},[])
     return (<>
-    	<div className="container h-14 flex items-center bg-white border-b px-4  ">
+    	<div className="w-full h-14 flex items-center bg-white border-b px-4  ">
             <div className="text-gray-700 text-xl"><b>Notifications</b></div>
         </div>
-        <div className="container px-4 py-6 space-y-2 flex flex-col">
+        <div className="container px-4 py-6  flex flex-col">
 	       <Timeline>
 	       { notif ? notif.map((el,index)=>{
 	       	return(
 		       	<Timeline.Item key={index} >
-		       		<div className="container p-4 bg-white rounded-md ">
+		       		<div className="container p-2 flex justify-between items-center md:border bg-white rounded-md ">
+		       		<div>
 		       		<Link to={`/${el.subject}`} ><b>{el.subject}</b></Link> {el.notif_message}
+		       		<div className="text-gray-500 text-xs">{moment(el.timestamps).fromNow()}</div>
+		       		</div>
 		       		{(el.notif_type=='comment'||el.notif_type=='likes'||el.notif_type=='tag') 
-		       		&& <div className="w-2/3 mx-auto pt-2" >
-			       		<Button  size="small" block  >
-			       		<Link to={`/post/${el.refer}`}>view</Link>
-			       		</Button></div> }
+		       		&& <div >
+			       		<Link to={`/post/${el.refer}`}>
+			       		<Button  size="small" type="primary">view</Button>
+			       		</Link>
+			       		</div> }
 		       		</div>
 	       		</Timeline.Item>
 	       		)

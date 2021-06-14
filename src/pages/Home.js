@@ -1,9 +1,10 @@
-import react,{useState,useContext} from 'react'
+import react,{useState,useContext,useEffect} from 'react'
 import {UserContext} from '../utilities/UserContext.js'
 
-import {Avatar} from 'antd'
-import {HomeOutlined,SearchOutlined,PlusCircleFilled,BellOutlined,UserOutlined} from '@ant-design/icons'    
+import {Avatar,AutoComplete,Input} from 'antd'
+import {HomeOutlined,SearchOutlined,PlusCircleOutlined,BellOutlined} from '@ant-design/icons'    
 import {Route,Switch,Link,Redirect,useHistory} from 'react-router-dom'
+import Geolocation from '../utilities/Geolocation.js'
 
 //pages
 import Feeds from './Feeds.js'
@@ -14,13 +15,17 @@ import Uploads from './Uploads.js'
 import UpdateProfile from './UpdateProfile.js'
 import Post from './Post.js'
 import ListsPage from './ListsPage.js'
+import Navbar from '../components/Navbar.js'
 
 export default function Home(){
     const [user,setUser] = useContext(UserContext)
     
+    
     return(
-        <div className="container h-screen  ">
-            <div className="container flex-col p-0 bg-gray-50">
+        <div className="min-h-screen m-0 w-full ">
+            <Navbar/>
+            <div className="flex min-h-screen justify-center bg-white">
+            <div className="md:py-14 w-full mx-auto md:w-2/5">
                 <Switch>
                     <Route path="/" exact  >
                         <Feeds/>
@@ -49,12 +54,13 @@ export default function Home(){
                     <Route path="/:username/following" >
                         <ListsPage/>
                     </Route>
-                    <Route path="/:username" component={props=><Profile username={props.match.params.username} />} />
+                    <Route path="/:username" component={props=>{return <Profile username={props.match.params.username} />}} />
                 </Switch>
+            </div>
                 
             </div>
 
-            <div className="flex justify-around border-t items-center fixed inset-x-0 shadow-lg bottom-0 h-14 bg-white ">
+            <div className="flex md:hidden justify-around border-t items-center fixed inset-x-0 shadow-lg bottom-0 h-14 bg-white ">
                 <div > 
                    <Link to="/"><HomeOutlined style={{fontSize:'22px'}} /></Link>
                     </div>
@@ -62,7 +68,7 @@ export default function Home(){
                    <Link to="/explore" ><SearchOutlined style={{fontSize:'22px'}} /></Link>
                     </div>
                 <div > 
-                    <Link to="/uploads" > <PlusCircleFilled style={{fontSize:'40px'}}/></Link>
+                    <Link to="/uploads" > <PlusCircleOutlined style={{fontSize:'40px'}}/></Link>
                     
                     </div>
                 <div > 

@@ -10,7 +10,7 @@ const {Option} = Mentions
 const {TextArea} = Input
 
 export default function Uploads(){
-	const [user,setUser] = useContext(UserContext)
+	const [user,setUser,token] = useContext(UserContext)
 	const [tags, setTags] = useState([])
 	const [images,setImages] = useState('')
 	const [imgPrev,setImgPrev] = useState('')
@@ -35,7 +35,7 @@ export default function Uploads(){
 		console.log('data\n',data);
 		
 			axios.post(`${url}/post/${user.username}`,data
-				,{headers:{'content-type':'multipart/form-data','authorization':user.token}}
+				,{headers:{'content-type':'multipart/form-data','authorization':token}}
 			).then( res => {
 				history.push(`/${user.username}`)
 				notification['success']({

@@ -27,9 +27,20 @@
     <link rel="preconnect" href="https://fonts.gstatic.com ">
     <link  href="http://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <link  href="http://fonts.googleapis.com/css2?family=Pacifico" rel="stylesheet">
+
     <title>Socialite</title>
   </head>
-  <body>
+  <body >
+    <script type="application/javascript" >
+      if('serviceWorker' in navigator){
+        window.addEventListener('load',()=>{
+          navigator.serviceWorker.register('serviceWorker.js')
+          .then(
+          registration=>{ console.log('serviceWorker registration success :',registration.scope)},
+          err=>{ console.log('serviceWorker failed') }) 
+        })
+      }else{ console.log('serviceWorker unavailable') }
+    </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--
@@ -42,5 +53,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    
   </body>
 </html>

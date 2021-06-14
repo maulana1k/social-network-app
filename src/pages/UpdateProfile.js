@@ -13,7 +13,7 @@ export default function UpdateProfile() {
 	const location = useLocation()
 	const {userProfile} = location
 	console.log(userProfile)
-	const [user] = useContext(UserContext)
+	const [user,token] = useContext(UserContext)
 	const [imgFile,setImgFile] = useState(null)
 	const [currentAvatar,setCurrentAvatar] = useState(userProfile.avatar)
 	const [fullname,setFullname] = useState(userProfile.fullname)
@@ -39,7 +39,7 @@ export default function UpdateProfile() {
 		console.log('data',data)
 		try{
 			await axios.put(`${url}/${user.username}/profile`,data
-				,{headers:{'content-type':'multipart/form-data','authorization':user.token}}
+				,{headers:{'content-type':'multipart/form-data','authorization':token}}
 			).then(res=>{
 				notification['success']({
 					message:'Profile updated! '

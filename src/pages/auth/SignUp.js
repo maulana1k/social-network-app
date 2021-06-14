@@ -24,12 +24,13 @@ export default function SignUp(){
             let data = {fullname,username,email,password}
             axios.post(`${url}/auth/register`,data,{headers:{'Content-Type':'application/json'}})
             .then( res => {
-                let currentUser = res.data
+                let currentUser = res.data[0]
                 setUser(currentUser)
-                if(values.remember===true) localStorage.setItem('socialite-user',JSON.stringify(currentUser))
+                localStorage.setItem('socialite-user',JSON.stringify(currentUser))
+                localStorage.setItem('socialite-token',JSON.stringify(res.data[1]))
                 history.push('/')
                 notification['success']({
-                        message:`Welcome ${res.data.profile.fullname}`
+                        message:`Welcome ${res.data[0].profile.fullname}`
                     })
             }).catch( err =>{
                 if(err.response){
@@ -42,14 +43,18 @@ export default function SignUp(){
     }
     const radius = {borderRadius:'6px'} 
     return(
-        <div className="container-md flex h-screen bg-white sm:bg-gray-50">
-            <div className="container text-gray-800 w-96  m-auto flex-col p-10 space-y-2 rounded-md md:shadow-md bg-white">
+        <div className="container-md flex flex-col items-center justify-center h-screen bg-white ">
+            <div className="mx-auto  flex flex-col text-center space-y-1 text-gray-700 ">
+                <div className="text-6xl" style={{fontFamily:'Pacifico'}} >Socialite</div>
+                <div className="text-gray-500 "><b>Social Network App | Let's Connect!</b></div>
+            </div>
+            <div className="container text-gray-800 w-96  flex-col px-10 py-4 space-y-2 rounded-md  ">
                 <div className="container justify-center flex">
-                    <div className="text-2xl mb-4"><b>Join Us!</b></div>
+                    <div className="text-xl mb-2">Join Us!</div>
                 </div>
                 <Form onFinish={handleSubmit} >
                     <div className="container space-y-1">
-                        <div className="text-md"><b>Fullname</b></div>
+                        <div className="text-md">Fullname</div>
                      <Form.Item
                     name="fullname" 
                     rules={[
@@ -58,7 +63,7 @@ export default function SignUp(){
                     >
                         <Input style={radius} placeholder=" firstname lastname" />
                     </Form.Item>
-                        <div className="text-md"><b>Username</b></div>
+                        <div className="text-md">Username</div>
                     <Form.Item
                     name="username" 
                     rules={[
@@ -67,7 +72,7 @@ export default function SignUp(){
                     >
                         <Input style={radius} placeholder="e,g firstname.lastname" />
                     </Form.Item>
-                        <div className="text-md"><b>Email</b></div>
+                        <div className="text-md">Email</div>
                     <Form.Item
                     name="email" 
                     rules={[
@@ -76,7 +81,7 @@ export default function SignUp(){
                     >
                         <Input style={radius} placeholder="example@example.com" />
                     </Form.Item>
-                        <div className="text-md"><b>Password</b></div>
+                        <div className="text-md">Password</div>
                     <Form.Item
                     name="password" 
                     rules={[
@@ -85,7 +90,7 @@ export default function SignUp(){
                     >
                         <Input.Password style={radius} type="password"  placeholder="*******" />
                     </Form.Item>
-                        <div className="text-md"><b>Confirm Password</b></div>
+                        <div className="text-md">Confirm Password</div>
                     <Form.Item
                     name="confirm_password" 
                     validateStatus={status}
@@ -97,7 +102,7 @@ export default function SignUp(){
                         <Input.Password style={radius} type="password"  placeholder="*******" />
                     </Form.Item>
                     <Form.Item name="remember" >
-                        <Checkbox checked> Remember me </Checkbox>
+                        <Checkbox > Remember me </Checkbox>
                     </Form.Item>
                         <Button style={radius} htmlType="submit" type="primary" block > Signup</Button>
                         <div className="text-sm text-blue-400">

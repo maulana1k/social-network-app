@@ -18,7 +18,7 @@ export default function Search(){
     console.log('page',page)
 
     useEffect(()=>{
-      axios.get(`${url}/posts?page=${page}&limit=12`)
+      axios.get(`${url}/posts?page=${page}&limit=9`)
       .then(res => {
         setPosts(posts.concat(res.data))
         console.log("data",res.data);
@@ -42,7 +42,7 @@ export default function Search(){
     }
 
     return (<>
-        <div className="container flex bg-white px-10 py-6 border-b justify-center items-center">
+        <div className="container md:hidden flex bg-white px-10 py-6 border-b justify-center items-center">
           {/*<AutoComplete
           options={}
           >
@@ -68,8 +68,8 @@ export default function Search(){
           { query && result && result.length==0 && <div className="text-gray-400 my-6 ">Oops! can't found "{ query }" </div> }
           
           { !result && !query && posts.length>0 && (
-              <div className="container">
-                  <div className="text-gray-500 text-md mt-2 ">Explore</div>
+              <div className="container  ">
+                  <div className="text-gray-500 my-4 text-xl text-center ">Explore</div><hr/>
                   <div className="container grid grid-cols-3 my-2  ">
               { posts.map( (item,i) =>{
                 if(item.images){

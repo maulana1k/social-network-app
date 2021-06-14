@@ -1,6 +1,7 @@
 import react,{useState,useContext,useEffect,useRef} from 'react'
 import {UserContext} from '../utilities/UserContext.js'
 import {Link,useParams,useHistory} from 'react-router-dom'
+import moment from 'moment'
 import axios from 'axios'
 import {Input,Avatar,Comment,List,Tag,Typography,Image,Button,Drawer,notification,Modal} from 'antd'
 import {ArrowLeftOutlined,
@@ -17,7 +18,7 @@ import {ArrowLeftOutlined,
 export default function Post() {
     const {postId} = useParams()
 	const [post,setPost] = useState(null)
-	const [user] = useContext(UserContext)
+	const [user,token] = useContext(UserContext)
     const [likesCount,setLikesCount] = useState(0)
     const [isLiked,setIsLiked] = useState(false)
 	const [ellipsis,setEllipsis] = useState(true)
@@ -89,7 +90,7 @@ export default function Post() {
         okType:'danger',
         cancelText:'cancel',
         onOk(){
-            axios.delete(`${url}/post/${postId}`,{headers:{'authorization':user.token}})
+            axios.delete(`${url}/post/${postId}`,{headers:{'authorization':token}})
             .then(res=>{
                 console.log(res.data)
                 notification['success']({
@@ -124,7 +125,7 @@ export default function Post() {
         let data = {caption:captionEdit}
         console.log(data)
         axios.put(`${url}/post/${post._id}`,data,
-            {headers:{'authorization':user.token}}
+            {headers:{'authorization':token}}
         ).then(res=>{
             console.log(res.data)
             setPost(res.data)
@@ -175,11 +176,14 @@ export default function Post() {
                     {  post.tag.map((el,i)=>{
                         return <Link key={i} to={`/${el}`} ><Tag color="processing">{el}</Tag></Link>
                     }) }
-                    <div className="container" >
-                        <Button type="text"  size="small" onClick={likes} >
-                        { isLiked ? <HeartFilled style={{fontSize:'20px',color:'orangered'}} />  : <HeartOutlined style={{fontSize:'20px'}} />}
-                        </Button>
-                        <Link to={{pathname:`/likes/${postId}`,title:'Likes',data:post.likes}} ><div className="inline text-sm"><b> {likesCount} likes</b></div></Link>
+                    <div className="container flex justify-between" >
+                        <div>
+                            <Button type="text"  size="small" onClick={likes} >
+                            { isLiked ? <HeartFilled style={{fontSize:'20px',color:'orangered'}} />  : <HeartOutlined style={{fontSize:'20px'}} />}
+                            </Button>
+                            <Link to={{pathname:`/likes/${postId}`,title:'Likes',data:post.likes}} ><div className="inline text-sm"><b> {likesCount} likes</b></div></Link>
+                        </div>
+                        <div className="text-xs text-gray-500">{moment(post.timestamps).fromNow()}</div>
                     </div>
                     <hr/>
                 </div>
@@ -236,7 +240,7 @@ export default function Post() {
             		</>)}
                 </div>
             </div>
-        	<div className="bg-white flex  fixed  inset-x-0 bottom-12 p-4 items-center ">
+        	<div className="bg-white flex fixed inset-x-0 bottom-12 p-4 items-center md:mx-auto md:w-2/5 md:bottom-0 md:border ">
                 { onReplies && (<div className=" flex justify-between">
                                 <Button type="text" size="small" 
                                 onClick={()=>{

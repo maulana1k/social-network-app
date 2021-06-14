@@ -18,13 +18,14 @@ export default function SignIn(){
         setLoading(true)
         axios.post(`${url}/auth/login`,{username,password},{headers:{'Content-Type':'application/json'}})
         .then( res=>{ 
-            let currentUser = res.data
+            let currentUser = res.data[0]
             console.log(res.data)
             setUser(currentUser)
-            localStorage.setItem('socialite-user',JSON.stringify(currentUser))
+            localStorage.setItem('socialite-user',JSON.stringify(res.data[0]))
+            localStorage.setItem('socialite-token',JSON.stringify(res.data[1]))
             history.push('/')
             notification['success']({
-                    message:`Welcome ${res.data.profile.fullname}`
+                    message:`Welcome ${res.data[0].profile.fullname}`
                 })
         }).catch(err=>{
             if(err.response){
@@ -38,14 +39,18 @@ export default function SignIn(){
     const radius = {borderRadius:'6px'} 
     return(
 
-        <div className="container-md flex h-screen bg-white sm:bg-gray-50">
-            <div className="container text-gray-700 w-96  m-auto flex-col p-10 space-y-4 rounded-md md:shadow-md bg-white">
+        <div className="container-md flex h-screen flex-col items-center justify-center bg-white ">
+             <div className="mx-auto  flex flex-col text-center space-y-1 text-gray-700 ">
+                <div className="text-6xl" style={{fontFamily:'Pacifico'}} >Socialite</div>
+                <div className="text-gray-500 "><b>Social Network App | Let's Connect!</b></div>
+            </div>
+            <div className="container text-gray-700 w-96  flex-col p-10 space-y-4 rounded-md ">
                     <div className="container justify-center flex">
-                        <div className="text-2xl mb-4"><b>Sign in to your account</b></div>
+                        <div className="text-xl mb-2">Sign in to your account</div>
                     </div>
                     <Form onFinish={handleSubmit} >
                         <div className="container space-y-1">
-                            <div className="text-md"><b>Username</b></div>
+                            <div className="text-md">Username</div>
                             <Form.Item
                             name="username" 
                             rules={[
@@ -54,7 +59,7 @@ export default function SignIn(){
                             >
                                 <Input style={radius} placeholder="e,g firstname.lastname" />
                             </Form.Item>   
-                                <div className="text-md"><b>Password</b></div>
+                                <div className="text-md">Password</div>
                             <Form.Item
                             name="password" 
                             rules={[
@@ -64,7 +69,7 @@ export default function SignIn(){
                                 <Input.Password style={radius} type="password"  placeholder="*******" />
                             </Form.Item>  
                             <Form.Item name="remember" >
-                                <Checkbox checked> Remember me </Checkbox>
+                                <Checkbox > Remember me </Checkbox>
                             </Form.Item>
                                 <Button style={radius} loading={loading} htmlType="submit" type="primary" block > Signin</Button>
                                 <div className="text-sm text-blue-400">
