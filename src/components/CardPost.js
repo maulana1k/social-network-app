@@ -17,7 +17,7 @@ export default function Card({item,author}){
     const time = item.timestamps
     const [timestamps,setTimestamps] = useState(moment(time).fromNow())
 
-    const url = 'http://localhost:8080'
+    const url = 'https://api-socialite.herokuapp.com'
     const {Paragraph} = Typography 
     const history = useHistory()
 

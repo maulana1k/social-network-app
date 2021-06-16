@@ -16,7 +16,7 @@ export default function Feeds(){
     const [more,setMore] = useState(true)
     const [suggest,setSuggest] = useState(null)
     const [spin,setSpin] = useState(false)
-    const url = 'http://localhost:8080'
+    const url = 'https://api-socialite.herokuapp.com'
 	  console.log('posts',posts,page)
 
     useEffect(()=>{
@@ -50,9 +50,9 @@ export default function Feeds(){
         </div>
         <div className="py-14 md:py-0 flex flex-col min-h-screen mb-14 p-2 space-y-6">
         {suggest && (
-            <div className="container">
+            <div className="w-full">
               <div className="text-gray-500 text-md mt-2 ">You may know</div>
-              <div className="flex p-2 overflow-x-scroll flex-grow  space-x-3 ">
+              <div className="flex p-2 overflow-x-scroll flex-grow w-full space-x-3 ">
               { suggest.map((el,i)=>{
                 if(el.username!==user.username){
                   return(<>
@@ -80,7 +80,7 @@ export default function Feeds(){
             }}
    	        hasMore={true}
    	        loader={
-              <div className="py-4 mb-12 flex container justify-center">
+              <div className="py-4 mb-12 flex  justify-center">
               { more ? <div><Loading3QuartersOutlined style={{fontSize:'56px',color:'gray'}} spin /></div>
                 : (<div className="flex flex-col space-y-2">
                   <div className="text-gray-500 text-center text-lg">It's All. want to <Link to='/explore' >explore</Link>?</div>
@@ -104,7 +104,7 @@ export default function Feeds(){
             </>)
 	       }
           </>):(
-          <div className="h-max container">
+          <div className="h-max ">
             <div className=" px-16 space-y-4">
               <div className="text-gray-500 text-2xl">Follow people first to see their feeds.</div>
               

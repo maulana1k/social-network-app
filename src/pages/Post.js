@@ -35,7 +35,7 @@ export default function Post() {
     const {TextArea} = Input
     const {confirm} = Modal
 	const {Paragraph} = Typography 
-	const url = 'http://localhost:8080'
+	const url = 'https://api-socialite.herokuapp.com'
 	const history = useHistory()
     console.log('post',post)
 

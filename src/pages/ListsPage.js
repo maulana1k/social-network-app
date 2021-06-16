@@ -9,7 +9,7 @@ export default function ListsPage({}){
   const {data,title} = location
   const [item,setItem] = useState(data)
   console.log('item',item)
-  const url = 'http://localhost:8080'
+  const url = 'https://api-socialite.herokuapp.com'
 	return(
 		<div className="container min-h-screen flex flex-col pb-24">
 			<div className="p-4 bg-white border-b">
@@ -21,7 +21,7 @@ export default function ListsPage({}){
       <div className="container px-4 space-y-4">
       { item.length>0 && item.map((el,i)=>{
         return(
-        	<Link key={i} to={`/p/${el.username}`} >  
+        	<Link key={i} to={`/${el.username}`} >  
             <div className="container flex p-4 my-2  rounded-md shadow-sm items-center hover:bg-blue-50 focus:bg-blue-50 space-x-2 text-gray-600 bg-white flex">
                <div><Avatar  src={`${url}/${el.avatar}`} /></div>
                <div className="container">

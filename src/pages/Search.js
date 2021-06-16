@@ -1,6 +1,5 @@
 import React,{useState,useEffect} from 'react'
 import axios from 'axios'
-import InfiniteScroll from 'react-infinite-scroll-component'
 
 import Card from '../components/CardPost.js'
 import {Input,Avatar,Image,AutoComplete,Divider,Button} from 'antd'
@@ -13,7 +12,7 @@ export default function Search(){
     const [page,setPage] = useState(0) 
     const [posts,setPosts] = useState([])
 
-    const url = 'http://localhost:8080'
+    const url = 'https://api-socialite.herokuapp.com'
 
     console.log('page',page)
 
@@ -42,7 +41,7 @@ export default function Search(){
     }
 
     return (<>
-        <div className="container md:hidden flex bg-white px-10 py-6 border-b justify-center items-center">
+        <div className="container md:hidden flex bg-white px-12 py-1 h-14 border-b justify-center items-center">
           {/*<AutoComplete
           options={}
           >

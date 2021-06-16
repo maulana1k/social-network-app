@@ -2,7 +2,7 @@ import React, {useState,useEffect,useContext,useRef} from 'react'
 import axios from 'axios'
 import {UserContext} from '../utilities/UserContext.js'
 import {Link,useHistory} from 'react-router-dom'
-
+import logo from '../assets/logo192.png'
 
 import {Avatar,Button,Tabs,Spin,Drawer,Image,Dropdown,Menu,notification,Modal,Empty} from 'antd'
 import {SettingOutlined,TagOutlined,AppstoreOutlined,Loading3QuartersOutlined,EditOutlined,ArrowLeftOutlined,
@@ -17,7 +17,7 @@ export default function Profile(props){
     const [postMentions,setPostMentions] = useState(null)
     const [isFollowing,setIsFollowing] = useState(false)
 
-    const url = 'http://localhost:8080'
+    const url = 'https://api-socialite.herokuapp.com'
     const history = useHistory()
     const {confirm} = Modal
     const {TabPane} = Tabs
@@ -138,7 +138,7 @@ export default function Profile(props){
                             <Button style={{display:'flex',alignItems:'center'}} type="text" ><ProfileOutlined style={{fontSize:'20px'}} /></Button>
                             )}*/}
                 </div>      
-                        <div className="container rounded-lg h-40 z-0 overflow-hidden" >
+                        <div className="w-full rounded-lg h-40 z-0 overflow-hidden" >
                             { profile.profile.avatar 
                               ? (<div className="w-full h-full flex filter blur-sm" >
                                    <Image src={`${url}/${profile.profile.avatar}`} />
@@ -229,7 +229,8 @@ export default function Profile(props){
                                  </TabPane>
                              </Tabs> 
                              </> ):
-                             <div className="mx-auto my-auto">
+                             <div className="mx-auto  my-auto">
+                                {/*<Image src={logo} />*/}
                                  <Loading3QuartersOutlined style={{fontSize:'56px',color:'gray'}} spin />
                              </div>
                          }

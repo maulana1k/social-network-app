@@ -17,7 +17,7 @@ export default function Uploads(){
 	const [loading,setLoading] = useState(false)
 	console.log('tags\n',tags,'file\n',images)
 	const history = useHistory()
-	const url = 'http://localhost:8080'
+	const url = 'https://api-socialite.herokuapp.com'
 	
 	const handleUpload= async (values)=>{
 		setLoading(true)

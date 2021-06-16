@@ -10,7 +10,7 @@ export default function Navbar() {
 	const [user] = useContext(UserContext)
 	const [data,setData] = useState(null)
 
-	const url = 'http://localhost:8080'
+	const url = 'https://api-socialite.herokuapp.com'
 	const history = useHistory()
 	const onSearch = key =>{ 
 		if(key){
@@ -40,7 +40,7 @@ export default function Navbar() {
 		<div className="w-full hidden z-10 md:h-14 md:flex md:fixed z-20 shadow justify-center  bg-white  px-6 ">
 			<div className="flex justify-between items-center w-9/12">
             <div style={{fontFamily:'Pacifico'}} className="text-gray-700 w-1/4 text-3xl">Socialite</div>
-            <AutoComplete style={{width:'30%',borderRadius:'10px'}}
+            <AutoComplete style={{width:'25%',borderRadius:'10px'}}
             	onSearch={onSearch}
             	options={searchItem}
             	onSelect={value=>history.push('/'+value)}>

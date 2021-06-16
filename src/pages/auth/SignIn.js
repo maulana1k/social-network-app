@@ -11,7 +11,7 @@ export default function SignIn(){
     const [errData, setErrData] = useState('')
     const [loading,setLoading] = useState(false)
 
-    const url =  'http://localhost:8080'
+    const url =  'https://api-socialite.herokuapp.com'
     const history = useHistory()
     const handleSubmit = values => {
         let {username,password} = values

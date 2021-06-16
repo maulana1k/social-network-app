@@ -22,7 +22,7 @@ export default function UpdateProfile() {
 	const [websites,setWebsites] = useState(userProfile.websites)
 	const [loading,setLoading] = useState(false)
 
-	const url = 'http://localhost:8080'
+	const url = 'https://api-socialite.herokuapp.com'
 	const [imgPrev,setImgPrev] = useState(`${url}/${userProfile.avatar}`)
 	console.log('prev',imgPrev,'av',imgFile,bio,phone,fullname)
 	const history = useHistory()
