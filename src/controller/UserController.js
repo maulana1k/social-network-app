@@ -20,7 +20,7 @@ const UserController = {
             } 
             let token = jwt.sign({id:user._id},SECRET_KEY)
             let {_id,username,profile,posts,follower,following,notification} = user
-            return res.json({_id,username,profile,posts,follower,following,notification,token})
+            return res.json([{_id,username,profile,posts,follower,following,notification},{token}])
         })
     },
 
@@ -37,7 +37,7 @@ const UserController = {
             }
             let token = jwt.sign({id:user._id},SECRET_KEY)
             let {_id,username,profile,posts,follower,following,notification} = user
-            return res.json({_id,username,profile,posts,follower,following,notification,token})
+            return res.json([{_id,username,profile,posts,follower,following,notification},{token}])
         })
     },
     updateProfile: (req,res,next)=>{
@@ -61,8 +61,8 @@ const UserController = {
             .exec((err,result)=>{
                 if (err) return res.status(500).send(err)
                 if (!result) return res.status(404).send('user not found!')
-                let {profile,username,follower,following} = result
-                return res.json({profile,username,follower,following})
+                let {_id,profile,username,follower,following} = result
+                return res.json({_id,profile,username,follower,following})
             })
     },
     follow:(req,res,next)=>{
@@ -158,18 +158,24 @@ const UserController = {
             })
     },
     suggestion:(req,res,next)=>{
+       
         User.find().exec((err,result)=>{
-            if(err) return res.status(500).send(err)
-            // return res.send(result)
-            let resFil = result.filter(el=>{
-                return( el.profile.fullname.length>0 &&
-                        el.profile.avatar.length>0 &&
-                        el.profile.phone.length>0 && 
-                        el.profile.websites.length>0 &&
-                        el.profile.bio.length>0)
+            let randRange = result.length<10 ? 0 : result.length/8
+            let rand = Math.floor(Math.random() * randRange )
+
+            User.find().skip(rand).exec((err,result)=>{
+                if(err) return res.status(500).send(err)
+                // return res.send(result)
+                let resFil = result.filter(el=>{
+                    return( el.profile.fullname.length>0 &&
+                            el.profile.avatar.length>0 &&
+                            el.profile.phone.length>0 && 
+                            el.profile.websites.length>0 &&
+                            el.profile.bio.length>0)
+                })
+                resFil.slice(0,15)
+                return res.send(resFil)
             })
-            resFil.slice(0,8)
-            return res.send(resFil)
         })
     },
     resetPassword: (req,res,next)=>{
