@@ -2,10 +2,15 @@ import User  from '../db/UserModel.js'
 import jwt from 'jsonwebtoken'
 import bcryptjs from 'bcryptjs'
 const SECRET_KEY = 'socialnetappwysiwyg'
-
+const {validationResult} = 'express-validator'
 const UserController = {
 
      register: (req,res,next)=> {
+        const errors = validationResult(req)
+        if(!errors.isEmpty()){
+            return res.status(400).json({errors:errors.array()})
+        }
+
         let {fullname,username,email,password} = req.body
         let user = new User({
             profile:{fullname},

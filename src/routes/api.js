@@ -1,6 +1,6 @@
 import express from 'express'
 import multer from 'multer'
- 
+import {body}  from 'express-validator'
 const API = express.Router()
 
 //Controller
@@ -16,7 +16,11 @@ import {avatarStorage,postStorage,fileFilter} from '../../fileStorage.js'
 //User api
 API.post('/auth/login',UserController.login)
 
-API.post('/auth/register',authRegister,UserController.register)
+API.post('/auth/register',
+	body('fullname').isLength({min:10,max:25}),
+	body('username').isLength({min:6,max:15}),
+	body('email').isEmail()
+	,authRegister,UserController.register)
 
 API.post('/auth/reset-password')
 
