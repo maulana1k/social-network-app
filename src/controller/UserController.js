@@ -2,7 +2,7 @@ import User  from '../db/UserModel.js'
 import jwt from 'jsonwebtoken'
 import bcryptjs from 'bcryptjs'
 const SECRET_KEY = 'socialnetappwysiwyg'
-const {validationResult} = 'express-validator'
+import {validationResult} from 'express-validator'
 const UserController = {
 
      register: (req,res,next)=> {
@@ -21,7 +21,7 @@ const UserController = {
         user.save((err,user)=>{
             if (err){
                 console.log(err);
-                return
+                return res.status(500).send(err)
             } 
             let token = jwt.sign({id:user._id},SECRET_KEY)
             let {_id,username,profile,posts,follower,following,notification} = user
