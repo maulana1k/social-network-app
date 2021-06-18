@@ -11,7 +11,7 @@ app.use(cors())
 app.set((req,res,next)=>{
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader('Access-Control-Allow-Methods','GET, POST,PUT,PATCH,DELETE,OPTIONS')
-    res.setHeader('Access-Control-Allow-Headers','x-www-form-urlencoded,Content-Type,Content-Disposition, Authorization,x-access-token,Origin')
+    res.setHeader('Access-Control-Allow-Headers','x-www-form-urlencoded,Content-Type,Content-Disposition, Authorization,x-access-token')
     next()
 })
 
