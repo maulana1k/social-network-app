@@ -126,7 +126,7 @@ const PostsController = {
                 Posts.deleteOne({
                     _id : req.params.postId
                 }).exec((err,result)=>{
-                    if(err) throw err
+                    if(err) return res.status(500).send(err)
                     console.log('delete post',result)
                     return res.json({msg:'delete success'})
                 })

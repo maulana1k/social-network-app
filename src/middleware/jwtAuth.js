@@ -27,7 +27,7 @@ export function verifyToken  (req,res,next) {
     if (!token) return res.status(403).send('no token')
     // let authToken = token && token.split(' ')[1]
     jwt.verify(token,SECRET_KEY,(err,user)=>{
-        if (err) return res.status(401).send('unauthorized')
+        if (err) return res.status(401).send(err)
         req.user = user      
     })
     next()
