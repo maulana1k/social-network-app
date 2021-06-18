@@ -6,6 +6,7 @@ import moment from 'moment'
 import {Input,Avatar,Comment,Typography,Image,Button,Menu,Dropdown,Tag,notification} from 'antd'
 import {HeartOutlined,SendOutlined,CommentOutlined,HeartFilled} from '@ant-design/icons'
 import {Link,useHistory} from 'react-router-dom'
+import DefaultAvatar from '../assets/default-avatar.jpg'
 
 
 export default function Card({item,author}){
@@ -46,10 +47,12 @@ export default function Card({item,author}){
     }
     
 	return (
-		 <div className="container flex flex-col flex-shrink-1 space-y-3 text-gray-700 rounded-md  bg-white p-2 ">
+		 <div className="container flex flex-col flex-shrink-1 space-y-3 text-gray-700 rounded-xl  bg-white p-2 ">
             <div className="flex justify-between">
                 <div className="flex items-center  space-x-4">
-                        <Avatar size="medium" src={`${url}/${author.profile.avatar}`} />
+                        {author.profile.avatar ? <Avatar size="medium" src={`${url}/${author.profile.avatar}`} />
+                        : <Avatar size={76} src={DefaultAvatar} />
+                        }
                         <Link to={`/${author.username}`}>
                         <div className="text-md flex  flex-col">
                         <b> {author.profile.fullname}</b> 
@@ -64,8 +67,8 @@ export default function Card({item,author}){
                     {item.caption}
                 </Paragraph>
                 <Link to={`/post/${item._id}`} >
-                <div className=" flex w-auto overflow-hidden">
-                  { item.images && <Image  style={{borderRadius:'10px',width:'100%'}}  src={`http://localhost:8080/${item.images}`} />}
+                <div className=" flex w-auto  overflow-hidden">
+                  { item.images && <Image  style={{borderRadius:'10px',width:'100%',margin:'auto'}}  src={`${url}/${item.images}`} />}
                 </div>
                 </Link>
                 <div className="container space-y-2 ">

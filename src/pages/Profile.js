@@ -1,7 +1,7 @@
 import React, {useState,useEffect,useContext,useRef} from 'react'
 import axios from 'axios'
 import {UserContext} from '../utilities/UserContext.js'
-import {Link,useHistory} from 'react-router-dom'
+import {Link,useHistory,useParams} from 'react-router-dom'
 import logo from '../assets/logo192.png'
 
 import {Avatar,Button,Tabs,Spin,Drawer,Image,Dropdown,Menu,notification,Modal,Empty} from 'antd'
@@ -9,8 +9,10 @@ import {SettingOutlined,TagOutlined,AppstoreOutlined,Loading3QuartersOutlined,Ed
         UserSwitchOutlined,LogoutOutlined,ExclamationCircleOutlined,ProfileOutlined} from '@ant-design/icons'
 
 import Card from '../components/CardPost.js'
+import DefaultAvatar from '../assets/default-avatar.jpg'
 
-export default function Profile(props){
+export default function Profile(){
+    const props = useParams()
     const [user,setUser] = useContext(UserContext)
     const [profile,setProfile] = useState(null)
     const [userPost,setUserPost] = useState(null)
@@ -89,6 +91,7 @@ export default function Profile(props){
                             icons:<ExclamationCircleOutlined/>,
                             onOk(){
                                 localStorage.removeItem('socialite-user')
+                                localStorage.removeItem('socialite-token')
                                 setUser(null)
                                 history.push('/signin')
                             },
@@ -116,14 +119,14 @@ export default function Profile(props){
     }
     return(
             <div className="container p-4 min-h-screen mb-24 flex flex-col bg-white">
-             { profile ? (<>
+             { userPost && profile ? (<>
                 <div className="container flex py-2 items-center justify-between">
                     <div className="">
                         <div className="text-gray-700 text-md flex items-center space-x-2 ">
                             { user.username !== props.username && 
                             <ArrowLeftOutlined onClick={()=>window.history.back()} style={{fontSize:'24px'}} />
                             }
-                            <div className="text-gray-500 text-lg" ><b>@ {profile.username}</b></div>
+                            <div className=" text-lg" ><b>@ {profile.username}</b></div>
                         { user.username == props.username && (
                             <Dropdown overlay={profileMenu}>
                                 <Button  type="text" size="small" style={{display:'flex',alignItems:'center'}}>
@@ -148,10 +151,12 @@ export default function Profile(props){
                             <div className="flex px-4 -mt-12 z-10 space-x-3 items-center">
                              <div className="flex justify-center w-1/4 p-2 ">
                                  <div className="inline-block rounded-full p-1 shadow bg-white">
-                                     <Avatar size={76} src={`${url}/${profile.profile.avatar}`}  />
+                                 { profile.profile.avatar ? <Avatar size={76} src={`${url}/${profile.profile.avatar}`}  />
+                                 : <Avatar size={76} src={DefaultAvatar} />
+                                 }
                                  </div>
                              </div>
-                             <div className="rounded-md flex w-4/5 bg-white mx-auto shadow p-1  ">
+                             <div className="rounded-md flex w-4/5 bg-white mx-auto shadow-sm p-1  ">
                                  <div className="container grid text-md grid-cols-3 text-gray-800">
                                      <div className="container flex flex-col hover:bg-gray-50 text-gray-600 text-lg  items-center justify-center">
                                          <b> { userPost && userPost.length} </b>
@@ -211,7 +216,7 @@ export default function Profile(props){
                              <Tabs centered defaultActiveKey='1' >
                                  <TabPane tab={<span><AppstoreOutlined/> Posts </span>} key='1' >
                                     <div className="space-y-4 mb-24">
-                                     { userPost && userPost.length>0 ? userPost.map( (el,index) => {
+                                     { userPost.length>0 ? userPost.map( (el,index) => {
                                          return <Card item={el} author={profile} key={index} />    
                                      }):<div className="flex justify-center" >
                                             <div className="text-gray-500 text-lg">No Posts</div>

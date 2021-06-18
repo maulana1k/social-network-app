@@ -6,23 +6,26 @@ import {Form,Input,Button,Checkbox,Alert,notification} from 'antd'
 import {Link,useHistory} from 'react-router-dom'
 
 export default function SignIn(){
-    const [,setUser] = useContext(UserContext)
+    const [,setUser,setToken] = useContext(UserContext)
     const [error,setError] = useState(false)
     const [errData, setErrData] = useState('')
     const [loading,setLoading] = useState(false)
 
-    const url =  'https://api-socialite.herokuapp.com'
+    // const url =  'http://localhost:7000'
+    const url = 'https://api-socialite.herokuapp.com'
     const history = useHistory()
     const handleSubmit = values => {
         let {username,password} = values
+        let data = {username:username.toLowerCase(),password}
         setLoading(true)
-        axios.post(`${url}/auth/login`,{username,password},{headers:{'Content-Type':'application/json'}})
+        axios.post(`${url}/auth/login`,data,{headers:{'Content-Type':'application/json'}})
         .then( res=>{ 
             let currentUser = res.data[0]
-            console.log(res.data)
             setUser(currentUser)
+            setToken(res.data[1])
             localStorage.setItem('socialite-user',JSON.stringify(res.data[0]))
             localStorage.setItem('socialite-token',JSON.stringify(res.data[1]))
+            console.log('res login',res.data)
             history.push('/')
             notification['success']({
                     message:`Welcome ${res.data[0].profile.fullname}`
@@ -76,7 +79,7 @@ export default function SignIn(){
                                     <Link to="/signup" > Dont have an account? Sign up</Link>
                                     </div>
                             </div>
-                            { error && <Alert type="error" message="Error" description={errData} showIcon closable/> }
+                            { error && <Alert type="error" message="Error" description={errData} showIcon /> }
                         </Form>
                         {/*<hr/>
                         <div className="text-gray-600 flex justify-center container">Or continue with</div>

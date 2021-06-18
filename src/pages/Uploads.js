@@ -15,10 +15,11 @@ export default function Uploads(){
 	const [images,setImages] = useState('')
 	const [imgPrev,setImgPrev] = useState('')
 	const [loading,setLoading] = useState(false)
+
 	console.log('tags\n',tags,'file\n',images)
 	const history = useHistory()
 	const url = 'https://api-socialite.herokuapp.com'
-	
+	console.log('token',token)
 	const handleUpload= async (values)=>{
 		setLoading(true)
 		let {caption,tag} = values
@@ -35,7 +36,7 @@ export default function Uploads(){
 		console.log('data\n',data);
 		
 			axios.post(`${url}/post/${user.username}`,data
-				,{headers:{'content-type':'multipart/form-data','authorization':token}}
+				,{headers:{'content-type':'multipart/form-data','authorization':token.token}}
 			).then( res => {
 				history.push(`/${user.username}`)
 				notification['success']({
@@ -121,6 +122,7 @@ export default function Uploads(){
 					type="primary" 
 					htmlType="submit" 
 					loading={loading}
+					disabled={images?false:true}
 					icon={<CheckOutlined/>}>Post</Button>
 				</div>	
 			</Form.Item>

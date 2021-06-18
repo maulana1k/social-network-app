@@ -15,7 +15,7 @@ export default function Notification(){
 		axios.get(`${url}/${user.username}/notification`)
 		.then(res=>{
 			let data = res.data.reverse()
-			setNotif(data)
+			if (data.length>0) setNotif(data)
 		}).catch(err=>{ console.log(err.response) })
 	},[])
     return (<>
@@ -24,7 +24,7 @@ export default function Notification(){
         </div>
         <div className="w-full px-4 py-6  flex flex-col">
 	       <Timeline>
-	       { notif ? notif.map((el,index)=>{
+	       { notif  ? notif.map((el,index)=>{
 	       	return(
 		       	<Timeline.Item key={index} >
 		       		<div className="w-full p-2 flex justify-between items-center md:border bg-white rounded-md ">
@@ -35,7 +35,7 @@ export default function Notification(){
 		       		{(el.notif_type=='comment'||el.notif_type=='likes'||el.notif_type=='tag') 
 		       		&& <div >
 			       		<Link to={`/post/${el.refer}`}>
-			       		<Button  size="small" type="primary">view</Button>
+			       		<Button   type="primary">view</Button>
 			       		</Link>
 			       		</div> }
 		       		</div>

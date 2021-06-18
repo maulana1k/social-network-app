@@ -5,6 +5,7 @@ import Card from '../components/CardPost.js'
 import {Input,Avatar,Image,AutoComplete,Divider,Button} from 'antd'
 import {SearchOutlined,Loading3QuartersOutlined} from '@ant-design/icons'
 import {Link} from 'react-router-dom'
+import DefaultAvatar from '../assets/default-avatar.jpg'
 
 export default function Search(){
     const [query,setQuery] = useState(null)
@@ -29,7 +30,7 @@ export default function Search(){
     },[page])
 
     const handleSearch = (e) => {
-      let key = e.currentTarget.value
+      let key = e.currentTarget.value.toLowerCase()
       setQuery(key)
       if(key){
         axios.get(`${url}/search?username=${key}`)
@@ -49,12 +50,16 @@ export default function Search(){
             <Input style={{borderRadius:'6px'}} allowClear onChange={handleSearch} name="search"
             size="large"  placeholder="lets find people..." prefix={ <SearchOutlined/> } />
         </div>
-        <div className="container px-4 space-y-4 pb-14 items-center  ">
+        <div className="container  space-y-4 pb-14 items-center  ">
           { query && result && result.map((el,i) => {
             return (
                 <Link key={i} to={`/${el.username}`} >  
                 <div className="container flex p-4 my-2 rounded-md shadow-sm items-center hover:bg-blue-50 focus:bg-blue-50 space-x-2 text-gray-600 bg-white flex">
-                   <div><Avatar  src={`${url}/${el.profile.avatar}`} /></div>
+                   <div>
+                   {el.profile.avatar ? <Avatar  src={`${url}/${el.profile.avatar}`} />
+                   : <Avatar src={DefaultAvatar} />
+                   }
+                   </div>
                    <div className="container">
                        <b> {el.profile.fullname} </b>
                        <div className="text-gray-400 text-sm">@{el.username}</div>
@@ -64,7 +69,7 @@ export default function Search(){
 
               )
           }) }
-          { query && result && result.length==0 && <div className="text-gray-400 my-6 ">Oops! can't found "{ query }" </div> }
+          { query && result && result.length==0 && <div className="text-gray-400 text-center my-6 ">Oops! can't found "{ query }" </div> }
           
           { !result && !query && posts.length>0 && (
               <div className="container  ">

@@ -6,7 +6,7 @@ import {Form,Input,Button,Checkbox,Alert,notification} from 'antd'
 import {Link,useHistory} from 'react-router-dom'
 
 export default function SignUp(){
-    const [,setUser] = useContext(UserContext)
+    const [,setUser,setToken] = useContext(UserContext)
     const [status,setStatus] = useState('success')
     const [help, setHelp] = useState(null)
     const [error,setError] = useState(false)
@@ -21,11 +21,13 @@ export default function SignUp(){
             setStatus('error');setHelp('Password doesnt match!')
         }else{
             setLoading(true)
-            let data = {fullname,username,email,password}
+            let data = {fullname,username:username.toLowerCase(),email,password}
             axios.post(`${url}/auth/register`,data,{headers:{'Content-Type':'application/json'}})
             .then( res => {
+                console.log(res.data)
                 let currentUser = res.data[0]
                 setUser(currentUser)
+                setToken(res.data[1])
                 localStorage.setItem('socialite-user',JSON.stringify(currentUser))
                 localStorage.setItem('socialite-token',JSON.stringify(res.data[1]))
                 history.push('/')
@@ -33,18 +35,20 @@ export default function SignUp(){
                         message:`Welcome ${res.data[0].profile.fullname}`
                     })
             }).catch( err =>{
-                if(err.response){
+                if(err.response.data.errors){
                     console.log(err.response)
-                    setErrData(err.response.data)
-                }
-                 setError(true);
+                    let {msg,param} = err.response.data.errors[0]
+                    setErrData(msg+' of '+param)
+                }else{ setErrData(err.response.data) }
+                setLoading(false)
+                setError(true);
             })
         }
     }
     const radius = {borderRadius:'6px'} 
     return(
         <div className="container-md flex flex-col items-center justify-center h-screen bg-white ">
-            <div className="mx-auto  flex flex-col text-center space-y-1 text-gray-700 ">
+            <div className="mx-auto  flex flex-col text-center space-y-1 ">
                 <div className="text-6xl" style={{fontFamily:'Pacifico'}} >Socialite</div>
                 <div className="text-gray-500 "><b>Social Network App | Let's Connect!</b></div>
             </div>
@@ -102,14 +106,14 @@ export default function SignUp(){
                         <Input.Password style={radius} type="password"  placeholder="*******" />
                     </Form.Item>
                     <Form.Item name="remember" >
-                        <Checkbox > Remember me </Checkbox>
+                        <Checkbox checked> Remember me </Checkbox>
                     </Form.Item>
-                        <Button style={radius} htmlType="submit" type="primary" block > Signup</Button>
+                        <Button style={radius} htmlType="submit" loading={loading} type="primary" block > Signup</Button>
                         <div className="text-sm text-blue-400">
                             <Link to="/signin" > Already have an account? Sign in</Link>
                             </div>
                     </div>
-                    { error && <Alert type="error" message="Error" description={errData} showIcon closable /> }
+                    { error && <Alert type="error" message="Error" description={errData} showIcon  /> }
                 </Form>
                     {/*<hr/>
                     <div className="text-gray-600 flex justify-center container">Or continue with</div>

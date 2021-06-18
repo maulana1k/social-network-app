@@ -5,6 +5,7 @@ import axios from 'axios'
 import {Avatar,AutoComplete,Input} from 'antd'
 import {HomeOutlined,PlusCircleFilled,PlusSquareFilled,BellOutlined,UploadOutlined,SearchOutlined,CompassOutlined} from '@ant-design/icons'    
 import {Link,useHistory} from 'react-router-dom'
+import DefaultAvatar from '../assets/default-avatar.jpg'
 
 export default function Navbar() {
 	const [user] = useContext(UserContext)
@@ -25,7 +26,11 @@ export default function Navbar() {
 		value:item.username,
 		label:(<>
 			<div key={index} className="container flex  items-center space-x-2 text-gray-600 flex">
-               <div><Avatar  src={`${url}/${item.profile.avatar}`} /></div>
+               <div>
+               {item.profile.avatar ? <Avatar  src={`${url}/${item.profile.avatar}`} />
+               : <Avatar src={DefaultAvatar} />
+               }
+               </div>
                <div className="container">
                    <b> {item.profile.fullname} </b>
                    <div className="text-gray-400 text-sm">@{item.username}</div>
@@ -57,7 +62,11 @@ export default function Navbar() {
 
                 <Link to="/notification" > <BellOutlined style={{fontSize:'20px'}} /></Link>
 
-                <Link to={`/${user.username}`} ><Avatar src={`http://localhost:8080/${user.profile.avatar}`} /></Link> 
+                <Link to={`/${user.username}`} >
+                {user.profile.avatar ? <Avatar src={`${url}/${user.profile.avatar}`} />
+                : <Avatar  src={DefaultAvatar} />
+                }
+                </Link> 
 
             </div>
 			</div>

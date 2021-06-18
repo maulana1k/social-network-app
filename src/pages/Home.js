@@ -1,11 +1,13 @@
 import react,{useState,useContext,useEffect} from 'react'
 import {UserContext} from '../utilities/UserContext.js'
 
-import {Avatar,AutoComplete,Input} from 'antd'
-import {HomeOutlined,SearchOutlined,PlusCircleOutlined,BellOutlined} from '@ant-design/icons'    
-import {Route,Switch,Link,Redirect,useHistory} from 'react-router-dom'
-import Geolocation from '../utilities/Geolocation.js'
 
+import {Avatar,AutoComplete,Input} from 'antd'
+import {HomeOutlined,SearchOutlined,PlusCircleOutlined,BellOutlined,
+        HomeFilled,PlusCircleFilled,BellFilled} from '@ant-design/icons'    
+import {Route,Switch,Link,Redirect,useHistory,useLocation} from 'react-router-dom'
+import Geolocation from '../utilities/Geolocation.js'
+import DefaultAvatar from '../assets/default-avatar.jpg'
 //pages
 import Feeds from './Feeds.js'
 import Profile from './Profile.js'
@@ -19,7 +21,8 @@ import Navbar from '../components/Navbar.js'
 
 export default function Home(){
     const [user,setUser] = useContext(UserContext)
-    
+    const location = useLocation()
+    const {pathname} = location
     
     return(
         <div className="min-h-screen m-0 w-full ">
@@ -54,7 +57,9 @@ export default function Home(){
                     <Route path="/:username/following" >
                         <ListsPage/>
                     </Route>
-                    <Route path="/:username" component={props=>{return <Profile username={props.match.params.username} />}} />
+                    <Route path="/:username" >
+                        <Profile/>
+                    </Route>
                 </Switch>
             </div>
                 
@@ -62,20 +67,35 @@ export default function Home(){
 
             <div className="flex md:hidden justify-around border-t items-center fixed inset-x-0 shadow-lg bottom-0 h-14 bg-white ">
                 <div > 
-                   <Link to="/"><HomeOutlined style={{fontSize:'22px'}} /></Link>
+                   <Link to="/">
+                   { pathname=='/' ? <HomeFilled style={{fontSize:'22px'}} /> 
+                    : <HomeOutlined style={{fontSize:'22px'}} /> }
+                   </Link>
                     </div>
                 <div > 
-                   <Link to="/explore" ><SearchOutlined style={{fontSize:'22px'}} /></Link>
+                   <Link to="/explore" >
+                   <SearchOutlined style={{fontSize:'22px'}} />
+                   </Link>
                     </div>
                 <div > 
-                    <Link to="/uploads" > <PlusCircleOutlined style={{fontSize:'40px'}}/></Link>
+                    <Link to="/uploads" >
+                    {pathname=='/uploads' ? <PlusCircleFilled style={{fontSize:'28px'}} />
+                    : <PlusCircleOutlined style={{fontSize:'28px'}}/>}
+                    </Link>
                     
                     </div>
                 <div > 
-                    <Link to="/notification" > <BellOutlined style={{fontSize:'22px'}}/></Link>
+                    <Link to="/notification" > 
+                    {pathname=='/notification' ? <BellFilled style={{fontSize:'22px'}} /> 
+                    : <BellOutlined style={{fontSize:'22px'}}/> }
+                    </Link>
                     </div>
                 <div > 
-                    <Link to={`/${user.username}`} ><Avatar src={`http://localhost:8080/${user.profile.avatar}`} /></Link> 
+                    <Link to={`/${user.username}`} >
+                    {user.profile.avatar ? <Avatar src={`https://api-socialite.herokuapp.com/${user.profile.avatar}`} />
+                    : <Avatar src={DefaultAvatar} />
+                    }
+                    </Link> 
                 </div>
             </div>
 

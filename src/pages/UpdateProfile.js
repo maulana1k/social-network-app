@@ -13,7 +13,7 @@ export default function UpdateProfile() {
 	const location = useLocation()
 	const {userProfile} = location
 	console.log(userProfile)
-	const [user,token] = useContext(UserContext)
+	const [user,setUser] = useContext(UserContext)
 	const [imgFile,setImgFile] = useState(null)
 	const [currentAvatar,setCurrentAvatar] = useState(userProfile.avatar)
 	const [fullname,setFullname] = useState(userProfile.fullname)
@@ -21,10 +21,12 @@ export default function UpdateProfile() {
 	const [phone,setPhone] = useState(userProfile.phone)
 	const [websites,setWebsites] = useState(userProfile.websites)
 	const [loading,setLoading] = useState(false)
+	const token = JSON.parse(localStorage.getItem('socialite-token'))
 
 	const url = 'https://api-socialite.herokuapp.com'
 	const [imgPrev,setImgPrev] = useState(`${url}/${userProfile.avatar}`)
-	console.log('prev',imgPrev,'av',imgFile,bio,phone,fullname)
+	console.log('prev',imgPrev,'av',imgFile)
+	console.log('token',token.token)
 	const history = useHistory()
 
 	const handleSubmit = async () => {
@@ -39,8 +41,10 @@ export default function UpdateProfile() {
 		console.log('data',data)
 		try{
 			await axios.put(`${url}/${user.username}/profile`,data
-				,{headers:{'content-type':'multipart/form-data','authorization':token}}
+				,{headers:{'content-type':'multipart/form-data','authorization':token.token}}
 			).then(res=>{
+				setUser(res.data)
+				localStorage.setItem('socialite-user',res.data)
 				notification['success']({
 					message:'Profile updated! '
 				})
@@ -59,7 +63,7 @@ export default function UpdateProfile() {
 	}
 	
 	return(
-		<div className="container flex flex-col bg-white justify-center text-gray-700 space-y-6 p-12">	
+		<div className="container flex flex-col mb-12 bg-white justify-center text-gray-700 space-y-6 p-12">	
 				<Avatar size={112} src={imgPrev} />
 				
 				<div className="flex space-x-4 " >
@@ -85,7 +89,7 @@ export default function UpdateProfile() {
 					<b>Bio</b>
 					<TextArea style={{width:'100%',borderRadius:'10px'}} 
 					showCount 
-					maxLength={100} 
+					maxLength={200} 
 					autoSize={{minRows:3,maxRows:8}}
 					value={bio}
 					onChange={e=>setBio(e.target.value)}  />

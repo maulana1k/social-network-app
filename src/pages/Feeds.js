@@ -56,14 +56,16 @@ export default function Feeds(){
               { suggest.map((el,i)=>{
                 if(el.username!==user.username){
                   return(<>
-                  <div key={i} className="items-center flex-col px-4 overflow-x-scrollw-36 py-2 text-xs rounded-xl border flex">
+                    <Link to={`/${el.username}`} >
+                  <div key={i} className="items-center hover:bg-blue-50  flex-col px-2 overflow-x-scroll w-36 py-2 text-xs rounded-xl border flex">
                     {/*<div className="w-1/8  "><Image width={56} src={`${url}/${el.profile.avatar}`} /></div>*/}
                     <span className="mb-2" ><Avatar size={64} src={`${url}/${el.profile.avatar}`} /></span>
                       <div className="flex flex-wrap text-center"><b>{el.profile.fullname}</b></div>
                       <div className="text-gray-500">
-                      <Link to={`/${el.username}`} >@{el.username}</Link>
+                      @{el.username}
                       </div>
                   </div>
+                      </Link>
                   </>)}
               })
             }
@@ -84,7 +86,7 @@ export default function Feeds(){
               { more ? <div><Loading3QuartersOutlined style={{fontSize:'56px',color:'gray'}} spin /></div>
                 : (<div className="flex flex-col space-y-2">
                   <div className="text-gray-500 text-center text-lg">It's All. want to <Link to='/explore' >explore</Link>?</div>
-                    <div className="text-gray-500 text-center">Socialite app | Created with <HeartFilled/> by Maulana Imamul Khaq |  Any support means a lot to me :)</div>
+                    <div className="text-gray-500 text-xs text-center">Socialite app | Created with <HeartFilled/> by Maulana Imamul Khaq. Any support means a lot to me :)</div>
                     </div>)
               }
               </div>
@@ -100,7 +102,7 @@ export default function Feeds(){
             <div className="mx-auto space-y-4 my-auto">
                 <Loading3QuartersOutlined style={{fontSize:'56px',color:'gray'}} spin />
             </div>
-            <div className="text-gray-500 text-center">Socialite app | Created with <HeartFilled/> by Maulana Imamul Khaq | Any support means a lot to me :)</div>
+            <div className="text-gray-500 text-xs text-center">Socialite app | Created with <HeartFilled/> by Maulana Imamul Khaq | Any support means a lot to me :)</div>
             </>)
 	       }
           </>):(

@@ -18,7 +18,7 @@ import {ArrowLeftOutlined,
 export default function Post() {
     const {postId} = useParams()
 	const [post,setPost] = useState(null)
-	const [user,token] = useContext(UserContext)
+	const [user] = useContext(UserContext)
     const [likesCount,setLikesCount] = useState(0)
     const [isLiked,setIsLiked] = useState(false)
 	const [ellipsis,setEllipsis] = useState(true)
@@ -37,8 +37,9 @@ export default function Post() {
 	const {Paragraph} = Typography 
 	const url = 'https://api-socialite.herokuapp.com'
 	const history = useHistory()
+    const token = JSON.parse(localStorage.getItem('socialite-token'))
     console.log('post',post)
-
+    console.log('token',token.token)
     useEffect(()=>{
         axios.get(`${url}/post/${postId}`)
         .then(res=>{
@@ -90,7 +91,7 @@ export default function Post() {
         okType:'danger',
         cancelText:'cancel',
         onOk(){
-            axios.delete(`${url}/post/${postId}`,{headers:{'authorization':token}})
+            axios.delete(`${url}/post/${postId}`,{headers:{'authorization':token.token}})
             .then(res=>{
                 console.log(res.data)
                 notification['success']({
@@ -98,7 +99,10 @@ export default function Post() {
                         description:'refresh your page.'
                     })
                 history.push('/')
-            }).catch(err=>{ console.log(err.response) })
+            }).catch(err=>{ 
+                if(err.message) console.log(err.message)
+                console.log(err.response) 
+            })
             },
         onCancel() {console.log('cancel') }
         })
@@ -125,7 +129,7 @@ export default function Post() {
         let data = {caption:captionEdit}
         console.log(data)
         axios.put(`${url}/post/${post._id}`,data,
-            {headers:{'authorization':token}}
+            {headers:{'authorization':token.token}}
         ).then(res=>{
             console.log(res.data)
             setPost(res.data)
@@ -202,6 +206,7 @@ export default function Post() {
                 			content={ 
                                 <div className="flex flex-col space-y-2" >
                                     <p>{el.comment}</p>
+                                    <div className="flex space-x-2">
                                     { el.username!== user.username ? (
                                     <div onClick={()=>{
                                         setOnReplies(true);
@@ -217,6 +222,8 @@ export default function Post() {
                                         Unsend
                                     </div>
                                      ) }
+                                     { el.timestamps && <div className="text-gray-500 text-xs">{moment(el.timestamps).fromNow()}</div> }
+                                    </div>
                                 </div>
                             } 
                 			>
@@ -277,14 +284,14 @@ export default function Post() {
                     <div className="flex items-center space-x-4 focus:bg-gray-100"
                     onClick={()=>{
                         notification['warning']({
-                        message:'Message feature will available soon ',
+                        message:'Share feature will available soon ',
                         description:'Stay tuned :)',
                         placement:'bottomRight'})
                     }} ><ShareAltOutlined/> <b>Share to</b></div>
                     <div className="flex items-center space-x-4 focus:bg-gray-100" 
                     onClick={()=>{
                         notification['warning']({
-                        message:'Message feature will available soon ',
+                        message:'Report feature will available soon ',
                         description:'Stay tuned :)',
                         placement:'bottomRight'})
                     }}><NotificationOutlined/> <b>Report</b></div>
