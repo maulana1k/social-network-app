@@ -120,7 +120,7 @@ const PostsController = {
             if (result.images){
                 let file = result.images 
                 fs.unlink(file,(err)=>{
-                    if (err) throw err
+                    if (err) return res.status(500).send(err)
                     console.log('file deleted',result.images)
                 })
                 Posts.deleteOne({
