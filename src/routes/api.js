@@ -17,7 +17,7 @@ import {avatarStorage,postStorage,fileFilter} from '../../fileStorage.js'
 API.post('/auth/login',UserController.login)
 
 API.post('/auth/register',
-	body('fullname').isLength({min:10,max:25}),
+	body('fullname').isLength({min:6,max:25}),
 	body('username').isLength({min:6,max:15}),
 	body('email').isEmail()
 	,authRegister,UserController.register)
