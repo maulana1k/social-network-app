@@ -12,6 +12,7 @@ const UserController = {
         }
 
         let {fullname,username,email,password} = req.body
+        
         let user = new User({
             profile:{fullname},
             username,

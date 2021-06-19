@@ -119,15 +119,14 @@ const PostsController = {
             console.log('del res',result)
             if (result.images){
                 let file = result.images 
-                fs.unlink(file,(err)=>{
-                    if (err) return res.status(500).send(err)
-                    console.log('file deleted',result.images)
-                })
                 Posts.deleteOne({
                     _id : req.params.postId
                 }).exec((err,result)=>{
                     if(err) return res.status(500).send(err)
                     console.log('delete post',result)
+                    fs.unlink(file,(err)=>{
+                      console.log('file deleted',result.images)
+                    })
                     return res.json({msg:'delete success'})
                 })
             }
