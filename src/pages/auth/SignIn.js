@@ -15,16 +15,17 @@ export default function SignIn(){
     const url = 'https://api-socialite.herokuapp.com'
     const history = useHistory()
     const handleSubmit = values => {
+        console.log('submit')
         let {username,password} = values
         let data = {username:username.toLowerCase(),password}
         setLoading(true)
         axios.post(`${url}/auth/login`,data,{headers:{'Content-Type':'application/json'}})
         .then( res=>{ 
             let currentUser = res.data[0]
-            setUser(currentUser)
-            setToken(res.data[1])
             localStorage.setItem('socialite-user',JSON.stringify(res.data[0]))
             localStorage.setItem('socialite-token',JSON.stringify(res.data[1]))
+            setUser(currentUser)
+            setToken(res.data[1])
             console.log('res login',res.data)
             history.push('/')
             notification['success']({

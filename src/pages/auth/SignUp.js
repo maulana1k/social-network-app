@@ -26,10 +26,10 @@ export default function SignUp(){
             .then( res => {
                 console.log(res.data)
                 let currentUser = res.data[0]
-                setUser(currentUser)
-                setToken(res.data[1])
                 localStorage.setItem('socialite-user',JSON.stringify(currentUser))
                 localStorage.setItem('socialite-token',JSON.stringify(res.data[1]))
+                setUser(currentUser)
+                setToken(res.data[1])
                 history.push('/')
                 notification['success']({
                         message:`Welcome ${res.data[0].profile.fullname}`

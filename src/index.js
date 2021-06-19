@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './tailwind.output.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
+import 'postcss'
 ReactDOM.render(
   <React.StrictMode>
     <App />

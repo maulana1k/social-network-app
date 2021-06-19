@@ -10,10 +10,12 @@
     "@testing-library/user-event": "^12.1.10",
     "antd": "^4.16.0",
     "antd-img-crop": "^3.14.1",
+    "autoprefixer": "^9",
     "axios": "^0.21.1",
     "dotenv": "^10.0.0",
     "moment": "^2.29.1",
     "node-geocoder": "^3.27.0",
+    "postcss": "^7",
     "postcss-cli": "^8.3.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -22,6 +24,7 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "tailwindcss": "yarn:@tailwindcss/postcss7-compat",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
@@ -50,9 +53,6 @@
     ]
   },
   "devDependencies": {
-    "@tailwindcss/postcss7-compat": "^2.2.2",
-    "autoprefixer": "^9",
-    "postcss": "^8.3.5",
-    "tailwindcss": "^2.2.2"
+    "@tailwindcss/postcss7-compat": "^2.2.2"
   }
 }
