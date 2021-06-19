@@ -2,7 +2,7 @@ import react,{useState,useContext,useEffect} from 'react'
 import {UserContext} from '../utilities/UserContext.js'
 
 
-import {Avatar,AutoComplete,Input} from 'antd'
+import {Avatar} from 'antd'
 import {HomeOutlined,SearchOutlined,PlusCircleOutlined,BellOutlined,
         HomeFilled,PlusCircleFilled,BellFilled} from '@ant-design/icons'    
 import {Route,Switch,Link,Redirect,useHistory,useLocation} from 'react-router-dom'

@@ -28,6 +28,7 @@
   },
   "scripts": {
     "build:tailwind": "npx tailwindcss build src/tailwind.css",
+    "prebuild" : "build:tailwind",
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
