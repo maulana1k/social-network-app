@@ -50,9 +50,8 @@ export default function Card({item,author}){
 		 <div className="container flex flex-col flex-shrink-1 space-y-3 text-gray-700 rounded-xl  bg-white p-2 ">
             <div className="flex justify-between">
                 <div className="flex items-center  space-x-4">
-                        {author.profile.avatar ? <Avatar size="medium" src={`${url}/${author.profile.avatar}`} />
-                        : <Avatar size={76} src={DefaultAvatar} />
-                        }
+                         <Avatar size="medium" src={`${url}/${author.profile.avatar}`} />
+                        
                         <Link to={`/${author.username}`}>
                         <div className="text-md flex  flex-col">
                         <b> {author.profile.fullname}</b> 

@@ -63,9 +63,8 @@ export default function Navbar() {
                 <Link to="/notification" > <BellOutlined style={{fontSize:'20px'}} /></Link>
 
                 <Link to={`/${user.username}`} >
-                {user.profile.avatar ? <Avatar src={`${url}/${user.profile.avatar}`} />
-                : <Avatar  src={DefaultAvatar} />
-                }
+                <Avatar src={`https://api-socialite.herokuapp.com/${user.profile.avatar}`} />
+                
                 </Link> 
 
             </div>

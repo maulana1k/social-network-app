@@ -151,9 +151,8 @@ export default function Profile(){
                             <div className="flex px-4 -mt-12 z-10 space-x-3 items-center">
                              <div className="flex justify-center w-1/4 p-2 ">
                                  <div className="inline-block rounded-full p-1 shadow bg-white">
-                                 { profile.profile.avatar ? <Avatar size={76} src={`${url}/${profile.profile.avatar}`}  />
-                                 : <Avatar size={76} src={DefaultAvatar} />
-                                 }
+                                  <Avatar size={76} src={`${url}/${profile.profile.avatar}`}  />
+                                 
                                  </div>
                              </div>
                              <div className="rounded-md flex w-4/5 bg-white mx-auto shadow-sm p-1  ">

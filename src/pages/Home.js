@@ -92,9 +92,8 @@ export default function Home(){
                     </div>
                 <div > 
                     <Link to={`/${user.username}`} >
-                    {user.profile.avatar ? <Avatar src={`https://api-socialite.herokuapp.com/${user.profile.avatar}`} />
-                    : <Avatar src={DefaultAvatar} />
-                    }
+                    <Avatar src={`https://api-socialite.herokuapp.com/${user.profile.avatar}`} />
+                    
                     </Link> 
                 </div>
             </div>

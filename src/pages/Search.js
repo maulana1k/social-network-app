@@ -56,9 +56,8 @@ export default function Search(){
                 <Link key={i} to={`/${el.username}`} >  
                 <div className="container flex p-4 my-2 rounded-md shadow-sm items-center hover:bg-blue-50 focus:bg-blue-50 space-x-2 text-gray-600 bg-white flex">
                    <div>
-                   {el.profile.avatar ? <Avatar  src={`${url}/${el.profile.avatar}`} />
-                   : <Avatar src={DefaultAvatar} />
-                   }
+                   <Avatar  src={`${url}/${el.profile.avatar}`} />
+                   
                    </div>
                    <div className="container">
                        <b> {el.profile.fullname} </b>

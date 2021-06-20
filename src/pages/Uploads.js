@@ -6,6 +6,7 @@ import {UserContext} from '../utilities/UserContext.js'
 import {Avatar,Input,Mentions,Button,Upload,Form,notification,Image} from 'antd'
 import ImgCrop from 'antd-img-crop'
 import {CloseOutlined,CheckOutlined} from '@ant-design/icons'
+import DefaultAvatar from '../assets/default-avatar.jpg'
 const {Option} = Mentions
 const {TextArea} = Input
 
@@ -70,7 +71,8 @@ export default function Uploads(){
         </div>
 		<div className="container  flex flex-col p-5 pb-12 space-y-4">
 			<div className="container items-center flex space-x-3">
-				<Avatar size="large" src={`${url}/${user.profile.avatar}`} />
+				<Avatar size="large" src={`https://api-socialite.herokuapp.com/${user.profile.avatar}`} />
+				
 				<div className="text-gray-700">Whats on your mind?</div>
 			</div>
 		<Form name="uploads" onFinish={handleUpload} encType="multipart/form-data" >
