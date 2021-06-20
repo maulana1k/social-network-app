@@ -47,6 +47,7 @@ const UserController = {
         })
     },
     updateProfile: (req,res,next)=>{
+        let currentAvatar = req.body.avatar ? req.body.avatar : 'public/avatars/default-avatar.jpg'
         let avatar = req.file? req.file.path : req.body.avatar
         let {fullname,bio,phone,websites} = req.body
         console.log('phone',phone)
