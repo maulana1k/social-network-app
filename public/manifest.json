@@ -18,11 +18,7 @@
       "type": "image/png",
       "sizes": "192x192"
     },
-    {
-      "src": "logo256.png",
-      "type": "image/png",
-      "sizes": "256x256"
-    },
+    
     {
       "src": "logo512.png",
       "type": "image/png",
