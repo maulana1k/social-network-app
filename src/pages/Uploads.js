@@ -6,7 +6,6 @@ import {UserContext} from '../utilities/UserContext.js'
 import {Avatar,Input,Mentions,Button,Upload,Form,notification,Image} from 'antd'
 import ImgCrop from 'antd-img-crop'
 import {CloseOutlined,CheckOutlined} from '@ant-design/icons'
-import DefaultAvatar from '../assets/default-avatar.jpg'
 const {Option} = Mentions
 const {TextArea} = Input
 

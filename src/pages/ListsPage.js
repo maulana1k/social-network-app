@@ -4,7 +4,7 @@ import {Link,useLocation} from 'react-router-dom'
 import {Avatar,Empty} from 'antd'
 import {ArrowLeftOutlined} from '@ant-design/icons'
 
-export default function ListsPage({}){
+export default function ListsPage(){
   const location = useLocation()
   const {data,title} = location
   const [item,setItem] = useState(data)
@@ -34,7 +34,7 @@ export default function ListsPage({}){
         })  
       }
       </div>
-      { item.length==0 && (
+      { item.length===0 && (
           <div className="container flex  items-center my-auto justify-center text-gray-500">
             <Empty/>
           </div>  

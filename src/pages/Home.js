@@ -1,13 +1,12 @@
-import react,{useState,useContext,useEffect} from 'react'
+import react,{useContext} from 'react'
 import {UserContext} from '../utilities/UserContext.js'
 
 
 import {Avatar} from 'antd'
 import {HomeOutlined,SearchOutlined,PlusCircleOutlined,BellOutlined,
         HomeFilled,PlusCircleFilled,BellFilled} from '@ant-design/icons'    
-import {Route,Switch,Link,Redirect,useHistory,useLocation} from 'react-router-dom'
-import Geolocation from '../utilities/Geolocation.js'
-import DefaultAvatar from '../assets/default-avatar.jpg'
+import {Route,Switch,Link,useLocation} from 'react-router-dom'
+
 //pages
 import Feeds from './Feeds.js'
 import Profile from './Profile.js'

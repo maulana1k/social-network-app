@@ -3,10 +3,9 @@ import {UserContext} from '../utilities/UserContext.js'
 import axios from 'axios'
 import moment from 'moment'
 
-import {Input,Avatar,Comment,Typography,Image,Button,Menu,Dropdown,Tag,notification} from 'antd'
-import {HeartOutlined,SendOutlined,CommentOutlined,HeartFilled} from '@ant-design/icons'
-import {Link,useHistory} from 'react-router-dom'
-import DefaultAvatar from '../assets/default-avatar.jpg'
+import {Avatar,Typography,Image,Button,Tag} from 'antd'
+import {HeartOutlined,CommentOutlined,HeartFilled} from '@ant-design/icons'
+import {Link} from 'react-router-dom'
 
 
 export default function Card({item,author}){
@@ -15,25 +14,12 @@ export default function Card({item,author}){
     let liked = item.likes.filter(el=>{return el.username === user.username })
     const [isLiked,setIsLiked] = useState(liked.length?true:false)
     const [likesCount,setLikesCount] = useState(item.likes.length)
-    const time = item.timestamps
-    const [timestamps,setTimestamps] = useState(moment(time).fromNow())
 
     const url = 'https://api-socialite.herokuapp.com'
     const {Paragraph} = Typography 
-    const history = useHistory()
 
-    const deletePost = () => {
-        axios.delete(`${url}/post/${item._id}`,{headers:{'authorization':user.token}})
-        .then(res=>{
-            console.log(res.data)
-            notification['success']({
-                    message:'Post deleted!',
-                    description:'refresh your page.'
-                })
-            history.push('/')
-        }).catch(err=>{ console.log(err.response) })
-    }
 
+    
     const likes = () =>{
         let likeOrUnlike = isLiked ? 'unlikes' : 'likes'
         let likesAdd = isLiked ? likesCount-1 : likesCount+1
@@ -89,7 +75,7 @@ export default function Card({item,author}){
                             <div className="inline text-sm"><b> {item.comments.length} comments</b></div>
                         </Link>
                         </span>
-                        <div className="text-xs float-right text-gray-500">{timestamps}</div>
+                        <div className="text-xs float-right text-gray-500">{moment(item.timestamps).fromNow()}</div>
                     </div>
                 </div>
                 

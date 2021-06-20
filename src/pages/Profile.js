@@ -1,15 +1,13 @@
-import React, {useState,useEffect,useContext,useRef} from 'react'
+import React, {useState,useEffect,useContext} from 'react'
 import axios from 'axios'
 import {UserContext} from '../utilities/UserContext.js'
 import {Link,useHistory,useParams} from 'react-router-dom'
-import logo from '../assets/logo192.png'
 
-import {Avatar,Button,Tabs,Spin,Drawer,Image,Dropdown,Menu,notification,Modal,Empty} from 'antd'
-import {SettingOutlined,TagOutlined,AppstoreOutlined,Loading3QuartersOutlined,EditOutlined,ArrowLeftOutlined,
-        UserSwitchOutlined,LogoutOutlined,ExclamationCircleOutlined,ProfileOutlined} from '@ant-design/icons'
+import {Avatar,Button,Tabs,Image,Dropdown,Menu,notification,Modal} from 'antd'
+import {TagOutlined,AppstoreOutlined,Loading3QuartersOutlined,ArrowLeftOutlined,
+        UserSwitchOutlined,LogoutOutlined,ExclamationCircleOutlined} from '@ant-design/icons'
 
 import Card from '../components/CardPost.js'
-import DefaultAvatar from '../assets/default-avatar.jpg'
 
 export default function Profile(){
     const props = useParams()

@@ -1,11 +1,9 @@
 import React,{useState,useEffect} from 'react'
 import axios from 'axios'
 
-import Card from '../components/CardPost.js'
-import {Input,Avatar,Image,AutoComplete,Divider,Button} from 'antd'
+import {Input,Avatar,Image,Divider,Button} from 'antd'
 import {SearchOutlined,Loading3QuartersOutlined} from '@ant-design/icons'
 import {Link} from 'react-router-dom'
-import DefaultAvatar from '../assets/default-avatar.jpg'
 
 export default function Search(){
     const [query,setQuery] = useState(null)

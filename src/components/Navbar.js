@@ -3,7 +3,7 @@ import {UserContext} from '../utilities/UserContext.js'
 import axios from 'axios'
 
 import {Avatar,AutoComplete,Input} from 'antd'
-import {HomeOutlined,PlusCircleFilled,PlusSquareFilled,BellOutlined,UploadOutlined,SearchOutlined,CompassOutlined} from '@ant-design/icons'    
+import {HomeOutlined,BellOutlined,UploadOutlined,SearchOutlined,CompassOutlined} from '@ant-design/icons'    
 import {Link,useHistory} from 'react-router-dom'
 import DefaultAvatar from '../assets/default-avatar.jpg'
 

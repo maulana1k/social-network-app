@@ -1,7 +1,7 @@
 import React, {useState,useEffect,useContext} from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import {Link} from 'react-router-dom'
-import {Avatar,Image} from 'antd'
+import {Avatar} from 'antd'
 
 
 import {UserContext} from '../utilities/UserContext.js'
@@ -23,7 +23,7 @@ export default function Feeds(){
     	axios.get(`${url}/posts?page=${page}&limit=4&user=${user.username}`)
       .then(res => {
         setPosts(posts.concat(res.data))
-        if(res.data.length==0) setMore(false)
+        if(res.data.length===0) setMore(false)
         console.log("data",res.data);
         console.log('posts',posts,page)
         setSpin(false)
