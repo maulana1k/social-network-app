@@ -21,7 +21,7 @@ const UserModel = new mongoose.Schema({
     },
     verified: Boolean,
     profile: {
-        avatar:{ type:String, default: ''},
+        avatar:{ type:String, default: 'public/avatars/default-avatar.jpg'},
         fullname: { type:String, default: ''},
         bio: { type:String, default: ''},
         phone: { type:String, default: ''},
