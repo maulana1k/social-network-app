@@ -1,6 +1,6 @@
 import React, {useState,useEffect,useContext} from 'react'
 import axios from 'axios'
-import {UserContext} from '../utilities/UserContext.js'
+import {UserContext,Content} from '../utilities/Context.js'
 import {Link,useHistory,useParams} from 'react-router-dom'
 
 import {Avatar,Button,Tabs,Image,Dropdown,Menu,notification,Modal} from 'antd'
@@ -11,11 +11,17 @@ import Card from '../components/CardPost.js'
 
 export default function Profile(){
     const props = useParams()
+    const {profileState,userPostState,feedsState,notifState} = useContext(Content)
+
+    const [feeds,setFeeds,feedsPage,setFeedsPage] = feedsState
+    const [notif,setNotif] = notifState
     const [user,setUser] = useContext(UserContext)
-    const [profile,setProfile] = useState(null)
-    const [userPost,setUserPost] = useState(null)
+    console.log(profileState)
+    const [profile,setProfile] =  profileState  
+    const [userPost,setUserPost] = userPostState 
     const [postMentions,setPostMentions] = useState(null)
     const [isFollowing,setIsFollowing] = useState(false)
+    const [prevUser,setPrevUser] = useState(user.username)
 
     const url = 'https://api-socialite.herokuapp.com'
     const history = useHistory()
@@ -24,8 +30,7 @@ export default function Profile(){
    
     useEffect(()=>{
        
-        
-            setProfile(null)
+            if(prevUser!==user.username) setProfile(null)
             //getProfile
              axios.get(`${url}/${props.username}/profile`)
             .then( res =>{
@@ -49,7 +54,7 @@ export default function Profile(){
                 setPostMentions(res.data)
                
             }).catch(err=>{ console.log(err) })
-        
+            setPrevUser(props.username)
         //geolocation
         // if(navigator.geolocation){
         //     navigator.geolocation.getCurrentPosition(position=>{
@@ -78,6 +83,16 @@ export default function Profile(){
         
     }
     const profileMenu = () =>{
+        const signout = () =>{
+            localStorage.removeItem('socialite-user')
+            localStorage.removeItem('socialite-token')
+            setFeeds([])
+            setFeedsPage(0)
+            setNotif(null)
+            setProfile(null)
+            setUser(null)
+            history.push('/signin')
+        }
         return(
         <Menu>
             <Menu.Item>
@@ -87,12 +102,7 @@ export default function Profile(){
                             okText:'next',
                             cancelText:'cancel',
                             icons:<ExclamationCircleOutlined/>,
-                            onOk(){
-                                localStorage.removeItem('socialite-user')
-                                localStorage.removeItem('socialite-token')
-                                setUser(null)
-                                history.push('/signin')
-                            },
+                            onOk(){signout()},
                             onCancel(){ console.log('cancel') }
                         })
                 }} style={{display:'flex',alignItems:'center'}} type="text" 
@@ -116,7 +126,7 @@ export default function Profile(){
             )
     }
     return(
-            <div className="container p-4 min-h-screen mb-24 flex flex-col bg-white">
+            <div className="container p-4 min-h-screen mb-24 flex flex-col ">
              { userPost && profile ? (<>
                 <div className="container flex py-2 items-center justify-between">
                     <div className="">

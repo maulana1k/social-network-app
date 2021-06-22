@@ -4,48 +4,56 @@ import {Link} from 'react-router-dom'
 import {Avatar} from 'antd'
 
 
-import {UserContext} from '../utilities/UserContext.js'
+import {UserContext,Content} from '../utilities/Context.js'
 import axios from 'axios'
 import Card from '../components/CardPost.js'
 
 import {Loading3QuartersOutlined,SyncOutlined,HeartFilled} from '@ant-design/icons'
+
+
 export default function Feeds(){
     const [user] = useContext(UserContext)
-    const [page,setPage] = useState(0)
-    const [posts,setPosts] = useState([])
+    const {feedsState} = useContext(Content)
+    const [feeds,setFeeds,feedsPage,setFeedsPage] = feedsState
     const [more,setMore] = useState(true)
     const [suggest,setSuggest] = useState(null)
     const [spin,setSpin] = useState(false)
+    const [next,setNext] = useState(true)
     const url = 'https://api-socialite.herokuapp.com'
-	  console.log('posts',posts,page)
+	  console.log('feeds\n',feeds)
+    console.log('page\n',feedsPage)
 
-    useEffect(()=>{
-    	axios.get(`${url}/posts?page=${page}&limit=4&user=${user.username}`)
+    const getFeeds = () =>{
+      axios.get(`${url}/posts?page=${feedsPage}&limit=4&user=${user.username}`)
       .then(res => {
-        setPosts(posts.concat(res.data))
-        if(res.data.length===0) setMore(false)
+        setFeeds(feeds.concat(res.data))
+        if(res.data.length===0) {setMore(false)}
+        else{ setFeedsPage(feedsPage+1) }
         console.log("data",res.data);
-        console.log('posts',posts,page)
         setSpin(false)
       }).catch (err=>{
         console.log('err',err)
       })
-      axios.get(`${url}/suggestion`)
-      .then(res => {
+      axios.get(`${url}/suggestion`).then(res => {
         console.log('suggestion',res.data)
         setSuggest(res.data)
       }).catch(err=>{console.log(err.response)})
+    }
 
-    },[page,spin])
+    useEffect(()=>{
+    	getFeeds()
+    },[next])
     const reload = () =>{
-      setPosts([])
+      setFeeds([])
       setSuggest(null)
+      setFeedsPage(0)
       setSpin(true)
+      getFeeds()
     }
     return (<>
         
-        <div className="w-full md:hidden h-14 flex fixed z-10 justify-between items-center bg-white border-b px-6 ">
-            <div style={{fontFamily:'Pacifico'}} className="text-gray-700 text-2xl">Socialite</div>
+        <div className="w-full md:hidden h-14 flex fixed z-10 text-gray-700 justify-between items-center shadow-md px-6 bg-white">
+            <div style={{fontFamily:'Pacifico'}} className="text-2xl">Socialite</div>
             <span onClick={reload} ><SyncOutlined spin={spin} style={{fontSize:'20px'}} /></span>
         </div>
         <div className="py-14 md:py-0 flex flex-col min-h-screen mb-14 p-2 space-y-6">
@@ -57,7 +65,7 @@ export default function Feeds(){
                 if(el.username!==user.username){
                   return(<>
                     <Link to={`/${el.username}`} >
-                  <div key={i} className="items-center hover:bg-blue-50  flex-col px-2 overflow-x-scroll w-36 py-2 text-xs rounded-xl border flex">
+                  <div key={i} className="items-center hover:bg-blue-50  flex-col px-2 overflow-x-scroll w-36 py-2 text-xs rounded-xl bg-white border flex">
                     {/*<div className="w-1/8  "><Image width={56} src={`${url}/${el.profile.avatar}`} /></div>*/}
                     <span className="mb-2" ><Avatar size={64} src={`${url}/${el.profile.avatar}`} /></span>
                       <div className="flex flex-wrap text-center"><b>{el.profile.fullname}</b></div>
@@ -73,13 +81,10 @@ export default function Feeds(){
             </div>
             )}
          { user.following.length!==0 ? (<>
-	       { posts.length>0  ? (
+	       { feeds.length>0  ? (
 	       	<InfiniteScroll
-   	        dataLength={posts.length}
-   	        next={()=>{
-              let nextPage = page+1
-              setPage(nextPage);
-            }}
+   	        dataLength={feeds.length}
+   	        next={()=>setNext(!next)}
    	        hasMore={true}
    	        loader={
               <div className="py-4 mb-12 flex  justify-center">
@@ -93,7 +98,7 @@ export default function Feeds(){
             }
    	        >
             <div className="space-y-4 ">
-           	{ posts.map( (item,i) =>{
+           	{ feeds.map( (item,i) =>{
        	 			return <Card item={item} author={item.author} key={i} /> 
        	 		}) } 
             </div>	

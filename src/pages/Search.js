@@ -1,31 +1,45 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useContext} from 'react'
 import axios from 'axios'
 
-import {Input,Avatar,Image,Divider,Button} from 'antd'
+import {Content} from '../utilities/Context.js'
+import CardPost from '../components/CardPost.js'
+import {Input,Avatar,Image,Divider,Button,Tabs} from 'antd'
 import {SearchOutlined,Loading3QuartersOutlined} from '@ant-design/icons'
 import {Link} from 'react-router-dom'
+const {TabPane} = Tabs
 
 export default function Search(){
+    const {exploreState,exPageState} = useContext(Content)
     const [query,setQuery] = useState(null)
     const [result,setResult] = useState(null)
-    const [page,setPage] = useState(0) 
-    const [posts,setPosts] = useState([])
-
+    const [explore,setExplore] = exploreState
+    const [explorePage,setExplorePage] = exPageState
+    
     const url = 'https://api-socialite.herokuapp.com'
 
-    console.log('page',page)
-
-    useEffect(()=>{
-      axios.get(`${url}/posts?page=${page}&limit=9`)
+    console.log('page',explorePage)
+    const getExplore = () =>{ 
+      axios.get(`${url}/posts?page=${explorePage}&limit=9`)
       .then(res => {
-        setPosts(posts.concat(res.data))
+        setExplore(explore.concat(res.data))
         console.log("data",res.data);
+        if(res.data.length>0) setExplorePage(explorePage+1)
       }).catch (err=>{
         console.log('err',err)
       })
-
-
-    },[page])
+    }
+    useEffect(()=>{
+      if(explore.length===0){
+        axios.get(`${url}/posts?page=0&limit=9`)
+        .then(res => {
+          setExplore(explore.concat(res.data))
+          console.log("data",res.data);
+          setExplorePage(explorePage+1)
+        }).catch (err=>{
+          console.log('err',err)
+        })
+      }
+    },[])
 
     const handleSearch = (e) => {
       let key = e.currentTarget.value.toLowerCase()
@@ -40,7 +54,7 @@ export default function Search(){
     }
 
     return (<>
-        <div className="container md:hidden flex bg-white px-12 py-1 h-14 border-b justify-center items-center">
+        <div className="md:hidden flex w-8/12 bg-white rounded-md mt-4 shadow mx-auto justify-center items-center">
           {/*<AutoComplete
           options={}
           >
@@ -68,28 +82,42 @@ export default function Search(){
           }) }
           { query && result && result.length==0 && <div className="text-gray-400 text-center my-6 ">Oops! can't found "{ query }" </div> }
           
-          { !result && !query && posts.length>0 && (
-              <div className="container  ">
-                  <div className="text-gray-500 my-4 text-xl text-center ">Explore</div><hr/>
-                  <div className="container grid grid-cols-3 my-2  ">
-              { posts.map( (item,i) =>{
-                if(item.images){
-                   return(
-                    <Link key={i} to={`/post/${item._id}`} >
-                      <div className="flex items-center border gap-0 bg-white">
-                       <Image src={`${url}/${item.images}`} />
+          { !result && !query && explore.length>0 && (
+              <div className="container mb-14">
+                  <Tabs centered defaultActiveKey='1' >
+                    <TabPane tab={<div className="text-lg">Photos</div>} key='1' >
+                    <div className="container grid grid-cols-3  ">
+                    { explore.map( (item,i) =>{
+                      if(item.images){
+                         return(
+                          <Link key={i} to={`/post/${item._id}`} >
+                            <div className="flex items-center border gap-0 bg-white">
+                             <Image src={`${url}/${item.images}`} />
+                            </div>
+                          </Link>
+                          )
+                      }
+                    }) } 
                       </div>
-                    </Link>
-                    )
-                }
-              }) } 
-                  </div>
-                  <div className="my-4">
-                    <Divider plain><Button type="text" onClick={()=>setPage(page+1)} >view more</Button>  </Divider>
-                  </div>
-              </div>  
+                    </TabPane>
+                    <TabPane tab={<div className="text-lg">Tweets</div>} key='2' >
+                      <div className="container space-y-2  p-2">
+                      { explore.map((item,i)=>{
+                        if(!item.images){
+                          return(<>
+                            <CardPost item={item} author={item.author} key={i} /><hr/>
+                            </>)
+                        }
+                      }) }
+                      </div>
+                    </TabPane>
+                  </Tabs>
+                      <div className="my-4 flex justify-center">
+                        <Button type="ouline" onClick={getExplore} >view more</Button>  
+                      </div>
+                  </div>  
             ) }
-          { posts.length===0 && (
+          { explore.length===0 && (
               <div className="py-4 mb-12 flex container justify-center">
                 <div><Loading3QuartersOutlined style={{fontSize:'56px',color:'gray'}} spin /></div>              
                 </div>

@@ -1,6 +1,6 @@
 import react,{useState,useContext} from 'react'
 import axios from 'axios'
-import {UserContext} from '../utilities/UserContext.js'
+import {UserContext} from '../utilities/Context.js'
 import {useHistory,useLocation} from 'react-router-dom'
 
 import {Avatar,Upload,Button,Input,Form,notification} from 'antd'

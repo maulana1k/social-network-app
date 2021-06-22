@@ -1,6 +1,6 @@
 import React, {useState,useContext} from 'react'
 import {Route,Switch,Redirect} from 'react-router-dom'
-import {UserContext} from './UserContext.js'
+import {UserContext} from './Context.js'
 //pages
 import SignIn from '../pages/auth/SignIn.js'
 import SignUp from '../pages/auth/SignUp.js'
@@ -21,7 +21,7 @@ export default function Router(){
             else{ return <Redirect to='/' /> }
     }
     return(<>
-        <div className="bg-gray-100 w-full text-gray-700 " >
+        <div className="md:bg-gray-50 bg-white w-full text-gray-700 " >
         <Switch>
             <SignRoute user={user} path='/signin' >
                 <SignIn/>

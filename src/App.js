@@ -1,6 +1,6 @@
 
 import Main from './utilities/Main.js'
-import {UserProvider} from './utilities/UserContext.js'
+import {UserProvider} from './utilities/Context.js'
 import './App.css';
 import 'antd/dist/antd.css'
 import 'tailwindcss/tailwind.css'

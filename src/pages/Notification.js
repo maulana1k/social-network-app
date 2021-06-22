@@ -1,5 +1,6 @@
 import react,{useState,useEffect,useContext} from 'react'
-import {UserContext} from '../utilities/UserContext.js'
+import {UserContext,Content} from '../utilities/Context.js'
+
 import moment from 'moment'
 
 import axios from 'axios'
@@ -8,9 +9,12 @@ import {Link} from 'react-router-dom'
 
 export default function Notification(){
 	const [user] = useContext(UserContext)
-	const [notif,setNotif] = useState(null)
+	const {notifState} = useContext(Content)
+	const [notif,setNotif] = notifState
+
 	const url = 'https://api-socialite.herokuapp.com'
 	console.log('notif',notif)
+
 	useEffect(()=>{
 		axios.get(`${url}/${user.username}/notification`)
 		.then(res=>{
@@ -19,7 +23,7 @@ export default function Notification(){
 		}).catch(err=>{ console.log(err.response) })
 	},[])
     return (<>
-    	<div className="w-full h-14 flex items-center bg-white border-b px-4  ">
+    	<div className="w-full h-14 flex items-center border-b px-4  bg-white">
             <div className="text-gray-700 text-xl"><b>Notifications</b></div>
         </div>
         <div className="w-full px-4 py-6  flex flex-col">

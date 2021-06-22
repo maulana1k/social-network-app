@@ -1,5 +1,5 @@
 import react,{useState,useContext} from 'react'
-import {UserContext} from '../utilities/UserContext.js'
+import {UserContext} from '../utilities/Context.js'
 import axios from 'axios'
 
 import {Avatar,AutoComplete,Input} from 'antd'
@@ -11,6 +11,7 @@ export default function Navbar() {
 	const [user] = useContext(UserContext)
 	const [data,setData] = useState(null)
 
+  console.log('nav',user)
 	const url = 'https://api-socialite.herokuapp.com'
 	const history = useHistory()
 	const onSearch = key =>{ 
@@ -40,9 +41,10 @@ export default function Navbar() {
 	})
 	const searchItem = !data ? [] : data.map((el,i)=>renderItem(el,i))
 		
-
+  const style = {fontSize:'20px'}
 	return(
-		<div className="w-full hidden z-10 md:h-14 md:flex md:fixed z-20 shadow justify-center  bg-white  px-6 ">
+		<div className="w-full hidden z-10 md:h-14 bg-white md:flex md:fixed z-20  shadow justify-center px-6 "
+    >
 			<div className="flex justify-between items-center w-9/12">
             <div style={{fontFamily:'Pacifico'}} className="text-gray-700 w-1/4 text-3xl">Socialite</div>
             <AutoComplete style={{width:'25%',borderRadius:'10px'}}
@@ -53,18 +55,19 @@ export default function Navbar() {
                 prefix={ <SearchOutlined/> } 
                 placeholder="Search people..." allowClear/>
             </AutoComplete>
-            <div className="w-1/4 flex items-center justify-between">
-               <Link to="/"><HomeOutlined style={{fontSize:'20px'}} /></Link>
+            <div className="w-1/4 flex text-white items-center justify-between">
+               <Link to="/"><HomeOutlined style={style} /></Link>
 
-               <Link to="/explore" ><CompassOutlined style={{fontSize:'20px'}} /></Link>
+               <Link to="/explore" ><CompassOutlined style={style} /></Link>
 
-                <Link to="/uploads" > <UploadOutlined style={{fontSize:'20px'}}/></Link>
+                <Link to="/uploads" > <UploadOutlined style={style}/></Link>
 
-                <Link to="/notification" > <BellOutlined style={{fontSize:'20px'}} /></Link>
+                <Link to="/notification" > <BellOutlined style={style} /></Link>
 
                 <Link to={`/${user.username}`} >
-                <Avatar src={`https://api-socialite.herokuapp.com/${user.profile.avatar}`} />
-                
+                <div className="rounded-full border-2 border-white hover:border-blue-300" >
+                <Avatar  src={`https://api-socialite.herokuapp.com/${user.profile.avatar}`} />
+                </div>
                 </Link> 
 
             </div>

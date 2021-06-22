@@ -1,10 +1,9 @@
 import react,{useContext} from 'react'
-import {UserContext} from '../utilities/UserContext.js'
-
+import {UserContext,NotifProvider} from '../utilities/Context.js'
 
 import {Avatar} from 'antd'
-import {HomeOutlined,SearchOutlined,PlusCircleOutlined,BellOutlined,
-        HomeFilled,PlusCircleFilled,BellFilled} from '@ant-design/icons'    
+import {HomeOutlined,PlusCircleOutlined,BellOutlined,
+        HomeFilled,PlusCircleFilled,BellFilled,CompassOutlined,CompassFilled} from '@ant-design/icons'    
 import {Route,Switch,Link,useLocation} from 'react-router-dom'
 
 //pages
@@ -18,6 +17,7 @@ import Post from './Post.js'
 import ListsPage from './ListsPage.js'
 import Navbar from '../components/Navbar.js'
 
+const style = {fontSize:'22px'}
 export default function Home(){
     const [user,setUser] = useContext(UserContext)
     const location = useLocation()
@@ -26,7 +26,7 @@ export default function Home(){
     return(
         <div className="min-h-screen m-0 w-full ">
             <Navbar/>
-            <div className="flex min-h-screen justify-center bg-white">
+            <div className="flex min-h-screen justify-center">
             <div className="md:py-14 w-full mx-auto md:w-2/5">
                 <Switch>
                     <Route path="/" exact  >
@@ -39,7 +39,9 @@ export default function Home(){
                         <Uploads/>
                     </Route>
                     <Route path="/notification" >
-                        <Notification/>
+                        {/*<NotifProvider>
+                        </NotifProvider>*/}
+                            <Notification/>
                     </Route>
                     <Route path="/update-profile" >
                         <UpdateProfile/>
@@ -64,16 +66,17 @@ export default function Home(){
                 
             </div>
 
-            <div className="flex md:hidden justify-around border-t items-center fixed inset-x-0 shadow-lg bottom-0 h-14 bg-white ">
+            <div className="flex md:hidden justify-around items-center fixed inset-x-0 shadow-lg bottom-0 h-10 bg-white ">
                 <div > 
                    <Link to="/">
-                   { pathname=='/' ? <HomeFilled style={{fontSize:'22px'}} /> 
-                    : <HomeOutlined style={{fontSize:'22px'}} /> }
+                   { pathname=='/' ? <HomeFilled style={style} /> 
+                    : <HomeOutlined style={style} /> }
                    </Link>
                     </div>
                 <div > 
                    <Link to="/explore" >
-                   <SearchOutlined style={{fontSize:'22px'}} />
+                   {pathname=='/explore' ? <CompassFilled style={style}/> 
+                   : <CompassOutlined style={style} />}
                    </Link>
                     </div>
                 <div > 
@@ -85,8 +88,8 @@ export default function Home(){
                     </div>
                 <div > 
                     <Link to="/notification" > 
-                    {pathname=='/notification' ? <BellFilled style={{fontSize:'22px'}} /> 
-                    : <BellOutlined style={{fontSize:'22px'}}/> }
+                    {pathname=='/notification' ? <BellFilled style={style} /> 
+                    : <BellOutlined style={style}/> }
                     </Link>
                     </div>
                 <div > 

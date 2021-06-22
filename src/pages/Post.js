@@ -1,5 +1,5 @@
 import react,{useState,useContext,useEffect,useRef} from 'react'
-import {UserContext} from '../utilities/UserContext.js'
+import {UserContext} from '../utilities/Context.js'
 import {Link,useParams,useHistory} from 'react-router-dom'
 import moment from 'moment'
 import axios from 'axios'
@@ -247,7 +247,7 @@ export default function Post() {
             		</>)}
                 </div>
             </div>
-        	<div className="bg-white flex fixed inset-x-0 bottom-12 p-4 items-center md:mx-auto md:w-2/5 md:bottom-0 md:border ">
+        	<div className="bg-white flex fixed inset-x-0 bottom-10 p-4 items-center md:mx-auto md:w-2/5 md:bottom-0 md:border ">
                 { onReplies && (<div className=" flex justify-between">
                                 <Button type="text" size="small" 
                                 onClick={()=>{

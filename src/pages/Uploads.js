@@ -2,7 +2,7 @@ import React,{useState,useContext} from 'react'
 import axios from 'axios'
 import {useHistory} from 'react-router-dom'
 
-import {UserContext} from '../utilities/UserContext.js'
+import {UserContext} from '../utilities/Context.js'
 import {Avatar,Input,Mentions,Button,Upload,Form,notification,Image} from 'antd'
 import ImgCrop from 'antd-img-crop'
 import {CloseOutlined,CheckOutlined} from '@ant-design/icons'
@@ -65,7 +65,7 @@ export default function Uploads(){
 	  	return false
 	}
 	return (<>
-		<div className="container h-14 flex border-b items-center bg-white px-4 ">
+		<div className="container h-14 flex md:hidden shadow items-center bg-white px-4 ">
             <div className="text-gray-700 text-xl"><b>Uploads</b></div>
         </div>
 		<div className="container  flex flex-col p-5 pb-12 space-y-4">
@@ -97,7 +97,7 @@ export default function Uploads(){
 				<Upload
 				beforeUpload={getImage}
 				maxCount={1}>
-				{ !imgPrev ? <Button type="primary" > Add photo </Button>:<Button type="primary" > Change photo </Button>}
+				{ !imgPrev ? <Button type="primary" disabled >Sorry, We can't yet upload file :( Please stay tune</Button>:<Button type="primary" > Change photo </Button>}
 				</Upload>
 			</ImgCrop>
 			</Form.Item>
@@ -123,7 +123,7 @@ export default function Uploads(){
 					type="primary" 
 					htmlType="submit" 
 					loading={loading}
-					disabled={images?false:true}
+					// disabled={images?false:true}
 					icon={<CheckOutlined/>}>Post</Button>
 				</div>	
 			</Form.Item>
