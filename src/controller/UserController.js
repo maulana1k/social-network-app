@@ -167,7 +167,7 @@ const UserController = {
     suggestion:(req,res,next)=>{
        
         User.find().exec((err,result)=>{
-            let randRange = result.length<10 ? 0 : result.length/8
+            let randRange = result.length<10 ? 0 : result.length/6
             let rand = Math.floor(Math.random() * randRange )
 
             User.find().skip(rand).exec((err,result)=>{
@@ -177,7 +177,7 @@ const UserController = {
                     return( el.profile.fullname.length>0
                             )
                 })
-                resFil.slice(0,15)
+                resFil.slice(0,10)
                 return res.send(resFil)
             })
         })
