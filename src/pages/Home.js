@@ -66,7 +66,7 @@ export default function Home(){
                 
             </div>
 
-            <div className="flex md:hidden justify-around items-center fixed inset-x-0 shadow-lg bottom-0 h-10 bg-white ">
+            <div className="flex md:hidden justify-around items-center fixed inset-x-0 shadow-lg bottom-0 h-12 bg-white ">
                 <div > 
                    <Link to="/">
                    { pathname=='/' ? <HomeFilled style={style} /> 

@@ -65,7 +65,7 @@ export default function Uploads(){
 	  	return false
 	}
 	return (<>
-		<div className="container h-14 flex md:hidden shadow items-center bg-white px-4 ">
+		<div className="container h-14 flex md:hidden border-b items-center bg-white px-4 ">
             <div className="text-gray-700 text-xl"><b>Uploads</b></div>
         </div>
 		<div className="container  flex flex-col p-5 pb-12 space-y-4">
@@ -97,7 +97,7 @@ export default function Uploads(){
 				<Upload
 				beforeUpload={getImage}
 				maxCount={1}>
-				{ !imgPrev ? <Button type="primary" disabled >Sorry, We can't yet upload file :( Please stay tune</Button>:<Button type="primary" > Change photo </Button>}
+				{ !imgPrev ? <Button type="primary" disabled >Sorry, We can't yet upload file </Button>:<Button type="primary" > Change photo </Button>}
 				</Upload>
 			</ImgCrop>
 			</Form.Item>

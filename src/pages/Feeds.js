@@ -52,7 +52,7 @@ export default function Feeds(){
     }
     return (<>
         
-        <div className="w-full md:hidden h-14 flex fixed z-10 text-gray-700 justify-between items-center shadow-md px-6 bg-white">
+        <div className="w-full md:hidden h-14 flex fixed z-10 text-gray-700 justify-between items-center border-b px-6 bg-white">
             <div style={{fontFamily:'Pacifico'}} className="text-2xl">Socialite</div>
             <span onClick={reload} ><SyncOutlined spin={spin} style={{fontSize:'20px'}} /></span>
         </div>
