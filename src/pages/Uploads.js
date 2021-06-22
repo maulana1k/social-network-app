@@ -97,7 +97,7 @@ export default function Uploads(){
 				<Upload
 				beforeUpload={getImage}
 				maxCount={1}>
-				{ !imgPrev ? <Button type="primary" disabled >Sorry, We can't yet upload file </Button>:<Button type="primary" > Change photo </Button>}
+				{ !imgPrev ? <Button type="primary" disabled >Sorry, We can't upload file </Button>:<Button type="primary" > Change photo </Button>}
 				</Upload>
 			</ImgCrop>
 			</Form.Item>
