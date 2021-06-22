@@ -66,6 +66,13 @@ API.get('/suggestion',UserController.suggestion)
 //Notification api
 API.get('/:username/notification',UserController.getNotification)
 
+//Chat api
+// API.get('/:username/roomchat') //get all roomchat
+// API.get('/:username/roomchat/:with') //get thread per roomchat
+// API.post('/:username/roomchat/:with') //send message
+// API.put('/:username/roomchat/:with') //edit or delete message on roomchat --> query ?chatId=
+// API.delete('/:username/roomchat/:with') //delete roomchat with
+
 API.get('/testnotif/:postId/:username',CommentController.test)
 API.post('/testing/post/:username',
 		// multer({dest:'../../public/uploads'}).single('images'),

@@ -174,11 +174,8 @@ const UserController = {
                 if(err) return res.status(500).send(err)
                 // return res.send(result)
                 let resFil = result.filter(el=>{
-                    return( el.profile.fullname.length>0 &&
-                            el.profile.avatar.length>0 &&
-                            el.profile.phone.length>0 && 
-                            el.profile.websites.length>0 &&
-                            el.profile.bio.length>0)
+                    return( el.profile.fullname.length>0
+                            )
                 })
                 resFil.slice(0,15)
                 return res.send(resFil)
