@@ -1,8 +1,11 @@
 
 
 .nolink {
-	color: rgb(55, 65, 81) !important;
-	text-decoration: none !important; 
+	color: rgb(55, 65, 81) ;
+	/*text-decoration: none !important; */
+}
+.nolink:hover{
+	color:#1890ff;
 }
 body{
 	font-family: 'Inter', sans-serif;
@@ -11,4 +14,8 @@ body{
 	height: 0;
     width: 0;  /* Remove scrollbar space */
     background: transparent;  /* Optional: just make scrollbar invisible */
+}
+
+.ant-comment-inner{
+	padding: 8px !important;
 }

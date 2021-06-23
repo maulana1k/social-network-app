@@ -192,7 +192,7 @@ export default function Post() {
                             <Button type="text"  size="small" onClick={likes} >
                             { isLiked ? <HeartFilled style={{fontSize:'20px',color:'orangered'}} />  : <HeartOutlined style={{fontSize:'20px'}} />}
                             </Button>
-                            <Link to={{pathname:`/likes/${postId}`,title:'Likes',data:post.likes}} ><div className="inline text-sm"><b> {likesCount} likes</b></div></Link>
+                            <Link className="nolink" to={{pathname:`/likes/${postId}`,title:'Likes',data:post.likes}} ><div className="inline text-sm"><b> {likesCount} likes</b></div></Link>
                         </div>
                         <div className="text-xs text-gray-500">{moment(post.timestamps).fromNow()}</div>
                     </div>

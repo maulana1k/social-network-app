@@ -68,12 +68,12 @@ export default function Card({item,author}){
                             <Button type="text"  size="small" onClick={likes} >
                             { isLiked ? <HeartFilled style={{fontSize:'20px',color:'orangered'}} />  : <HeartOutlined style={{fontSize:'20px'}} />}
                             </Button>
-                            <Link to={{pathname:`/likes/${item._ic}`,title:'Likes',data:item.likes}} >
+                            <Link className="nolink" to={{pathname:`/likes/${item._ic}`,title:'Likes',data:item.likes}} >
                             <div className="inline text-sm"><b> {likesCount} likes</b></div>
                             </Link>
                         </span>
                         <span>
-                        <Link to={`/post/${item._id}`} >
+                        <Link className="nolink" to={`/post/${item._id}`} >
                             <Button type="text"  size="small"  ><CommentOutlined style={{fontSize:'20px'}} /></Button>
                             <div className="inline text-sm"><b> {item.comments.length} comments</b></div>
                         </Link>
