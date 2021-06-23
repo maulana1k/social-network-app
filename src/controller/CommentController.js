@@ -62,8 +62,8 @@ const CommentController = {
         Posts.findOneAndUpdate(
             {_id:postId},
             {$pull:{"comments.$[elem].replies":{_id:repId}}},
-            {multi:false,arrayFilters:[{"elem._id":commentId}]},
-            {new:true}
+            {multi:false,arrayFilters:[{"elem._id":commentId}],new:true}
+            
             ).populate('author').exec((err,result)=>{
                 if (err) return res.status(500).send(err)
                 console.log('replies deleted')
