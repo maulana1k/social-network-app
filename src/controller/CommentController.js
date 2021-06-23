@@ -16,6 +16,8 @@ const CommentController = {
                 console.log('comment',result.comments)
                 let notif_message = `just comments to your post "${comment}"`
                 console.log(username+' '+notif_message)
+                if(result.username!==username){
+                    
                 User.findOneAndUpdate(
                     {username: result.username},
                     {$push:{notification:{
@@ -24,6 +26,7 @@ const CommentController = {
                             notif_type: 'comment',
                             notif_message: notif_message}
                         }},{new:true}).exec((err,data)=>{console.log('notif added!')})  
+                }
                 return res.json(result)
         })
             
