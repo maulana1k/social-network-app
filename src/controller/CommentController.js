@@ -44,7 +44,7 @@ const CommentController = {
     replies_comment:(req,res,next)=>{
         let {comment,fullname,avatar} = req.body
         let {commentId,username,postId} = req.params
-        console.log('c',commentId)
+        // console.log('c',commentId)
         Posts.findOneAndUpdate(
             {_id:postId},
             {$push:{"comments.$[elem].replies":{comment,fullname,username,avatar}}},
@@ -52,6 +52,7 @@ const CommentController = {
             
             ).populate('author').exec((err,result)=>{
                 if (err) return res.status(500).send(err)
+                console.log('replies',result.comments.replies)
                 return res.json(result)
         })
     },
