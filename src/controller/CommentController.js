@@ -52,7 +52,7 @@ const CommentController = {
             
             ).populate('author').exec((err,result)=>{
                 if (err) return res.status(500).send(err)
-                console.log('replies',result.comments.replies)
+                console.log('replies',result.comments)
                 return res.json(result)
         })
     },
