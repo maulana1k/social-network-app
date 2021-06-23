@@ -5,6 +5,7 @@ import moment from 'moment'
 
 import axios from 'axios'
 import {Timeline,Button} from 'antd'
+import {Loading3QuartersOutlined} from '@ant-design/icons'
 import {Link} from 'react-router-dom'
 
 export default function Notification(){
@@ -27,6 +28,7 @@ export default function Notification(){
             <div className="text-gray-700 text-xl"><b>Notifications</b></div>
         </div>
         <div className="w-full px-4 py-6  flex flex-col">
+        <div className="flex text-lg text-gray-700">{notif && notif.length} activity </div>
 	       <Timeline>
 	       { notif  ? notif.map((el,index)=>{
 	       	return(
@@ -45,8 +47,9 @@ export default function Notification(){
 		       		</div>
 	       		</Timeline.Item>
 	       		)
-	       }) : <div className="text-gray-500 text-lg flex justify-center">No Notifications</div> }
+	       }) : <div className="text-gray-500 text-lg flex justify-center"><Loading3QuartersOutlined style={{fontSize:'56px',color:'gray'}} spin /></div> }
 	       </Timeline>
+	       {notif && notif.length===0 && <div className="text-gray-500 text-lg flex justify-center">No notification</div>}
         </div>
         </>
     )
