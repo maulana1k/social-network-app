@@ -44,7 +44,7 @@ const CommentController = {
     replies_comment:(req,res,next)=>{
         let {comment,fullname,avatar} = req.body
         let {commentId,username,postId} = req.params
-        // console.log('c',commentId)
+        console.log('commentId',commentId)
         Posts.findOneAndUpdate(
             {_id:postId},
             {$push:{"comments.$[elem].replies":{comment,fullname,username,avatar}}},
@@ -55,6 +55,19 @@ const CommentController = {
                 console.log('replies',result.comments.replies)
                 return res.json(result)
         })
+    },
+    delete_rep_comment:(req,res,next)=>{
+        let {repId,commentId,postId} = req.params
+        console.log('repId',repId)
+        Posts.findOneAndUpdate(
+            {_id:postId},
+            {$pull:{"comments.$[elem].replies":{_id:repId}}},
+            {multi:false,arrayFilters:[{"elem._id":commentId}]}
+            ).populate('author').exec((err,result)=>{
+                if (err) return res.status(500).send(err)
+                console.log('replies deleted')
+            return res.json(result)
+            })
     },
     delete: (req,res,next)=>{
         let {postId,commentId} = req.params

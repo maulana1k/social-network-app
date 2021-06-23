@@ -56,6 +56,8 @@ API.put('/post/:postId/comment/:username',CommentController.post)
 
 API.put('/post/:postId/replies/:commentId/by/:username',CommentController.replies_comment)
 
+API.put('/post/:postId/on/:commentId/delete/:repId',CommentController.delete_rep_comment)
+
 API.put('/post/:postId/uncomment/:commentId',CommentController.delete)
 
 
