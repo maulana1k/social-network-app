@@ -45,7 +45,7 @@ const CommentController = {
         let {comment,fullname,avatar} = req.body
         let {commentId,username,postId} = req.params
         console.log('c',commentId)
-        Posts.finOneAndUpdate(
+        Posts.findOneAndUpdate(
             {_id:postId},
             {$push:{"comments.$[elem].replies":{comment,fullname,username,avatar}}},
             {multi:false,arrayFilters:[{"elem._id":commentId}]},
