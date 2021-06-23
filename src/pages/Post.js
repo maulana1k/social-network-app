@@ -244,7 +244,7 @@ export default function Post() {
                 						content={ 
                                             <div className="flex flex-col space-y-2">
                                             <p>{rep.comment}</p> 
-                                            {el.username===user.username && (
+                                            {rep.username===user.username && (
                                                 <div onClick={()=>deleteReplies(el._id,rep._id)} className="text-gray-500 text-xs ">
                                                     Unsend
                                                 </div>
