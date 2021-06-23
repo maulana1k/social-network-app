@@ -12,7 +12,7 @@ const PostsController = {
             User.findOne({username})
                 .exec((err,result)=>{
                     let friends = result.following.map(el=> el.username)
-                    console.log(friends)
+                    console.log('friends',friends)
                     Posts.find({username:{$in:friends}})
                         .sort({timestamps:-1})          
                         .populate('author')
