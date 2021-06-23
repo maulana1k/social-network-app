@@ -49,7 +49,7 @@ const CommentController = {
             {_id:postId},
             {$push:{"comments.$[elem].replies":{comment,fullname,username,avatar}}},
             {multi:false,arrayFilters:[{"elem._id":commentId}]},
-            
+            {new:true}
             ).populate('author').exec((err,result)=>{
                 if (err) return res.status(500).send(err)
                 console.log('replies',result.comments.replies)
@@ -62,7 +62,8 @@ const CommentController = {
         Posts.findOneAndUpdate(
             {_id:postId},
             {$pull:{"comments.$[elem].replies":{_id:repId}}},
-            {multi:false,arrayFilters:[{"elem._id":commentId}]}
+            {multi:false,arrayFilters:[{"elem._id":commentId}]},
+            {new:true}
             ).populate('author').exec((err,result)=>{
                 if (err) return res.status(500).send(err)
                 console.log('replies deleted')
