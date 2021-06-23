@@ -29,7 +29,7 @@ export default function Post() {
     const [placeholder,setPlaceholder] = useState('Add comment...')
     const [replyTarget,setReplyTarget] = useState(null)
     const [refresh,setRefresh] = useState(false)
-
+    const [btnLoading,setBtnLoading] = useState(false)
     const inputRef = useRef(null)
 
     const {TextArea} = Input
@@ -60,12 +60,14 @@ export default function Post() {
         console.log('data',data)
         console.log('target',replyTarget)
         if(comment){
+            setBtnLoading(true)
             if(!replyTarget){
                 axios.put(`${url}/post/${postId}/comment/${user.username}`,data)
                 .then(res=>{
                     console.log('comment',res.data)
                     setRefresh(!refresh)
                     // setPost(res.data)
+                    setBtnLoading(false)
                     setComment('')
                 }).catch(err=>{console.log(err.response)})
             }else{
@@ -74,6 +76,7 @@ export default function Post() {
                     console.log('reply',res.data)
                     // setPost(res.data)
                     setComment('')
+                    setBtnLoading(false)
                     setReplyTarget(null)
                     setOnReplies(false)
                     setRefresh(!refresh)
@@ -108,17 +111,21 @@ export default function Post() {
         })
     }
     const deleteComment = commentId =>{
+        // setBtnLoading(true)
         axios.put(`${url}/post/${postId}/uncomment/${commentId}`)
         .then(res => {
             console.log('uncomment',res.data);
             setPost(res.data)
+            // setBtnLoading(false)
         }).catch(err=>{console.log(err.response)})
     }
     const deleteReplies = (commentId,repId) =>{
+        // setBtnLoading(true)
         console.log(commentId,repId)
         axios.put(`${url}/post/${postId}/on/${commentId}/delete/${repId}`)
         .then(res=>{
             setPost(res.data)
+            // setBtnLoading(false)
         }).catch(err=>{console.log(err.response)})
     }
     const likes = () =>{
@@ -225,7 +232,7 @@ export default function Post() {
                                         </Button>
                                     
                                      ) : (
-                                    <Button size="small" type="text" onClick={()=>deleteComment(el._id)}>
+                                    <Button size="small"  type="text" onClick={()=>deleteComment(el._id)}>
                                     <span  className="text-gray-500 text-xs ">Unsend</span>
                                     </Button>
                                      ) }
@@ -247,7 +254,7 @@ export default function Post() {
                                             <p>{rep.comment}</p> 
                                             <div className="flex">
                                             {rep.username===user.username && (
-                                            <Button size="small" type="text" onClick={()=>deleteReplies(el._id,rep._id)}>
+                                            <Button size="small"  type="text" onClick={()=>deleteReplies(el._id,rep._id)}>
                                             <span  className="text-gray-500 text-xs ">Unsend</span>
                                             </Button>
                                             )}
@@ -283,7 +290,9 @@ export default function Post() {
                 value={comment} 
                 onChange={e=>setComment(e.target.value)} 
                 placeholder={placeholder} />
-            	<SendOutlined onClick={sendComment}  style={{fontSize:'20px'}} />
+                <Button onClick={sendComment} loading={btnLoading} type="text">
+            	<SendOutlined  style={{fontSize:'20px'}} />
+                </Button>
         	</div>
             </>)}
             <Drawer
