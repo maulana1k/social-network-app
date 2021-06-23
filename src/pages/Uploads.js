@@ -3,7 +3,7 @@ import axios from 'axios'
 import {useHistory} from 'react-router-dom'
 
 import {UserContext} from '../utilities/Context.js'
-import {Avatar,Input,Mentions,Button,Upload,Form,notification,Image} from 'antd'
+import {Avatar,Input,Mentions,Button,Upload,Form,notification,Image,Alert} from 'antd'
 import ImgCrop from 'antd-img-crop'
 import {CloseOutlined,CheckOutlined} from '@ant-design/icons'
 const {Option} = Mentions
@@ -93,11 +93,15 @@ export default function Uploads(){
 					}) 
 			</div>
 				}*/}
+			<div className="my-2 w-1/2 flex">
+			<Alert type="warning" message="Belum bisa upload foto. cloud mahal gaes duh :("  showIcon
+			/>
+			</div>
 			<ImgCrop>
 				<Upload
 				beforeUpload={getImage}
 				maxCount={1}>
-				{ !imgPrev ? <Button type="primary" disabled >Sorry, We can't upload file </Button>:<Button type="primary" > Change photo </Button>}
+				{ !imgPrev ? <Button type="primary" disabled >Add Photo </Button>:<Button type="primary" > Change photo </Button>}
 				</Upload>
 			</ImgCrop>
 			</Form.Item>

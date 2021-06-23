@@ -24,11 +24,11 @@ export default function Notification(){
 		}).catch(err=>{ console.log(err.response) })
 	},[])
     return (<>
-    	<div className="w-full h-14 flex items-center border-b px-4  bg-white">
+    	<div className="w-full h-14 flex md:hidden items-center border-b px-4  bg-white">
             <div className="text-gray-700 text-xl"><b>Notifications</b></div>
         </div>
-        <div className="w-full px-4 py-6  flex flex-col">
-        <div className="flex text-lg text-gray-700">{notif && notif.length} activity </div>
+        <div className="w-full px-4   flex flex-col">
+        <div className="flex text-lg my-4 text-gray-700">{notif && <b>{notif.length} activities</b> }</div>
 	       <Timeline>
 	       { notif  ? notif.map((el,index)=>{
 	       	return(
@@ -41,7 +41,7 @@ export default function Notification(){
 		       		{(el.notif_type=='comment'||el.notif_type=='likes'||el.notif_type=='tag') 
 		       		&& <div >
 			       		<Link to={`/post/${el.refer}`}>
-			       		<Button   type="primary">view</Button>
+			       		<Button type="primary">view</Button>
 			       		</Link>
 			       		</div> }
 		       		</div>
