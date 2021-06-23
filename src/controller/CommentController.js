@@ -13,9 +13,9 @@ const CommentController = {
             {new:true}
             ).populate('author').exec((err,result)=>{
                 if (err) throw err
-                console.log('comment',result)
+                console.log('comment',result.comments)
                 let notif_message = `just comments to your post "${comment}"`
-                console.log('notif added')
+                console.log(username+' '+notif_message)
                 User.findOneAndUpdate(
                     {username: result.username},
                     {$push:{notification:{
@@ -23,7 +23,7 @@ const CommentController = {
                             refer:postId,
                             notif_type: 'comment',
                             notif_message: notif_message}
-                        }},{new:true})  
+                        }},{new:true}).exec((err,data)=>{console.log('notif added!')})  
                 return res.json(result)
         })
             
