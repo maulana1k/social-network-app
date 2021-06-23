@@ -144,7 +144,7 @@ export default function Profile(){
                             )} 
                         </div>
                     </div>
-                    <div className="text-gray-500 text-xs">version 0.1.0 (beta)</div>
+                    <div className="text-gray-500 text-xs">version 0.1.2 (beta)</div>
                         {/*{user.username == props.username && (
                             <Button style={{display:'flex',alignItems:'center'}} type="text" ><ProfileOutlined style={{fontSize:'20px'}} /></Button>
                             )}*/}

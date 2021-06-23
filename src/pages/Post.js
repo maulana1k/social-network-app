@@ -114,6 +114,12 @@ export default function Post() {
             setPost(res.data)
         }).catch(err=>{console.log(err.response)})
     }
+    const deleteReplies = (commentId,repId) =>{
+        axios.put(`${url}/post/${postId}/on/${commentId}/delete/${repId}`)
+        .then(res=>{
+            setPost(res.data)
+        }).catch(err=>{console.log(err.response)})
+    }
     const likes = () =>{
         let likeOrUnlike = isLiked ? 'unlikes' : 'likes'
         let data = {fullname:user.profile.fullname,avatar:user.profile.avatar}
@@ -235,7 +241,16 @@ export default function Post() {
                                                 <Link to={`/${el.username}`} >{el.username}</Link>
                                                 </div>}
                 						avatar={ <Avatar src={`${url}/${rep.avatar}`} /> }
-                						content={ <p>{rep.comment}</p> }
+                						content={ 
+                                            <div className="flex flex-col space-y-2">
+                                            <p>{rep.comment}</p> 
+                                            {el.username===user.username && (
+                                                <div onClick={()=>deleteReplies(el._id,rep._id)} className="text-gray-500 text-xs ">
+                                                    Unsend
+                                                </div>
+                                            )}
+                                            </div>
+                                        }
                 						/>
                                         </div>
                 						)

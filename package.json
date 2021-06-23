@@ -32,7 +32,9 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint .",
+    "lintfix":"eslint --fix"
   },
   "eslintConfig": {
     "extends": [
@@ -53,6 +55,8 @@
     ]
   },
   "devDependencies": {
-    "@tailwindcss/postcss7-compat": "^2.2.2"
+    "@tailwindcss/postcss7-compat": "^2.2.2",
+    "eslint": "^7.29.0",
+    "eslint-plugin-import": "^2.23.4"
   }
 }
