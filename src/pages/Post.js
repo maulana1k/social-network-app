@@ -115,6 +115,7 @@ export default function Post() {
         }).catch(err=>{console.log(err.response)})
     }
     const deleteReplies = (commentId,repId) =>{
+        console.log(commentId,repId)
         axios.put(`${url}/post/${postId}/on/${commentId}/delete/${repId}`)
         .then(res=>{
             setPost(res.data)
@@ -204,31 +205,31 @@ export default function Post() {
                         <div className="divide-y">
                 	{ post.comments.slice(0).reverse().map((el,index)=>{
                 		return(
-                			<Comment key={index}
+                			<Comment key={index} style={{padding:'0px'}}
                 			author={<div className="text-gray-700">
                                     <Link to={`/${el.username}`} >{el.username}</Link>
                                     </div>}
                 			avatar={ <Avatar src={`${url}/${el.avatar}`} /> }
                 			content={ 
-                                <div className="flex flex-col space-y-2" >
+                                <div className="flex flex-col" >
                                     <p>{el.comment}</p>
-                                    <div className="flex space-x-2">
+                                    <div className="flex items-center">
                                     { el.username!== user.username ? (
-                                    <div onClick={()=>{
-                                        setOnReplies(true);
-                                        setReplyTarget(el._id);
-                                        setPlaceholder(`Reply to ${el.username}`)
-                                        inputRef.current.focus({cursor:'end'});
-                                        }} 
-                                        className="text-gray-500 text-xs ">
-                                        Reply to
-                                    </div> 
+                                        <Button size="small" type="text" onClick={()=>{
+                                            setOnReplies(true);
+                                            setReplyTarget(el._id);
+                                            setPlaceholder(`Reply to ${el.username}`)
+                                            inputRef.current.focus({cursor:'end'});
+                                        }}>
+                                        <span  className="text-gray-500 text-xs ">Reply to</span>
+                                        </Button>
+                                    
                                      ) : (
-                                     <div onClick={()=>deleteComment(el._id)} className="text-gray-500 text-xs ">
-                                        Unsend
-                                    </div>
+                                    <Button size="small" type="text" onClick={()=>deleteComment(el._id)}>
+                                    <span  className="text-gray-500 text-xs ">Unsend</span>
+                                    </Button>
                                      ) }
-                                     { el.timestamps && <div className="text-gray-500 text-xs">{moment(el.timestamps).fromNow()}</div> }
+                                     { el.timestamps && <Button size="small" type="text"><div className="text-gray-500 text-xs">{moment(el.timestamps).fromNow()}</div></Button> }
                                     </div>
                                 </div>
                             } 
@@ -236,19 +237,21 @@ export default function Post() {
                 				{ el.replies.length>0 && el.replies.map((rep,index)=>{
                 					return(
                                         <div key={index} className="divide-y" >
-                						<Comment key={index}
+                						<Comment key={index} style={{padding:'0px'}}
                 						author={<div className="text-gray-700">
                                                 <Link to={`/${el.username}`} >{el.username}</Link>
                                                 </div>}
                 						avatar={ <Avatar src={`${url}/${rep.avatar}`} /> }
                 						content={ 
-                                            <div className="flex flex-col space-y-2">
+                                            <div className="flex flex-col">
                                             <p>{rep.comment}</p> 
+                                            <div className="flex">
                                             {rep.username===user.username && (
-                                                <div onClick={()=>deleteReplies(el._id,rep._id)} className="text-gray-500 text-xs ">
-                                                    Unsend
-                                                </div>
+                                            <Button size="small" type="text" onClick={()=>deleteReplies(el._id,rep._id)}>
+                                            <span  className="text-gray-500 text-xs ">Unsend</span>
+                                            </Button>
                                             )}
+                                            </div>
                                             </div>
                                         }
                 						/>
