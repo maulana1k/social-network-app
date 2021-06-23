@@ -15,27 +15,18 @@ const CommentController = {
                 if (err) throw err
                 console.log('comment',result)
                 let notif_message = `just comments to your post "${comment}"`
-                User.findOne({
-                    notification:{$elemMatch:{
-                        subject:username,refer:postId,notif_type:'comment'
-                    }}}
-                ).exec((err,notif)=>{
-                    let alreadyNotif = notif 
-                    console.log('notif',alreadyNotif)
-                        if(result.username!==username&&alreadyNotif==null){
-                            console.log('notif added')
-                            User.findOneAndUpdate(
-                                {username: result.username},
-                                {$push:{notification:{
-                                        subject:username,
-                                        refer:postId,
-                                        notif_type: 'comment',
-                                        notif_message: notif_message}
-                                    }},{new:true})  
-                        }
-                    })
+                console.log('notif added')
+                User.findOneAndUpdate(
+                    {username: result.username},
+                    {$push:{notification:{
+                            subject:username,
+                            refer:postId,
+                            notif_type: 'comment',
+                            notif_message: notif_message}
+                        }},{new:true})  
                 return res.json(result)
-            })
+        })
+            
     },
     test:(req,res,next)=>{
         let {postId,username} = req.params
