@@ -68,32 +68,32 @@ export default function Home(){
 
             <div className="flex md:hidden justify-around items-center fixed inset-x-0 shadow-lg bottom-0 h-12 bg-white ">
                 <div > 
-                   <Link to="/">
+                   <Link className="nolink" to="/">
                    { pathname=='/' ? <HomeFilled style={style} /> 
                     : <HomeOutlined style={style} /> }
                    </Link>
                     </div>
                 <div > 
-                   <Link to="/explore" >
+                   <Link className="nolink" to="/explore" >
                    {pathname=='/explore' ? <CompassFilled style={style}/> 
                    : <CompassOutlined style={style} />}
                    </Link>
                     </div>
                 <div > 
-                    <Link to="/uploads" >
+                    <Link className="nolink" to="/uploads" >
                     {pathname=='/uploads' ? <PlusCircleFilled style={{fontSize:'28px'}} />
                     : <PlusCircleOutlined style={{fontSize:'28px'}}/>}
                     </Link>
                     
                     </div>
                 <div > 
-                    <Link to="/notification" > 
+                    <Link className="nolink" to="/notification" > 
                     {pathname=='/notification' ? <BellFilled style={style} /> 
                     : <BellOutlined style={style}/> }
                     </Link>
                     </div>
                 <div > 
-                    <Link to={`/${user.username}`} >
+                    <Link className="nolink" to={`/${user.username}`} >
                     <Avatar src={`https://api-socialite.herokuapp.com/${user.profile.avatar}`} />
                     
                     </Link> 

@@ -47,7 +47,7 @@ export default function Navbar() {
     >
 			<div className="flex justify-between items-center w-9/12">
             <div style={{fontFamily:'Pacifico'}} className="text-gray-700 w-1/4 text-3xl">Socialite</div>
-            <AutoComplete style={{width:'25%',borderRadius:'10px'}}
+            <AutoComplete style={{width:'30%',borderRadius:'8px'}}
             	onSearch={onSearch}
             	options={searchItem}
             	onSelect={value=>history.push('/'+value)}>
@@ -55,14 +55,14 @@ export default function Navbar() {
                 prefix={ <SearchOutlined/> } 
                 placeholder="Search people..." allowClear/>
             </AutoComplete>
-            <div className="w-1/4 flex text-white items-center justify-between">
-               <Link to="/"><HomeOutlined style={style} /></Link>
+            <div className="w-1/4 flex items-center justify-between">
+               <Link className="nolink" to="/"><HomeOutlined style={style} /></Link>
 
-               <Link to="/explore" ><CompassOutlined style={style} /></Link>
+               <Link className="nolink" to="/explore" ><CompassOutlined style={style} /></Link>
 
-                <Link to="/uploads" > <UploadOutlined style={style}/></Link>
+                <Link className="nolink" to="/uploads" > <UploadOutlined style={style}/></Link>
 
-                <Link to="/notification" > <BellOutlined style={style} /></Link>
+                <Link className="nolink" to="/notification" > <BellOutlined style={style} /></Link>
 
                 <Link to={`/${user.username}`} >
                 <div className="rounded-full border-2 border-white hover:border-blue-300" >
