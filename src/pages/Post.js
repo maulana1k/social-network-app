@@ -1,5 +1,5 @@
 import react,{useState,useContext,useEffect,useRef} from 'react'
-import {UserContext} from '../utilities/Context.js'
+import {UserContext,Content} from '../utilities/Context.js'
 import {Link,useParams,useHistory} from 'react-router-dom'
 import moment from 'moment'
 import axios from 'axios'
@@ -19,6 +19,7 @@ export default function Post() {
     const {postId} = useParams()
 	const [post,setPost] = useState(null)
 	const [user] = useContext(UserContext)
+    const {exploreState,feedsState} = useContext(Content)
     const [likesCount,setLikesCount] = useState(0)
     const [isLiked,setIsLiked] = useState(false)
 	const [ellipsis,setEllipsis] = useState(true)
@@ -30,6 +31,8 @@ export default function Post() {
     const [replyTarget,setReplyTarget] = useState(null)
     const [refresh,setRefresh] = useState(false)
     const [btnLoading,setBtnLoading] = useState(false)
+    const [explore,setExplore] = exploreState
+    const [feeds,setFeeds,feedsPage,setFeedsPage] = feedsState
     const inputRef = useRef(null)
 
     const {TextArea} = Input
@@ -128,15 +131,35 @@ export default function Post() {
             // setBtnLoading(false)
         }).catch(err=>{console.log(err.response)})
     }
+    const updateExplore = () =>{ 
+      axios.get(`${url}/posts?page=0&limit=9`)
+      .then(res => {
+        setExplore([...res.data])
+        console.log("data",res.data);
+      }).catch (err=>{
+        console.log('err',err)
+      })
+    }
+    const updateFeeds = () =>{
+      axios.get(`${url}/posts?page=0&limit=4&user=${user.username}`)
+      .then(res => {
+        setFeeds([...res.data])
+        console.log("data",res.data);
+      }).catch (err=>{
+        console.log('err',err)
+      })
+    }
     const likes = () =>{
         let likeOrUnlike = isLiked ? 'unlikes' : 'likes'
         let data = {fullname:user.profile.fullname,avatar:user.profile.avatar}
         let likesAdd = isLiked ? likesCount-1 : likesCount+1
+        setIsLiked(!isLiked)
+        setLikesCount(likesAdd)
         axios.put(`${url}/post/${postId}/${likeOrUnlike}/${user.username}`,data)
         .then(res=>{
             console.log(res.data)
-            setLikesCount(likesAdd)
-            setIsLiked(!isLiked)
+            updateFeeds()
+            updateExplore()
         }).catch(err=>{console.log(err.response)})
     }
     const editPost = () =>{

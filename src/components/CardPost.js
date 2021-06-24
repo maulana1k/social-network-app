@@ -1,5 +1,5 @@
 import react , {useState,useContext} from 'react'
-import {UserContext} from '../utilities/Context.js'
+import {UserContext,Content} from '../utilities/Context.js'
 import axios from 'axios'
 import moment from 'moment'
 
@@ -10,25 +10,46 @@ import {Link} from 'react-router-dom'
 
 export default function Card({item,author}){
     const [user,setUser] = useContext(UserContext)
+    const {exploreState,feedsState} = useContext(Content)
     const [ellipsis,setEllipsis] = useState(true)
     let liked = item.likes.filter(el=>{return el.username === user.username })
     const [isLiked,setIsLiked] = useState(liked.length?true:false)
     const [likesCount,setLikesCount] = useState(item.likes.length)
+    const [explore,setExplore] = exploreState
+    const [feeds,setFeeds,feedsPage,setFeedsPage] = feedsState
 
     const url = 'https://api-socialite.herokuapp.com'
     const {Paragraph} = Typography 
 
-
-    
+    const updateExplore = () =>{ 
+      axios.get(`${url}/posts?page=0&limit=9`)
+      .then(res => {
+        setExplore([...res.data])
+        console.log("data",res.data);
+      }).catch (err=>{
+        console.log('err',err)
+      })
+    }
+    const updateFeeds = () =>{
+      axios.get(`${url}/posts?page=0&limit=4&user=${user.username}`)
+      .then(res => {
+        setFeeds([...res.data])
+        console.log("data",res.data);
+      }).catch (err=>{
+        console.log('err',err)
+      })
+    }
     const likes = () =>{
         let likeOrUnlike = isLiked ? 'unlikes' : 'likes'
         let likesAdd = isLiked ? likesCount-1 : likesCount+1
         let data = {fullname:user.profile.fullname,avatar:user.profile.avatar}
+        setIsLiked(!isLiked)
+        setLikesCount(likesAdd)
         axios.put(`${url}/post/${item._id}/${likeOrUnlike}/${user.username}`,data)
         .then(res=>{
             console.log(res.data)
-            setLikesCount(likesAdd)
-            setIsLiked(!isLiked)
+            updateExplore()
+            updateFeeds()
         }).catch(err=>{console.log(err.response)})
     }
     
