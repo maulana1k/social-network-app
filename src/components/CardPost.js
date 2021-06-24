@@ -34,7 +34,7 @@ export default function Card({item,author}){
     
 	return (<div>
         
-                <Link to={`/post/${item._id}`}>
+                
 		 <div className="hover:bg-blue-50 container flex flex-col flex-shrink-1 space-y-2 text-gray-700 rounded-xl md:border bg-white p-2 ">
             <div className="flex justify-between">
                 <div className="flex items-center  space-x-4">
@@ -83,7 +83,7 @@ export default function Card({item,author}){
                 </div>
                 
             </div>
-            </Link>
+            
     </div>
 	)
 }
