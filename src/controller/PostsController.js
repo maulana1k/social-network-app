@@ -140,7 +140,7 @@ const PostsController = {
             likes:{username:username}
         }).exec((err,isLiked)=>{
             if(!isLiked){
-                
+            console.log(isLiked)
         Posts.findByIdAndUpdate(
             postId,
             {$push:{likes:{username,fullname,avatar}
