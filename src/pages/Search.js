@@ -54,7 +54,7 @@ export default function Search(){
     }
 
     return (<>
-        <div className="md:hidden flex w-8/12 bg-white rounded-md mt-4 shadow mx-auto justify-center items-center">
+        <div className="md:hidden flex w-8/12 bg-white rounded-md mt-4  mx-auto justify-center items-center">
           {/*<AutoComplete
           options={}
           >

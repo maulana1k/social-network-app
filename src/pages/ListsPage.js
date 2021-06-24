@@ -11,10 +11,10 @@ export default function ListsPage(){
   console.log('item',item)
   const url = 'https://api-socialite.herokuapp.com'
 	return(
-		<div className="container min-h-screen flex flex-col pb-24">
-			<div className="p-4 bg-white border-b">
-          <div className="text-gray-700  flex items-center text-lg space-x-4 ">
-              <ArrowLeftOutlined onClick={()=>window.history.back()} style={{fontSize:'24px'}} />
+		<div  className="container min-h-screen flex flex-col pb-24">
+			<div style={{background:'#1976D2'}} className="p-4 bg-white border-b">
+          <div style={{color:'white'}}  className="flex items-center text-lg space-x-4 ">
+              <ArrowLeftOutlined onClick={()=>window.history.back()} style={{fontSize:'24px',color:'white'}} />
           <b>{title}</b>
           </div>
       </div>

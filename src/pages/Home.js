@@ -17,8 +17,8 @@ import Post from './Post.js'
 import ListsPage from './ListsPage.js'
 import Navbar from '../components/Navbar.js'
 
-const style = {fontSize:'22px'}
 export default function Home(){
+const style = {fontSize:'22px',color:'white'}
     const [user,setUser] = useContext(UserContext)
     const location = useLocation()
     const {pathname} = location
@@ -66,7 +66,7 @@ export default function Home(){
                 
             </div>
 
-            <div className="flex md:hidden justify-around items-center fixed inset-x-0 shadow-lg bottom-0 h-12 bg-white ">
+            <div style={{background:'#1976D2'}} className="flex md:hidden justify-around items-center fixed inset-x-0 shadow-lg bottom-0 h-12 bg-white ">
                 <div > 
                    <Link className="nolink" to="/">
                    { pathname=='/' ? <HomeFilled style={style} /> 
@@ -81,8 +81,8 @@ export default function Home(){
                     </div>
                 <div > 
                     <Link className="nolink" to="/uploads" >
-                    {pathname=='/uploads' ? <PlusCircleFilled style={{fontSize:'28px'}} />
-                    : <PlusCircleOutlined style={{fontSize:'28px'}}/>}
+                    {pathname=='/uploads' ? <PlusCircleFilled style={{fontSize:'28px',color:'white'}} />
+                    : <PlusCircleOutlined style={{fontSize:'28px',color:'white'}}/>}
                     </Link>
                     
                     </div>
@@ -94,7 +94,9 @@ export default function Home(){
                     </div>
                 <div > 
                     <Link className="nolink" to={`/${user.username}`} >
+                    <div className="border-2 flex rounded-full border-white">
                     <Avatar src={`https://api-socialite.herokuapp.com/${user.profile.avatar}`} />
+                    </div>
                     
                     </Link> 
                 </div>

@@ -52,9 +52,9 @@ export default function Feeds(){
     }
     return (<>
         
-        <div className="w-full md:hidden h-14 flex fixed z-10 text-gray-700 justify-between items-center border-b px-6 bg-white">
-            <div style={{fontFamily:'Pacifico'}} className="text-2xl">Socialite</div>
-            <span onClick={reload} ><SyncOutlined spin={spin} style={{fontSize:'20px'}} /></span>
+        <div style={{background:'#1976D2'}} className="w-full md:hidden h-14 flex fixed z-10  justify-between items-center border-b px-6 bg-white">
+            <div style={{fontFamily:'Pacifico',color:'white'}} className="text-2xl">Socialite</div>
+            <span onClick={reload} ><SyncOutlined spin={spin} style={{fontSize:'20px',color:'white'}} /></span>
         </div>
         <div className="py-14 md:py-0 flex flex-col min-h-screen mb-14 p-2 space-y-6">
         {suggest && (

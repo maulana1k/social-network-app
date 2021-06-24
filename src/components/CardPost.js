@@ -5,7 +5,7 @@ import moment from 'moment'
 
 import {Avatar,Typography,Image,Button,Tag} from 'antd'
 import {HeartOutlined,CommentOutlined,HeartFilled} from '@ant-design/icons'
-import {Link} from 'react-router-dom'
+import {Link,useHistory} from 'react-router-dom'
 
 
 export default function Card({item,author}){
@@ -20,7 +20,7 @@ export default function Card({item,author}){
 
     const url = 'https://api-socialite.herokuapp.com'
     const {Paragraph} = Typography 
-
+    const history = useHistory()
     const updateExplore = () =>{ 
       axios.get(`${url}/posts?page=0&limit=9`)
       .then(res => {

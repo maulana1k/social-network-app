@@ -65,8 +65,8 @@ export default function Uploads(){
 	  	return false
 	}
 	return (<>
-		<div className="container h-14 flex md:hidden border-b items-center bg-white px-4 ">
-            <div className="text-gray-700 text-xl"><b>Uploads</b></div>
+		<div style={{background:'#1976D2'}} className="container  h-14 flex md:hidden border-b items-center bg-white px-4 ">
+            <div style={{color:'white'}} className=" text-xl"><b>Uploads</b></div>
         </div>
 		<div className="container  flex flex-col p-5 pb-12 space-y-4">
 			<div className="container items-center flex space-x-3">

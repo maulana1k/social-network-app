@@ -24,8 +24,8 @@ export default function Notification(){
 		}).catch(err=>{ console.log(err.response) })
 	},[])
     return (<>
-    	<div className="w-full h-14 flex md:hidden items-center border-b px-4  bg-white">
-            <div className="text-gray-700 text-xl"><b>Notifications</b></div>
+    	<div style={{background:'#1976D2'}} className="w-full h-14 flex md:hidden items-center border-b px-4  bg-white">
+            <div style={{color:'white'}} className=" text-xl"><b>Notifications</b></div>
         </div>
         <div className="w-full px-4   flex flex-col">
         <div className="flex text-lg my-4 text-gray-700">{notif && <b>{notif.length} activities</b> }</div>
