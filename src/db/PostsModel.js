@@ -18,7 +18,7 @@ const PostsModel = new mongoose.Schema({
         }],
         timestamps:{ type:Date, default: Date.now }
     }],
-    likes: [{username:{type:String,dropDups:true},fullname:String,avatar:String}] ,
+    likes: [{username:{type:String,dropDups:true,unique:true},fullname:String,avatar:String}] ,
     timestamps:{ type:Date, default: Date.now }
 })
 

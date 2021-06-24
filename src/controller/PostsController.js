@@ -136,6 +136,11 @@ const PostsController = {
     likes:(req,res,next)=>{
         let {postId,username} = req.params
         let {fullname,avatar} = req.body
+        Posts.findOne({
+            likes:{username:username}
+        }).exec((err,isLiked)=>{
+            if(!isLiked){
+                
         Posts.findByIdAndUpdate(
             postId,
             {$push:{likes:{username,fullname,avatar}
@@ -164,6 +169,8 @@ const PostsController = {
                     })
                 return res.json(result) 
             })
+            }
+        })
     },
     unlike:(req,res,next)=>{
         let {postId,username} = req.params
