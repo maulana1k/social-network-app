@@ -55,17 +55,7 @@ export default function Profile(){
                
             }).catch(err=>{ console.log(err) })
             setPrevUser(props.username)
-        //geolocation
-        // if(navigator.geolocation){
-        //     navigator.geolocation.getCurrentPosition(position=>{
-        //         const Lat = position.coords.latitude
-        //         const Lng = position.coords.longitude
-        //         console.log('position ',position)
-        //         console.log('latlng',Lat,Lng)
-        //     })
-        // }else{ console.log('geolocation unavailable') }
-        // axios.get('https://geolocation-db.com/json/')
-        // .then(res=>{ console.log('location',res.data) })
+        
       
     },[props.username])
 
@@ -120,7 +110,7 @@ export default function Profile(){
         <Menu>
             <Menu.Item>
                 <b>Phone</b>
-                <div className="text-gray-500">{item}</div>
+                <div className="text-gray-500">{item ? item : 'Phone number not added yet'}</div>
             </Menu.Item>
         </Menu>
             )

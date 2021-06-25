@@ -118,8 +118,8 @@ export default function Search(){
                   </div>  
             ) }
           { explore.length===0 && (
-              <div className="py-4 mb-12 flex container justify-center">
-                <div><Loading3QuartersOutlined style={{fontSize:'56px',color:'gray'}} spin /></div>              
+              <div className="py-4 my-auto flex h-full items-center container justify-center">
+                <div><Loading3QuartersOutlined style={{fontSize:'40px',color:'gray'}} spin /></div>              
                 </div>
             ) }
         </div>

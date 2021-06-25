@@ -50,11 +50,12 @@ export default function Feeds(){
       setSpin(true)
       getFeeds()
     }
+    // style={{background:'#1976D2'}}
     return (<>
         
-        <div style={{background:'#1976D2'}} className="w-full md:hidden h-14 flex fixed z-10  justify-between items-center border-b px-6 bg-white">
+        <div style={{background:'#1976D2'}} className="w-full md:hidden h-14 flex fixed z-10  justify-between items-center px-6 bg-white">
             <div style={{fontFamily:'Pacifico',color:'white'}} className="text-2xl">Socialite</div>
-            <span onClick={reload} ><SyncOutlined spin={spin} style={{fontSize:'20px',color:'white'}} /></span>
+            <span  onClick={reload} ><SyncOutlined spin={spin} style={{fontSize:'20px',color:'white'}} /></span>
         </div>
         <div className="py-14 md:py-0 flex flex-col min-h-screen mb-14 p-2 space-y-6">
         {suggest && (
@@ -68,10 +69,10 @@ export default function Feeds(){
                   <div key={i} className="items-center hover:bg-blue-50  flex-col px-2 overflow-x-scroll w-36 py-2 text-xs rounded-xl bg-white border flex">
                     {/*<div className="w-1/8  "><Image width={56} src={`${url}/${el.profile.avatar}`} /></div>*/}
                     <span className="mb-2" ><Avatar size={64} src={`${url}/${el.profile.avatar}`} /></span>
-                      <div className="flex flex-wrap text-center"><b>{el.profile.fullname}</b></div>
-                      <div className="text-gray-500">
+                      <div className="flex flex-wrap text-gray-700 text-center"><b>{el.profile.fullname}</b></div>
+                      
                       @{el.username}
-                      </div>
+                      
                   </div>
                       </Link>
                   </>)}
@@ -88,7 +89,7 @@ export default function Feeds(){
    	        hasMore={true}
    	        loader={
               <div className="py-4 mb-12 flex  justify-center">
-              { more ? <div><Loading3QuartersOutlined style={{fontSize:'56px',color:'gray'}} spin /></div>
+              { more ? <div><Loading3QuartersOutlined style={{fontSize:'40px',color:'gray'}} spin /></div>
                 : (<div className="flex flex-col space-y-2">
                   <div className="text-gray-500 text-center text-lg">It's All. want to <Link to='/explore' >explore</Link>?</div>
                     <div className="text-gray-500 text-xs text-center">Socialite app | Created with <HeartFilled/> by Maulana Imamul Khaq. Any support means a lot to me :)</div>
@@ -105,7 +106,7 @@ export default function Feeds(){
    	        </InfiniteScroll> )
          : (<>
             <div className="mx-auto space-y-4 my-auto">
-                <Loading3QuartersOutlined style={{fontSize:'56px',color:'gray'}} spin />
+                <Loading3QuartersOutlined style={{fontSize:'40px',color:'gray'}} spin />
             </div>
             <div className="text-gray-500 text-xs text-center">Socialite app | Created with <HeartFilled/> by Maulana Imamul Khaq | Any support means a lot to me :)</div>
             </>)

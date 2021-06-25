@@ -18,7 +18,7 @@ import ListsPage from './ListsPage.js'
 import Navbar from '../components/Navbar.js'
 
 export default function Home(){
-const style = {fontSize:'22px',color:'white'}
+const style = {fontSize:'24px',color:'white'}
     const [user,setUser] = useContext(UserContext)
     const location = useLocation()
     const {pathname} = location

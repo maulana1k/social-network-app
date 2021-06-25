@@ -441,7 +441,7 @@ h6 {
  */
 
 a {
-  
+  color: inherit;
   text-decoration: inherit;
 }
 
@@ -685,6 +685,10 @@ video {
   display: none;
 }
 
+.h-10 {
+  height: 2.5rem;
+}
+
 .h-12 {
   height: 3rem;
 }
@@ -709,6 +713,10 @@ video {
   min-height: 100vh;
 }
 
+.w-10 {
+  width: 2.5rem;
+}
+
 .w-36 {
   width: 9rem;
 }
@@ -719,6 +727,10 @@ video {
 
 .w-auto {
   width: auto;
+}
+
+.w-1\/2 {
+  width: 50%;
 }
 
 .w-2\/3 {
@@ -790,6 +802,10 @@ video {
     transform: none;
     animation-timing-function: cubic-bezier(0,0,0.2,1);
   }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 .grid-cols-3 {
@@ -1167,6 +1183,10 @@ video {
 
 .blur-sm {
   --tw-blur: blur(4px);
+}
+
+.grayscale {
+  --tw-grayscale: grayscale(100%);
 }
 
 @media (min-width: 640px) {

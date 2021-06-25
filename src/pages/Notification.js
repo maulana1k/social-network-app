@@ -27,10 +27,10 @@ export default function Notification(){
     	<div style={{background:'#1976D2'}} className="w-full h-14 flex md:hidden items-center border-b px-4  bg-white">
             <div style={{color:'white'}} className=" text-xl"><b>Notifications</b></div>
         </div>
-        <div className="w-full px-4   flex flex-col">
-        <div className="flex text-lg my-4 text-gray-700">{notif && <b>{notif.length} activities</b> }</div>
+        <div className="w-full px-4  flex flex-col">
+	        <div className="flex text-lg my-4 text-gray-700">{notif && <b>{notif.length} activities</b> }</div>
 	       <Timeline>
-	       { notif  ? notif.map((el,index)=>{
+	       { notif  && notif.map((el,index)=>{
 	       	return(
 		       	<Timeline.Item key={index} >
 		       		<div className="w-full p-2 flex justify-between items-center md:border bg-white rounded-md ">
@@ -47,8 +47,9 @@ export default function Notification(){
 		       		</div>
 	       		</Timeline.Item>
 	       		)
-	       }) : <div className="text-gray-500 text-lg flex justify-center"><Loading3QuartersOutlined style={{fontSize:'56px',color:'gray'}} spin /></div> }
+	       }) }
 	       </Timeline>
+	       {!notif && <div className="text-gray-500 text-lg flex my-auto justify-center"><Loading3QuartersOutlined style={{fontSize:'40px',color:'gray'}} spin /></div> }
 	       {notif && notif.length===0 && <div className="text-gray-500 text-lg flex justify-center">No notification</div>}
         </div>
         </>

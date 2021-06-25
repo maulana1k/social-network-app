@@ -93,7 +93,7 @@ export default function Uploads(){
 					}) 
 			</div>
 				}*/}
-			<div className="my-2 w-1/2 flex">
+			<div className="my-2  flex">
 			<Alert type="warning" message="Belum bisa upload foto. cloud mahal gaes duh :("  showIcon
 			/>
 			</div>

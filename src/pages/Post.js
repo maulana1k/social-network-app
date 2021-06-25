@@ -175,8 +175,8 @@ export default function Post() {
 	const [drawer,setDrawer] = useState(false)
 	return(
 		<div className="container min-h-screen pb-24 flex flex-col bg-white">
-                <div className="p-4">
-                    <div className="text-gray-700 mb-2 flex items-center text-lg space-x-4 ">
+                <div  className="p-4">
+                    <div className="text-gray-700 flex items-center text-lg space-x-4 ">
                         <ArrowLeftOutlined onClick={()=>window.history.back()} style={{fontSize:'24px'}} />
                     <b>Post</b>
                     </div>
@@ -186,10 +186,10 @@ export default function Post() {
                 <div className="container flex items-center px-4 space-x-2">
                         <Avatar size="small" src={`${url}/${post.author.profile.avatar}`} />
                         <Link to={`/${post.author.username}`}>
-                        <div className="text-md flex flex-col">
+                        <div className="text-md text-gray-700 flex flex-col">
                         <b> {post.author.profile.fullname}</b> 
-                        <span className="text-xs text-gray-500" > @{post.author.username}</span>
                         </div>
+                         @{post.author.username}
                         </Link>
                         <Button type="text" size="small" onClick={()=>setDrawer(!drawer)} style={{marginLeft:'auto'}} ><MoreOutlined style={{fontSize:'20px'}}/></Button> 
                 </div>
