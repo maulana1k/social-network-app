@@ -57,6 +57,7 @@ export default function Card({item,author}){
         
                 
 		 <div className="hover:bg-blue-50 container flex flex-col flex-shrink-1 space-y-2 text-gray-700 rounded-xl md:border bg-white p-2 ">
+            <Link to={`/post/${item._id}`} >
             <div className="flex justify-between">
                 <div className="flex items-center  space-x-4">
                          <Avatar size="medium" src={`${url}/${author.profile.avatar}`} />
@@ -75,7 +76,6 @@ export default function Card({item,author}){
                 </Paragraph>
                 
                     
-                <Link to={`/post/${item._id}`} >
                 <div className=" flex w-auto -mx-2 rounded-xl md:rounded-none overflow-hidden">
                   { item.images && <Image  style={{width:'100%',margin:'auto'}}  src={`${url}/${item.images}`} />}
                 </div>
@@ -89,7 +89,7 @@ export default function Card({item,author}){
                             <Button type="text"  size="small" onClick={likes} >
                             { isLiked ? <HeartFilled style={{fontSize:'20px',color:'orangered'}} />  : <HeartOutlined style={{fontSize:'20px'}} />}
                             </Button>
-                            <Link className="nolink" to={{pathname:`/likes/${item._ic}`,title:'Likes',data:item.likes}} >
+                            <Link className="nolink" to={{pathname:`/likes/${item._id}`,title:'Likes',data:item.likes}} >
                             <div className="inline text-sm"><b> {likesCount} likes</b></div>
                             </Link>
                         </span>
