@@ -63,9 +63,9 @@ export default function Card({item,author}){
                          <Avatar size="medium" src={`${url}/${author.profile.avatar}`} />
                         
                         <Link to={`/${author.username}`}>
-                        <div className="text-md flex flex-col">
+                        <div className="text-md text-gray-800 flex flex-col">
                         <b> {author.profile.fullname}</b> 
-                        <span className="text-xs text-gray-500" > @{author.username}</span>
+                        <span className="text-xs " > @{author.username}</span>
                         </div>
                         </Link>
                 </div>
