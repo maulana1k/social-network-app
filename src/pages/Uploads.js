@@ -94,7 +94,7 @@ export default function Uploads(){
 			</div>
 				}*/}
 			<div className="my-2  flex">
-			<Alert type="warning" message="Belum bisa upload foto. cloud mahal gaes duh :("  showIcon
+			<Alert type="warning" message="Belum bisa upload foto. cloud storage sedang dalam proses"  showIcon
 			/>
 			</div>
 			<ImgCrop>
