@@ -1,9 +1,12 @@
 # social-network-app
-Progressive Web App
+Progressive Web App (PWA)
 
-Social network app can be installed as mobile app
+Aplikasi web ini dapat diinstall di mobile dan desktop
 
-Accept add to home prompt on firts visiting this web
+Arsitektur aplikasi frontend dan backend dibuat terpisah untuk memudahkan *scale up* aplikasi
+
+### Backend
+Di sisi backend dibangun dengan node js dan framework express js
 
 Tech using:
 
