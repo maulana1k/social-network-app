@@ -1,7 +1,7 @@
 # social-network-app
 Progressive Web App (PWA)
 
-https://socialitee.netlify.app
+# https://socialitee.netlify.app
 
 Aplikasi web ini dapat diinstall di mobile dan desktop
 
