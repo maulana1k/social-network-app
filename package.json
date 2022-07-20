@@ -2,6 +2,7 @@
   "name": "react-client",
   "version": "0.1.0",
   "private": true,
+  "proxy":"https://api-socialite.herokuapp.com/"
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
     "@craco/craco": "^6.1.2",
