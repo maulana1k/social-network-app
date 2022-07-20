@@ -24,7 +24,8 @@ app.set((req, res, next) => {
 //Mongodb connect
 import mongoose from "mongoose";
 const uri =
-  "mongodb+srv://maulanatech:gamerindo123@cluster1.hnojf.mongodb.net/socialnetworkdb?retryWrites=true&w=majority";
+  "mongodb://maulana1k:mongoapp123@ac-vws6pgy-shard-00-00.e57se0p.mongodb.net:27017,ac-vws6pgy-shard-00-01.e57se0p.mongodb.net:27017,ac-vws6pgy-shard-00-02.e57se0p.mongodb.net:27017/socialnetworkdb?ssl=true&replicaSet=atlas-oc7qo8-shard-0&authSource=admin&retryWrites=true&w=majority";
+// "mongodb+srv://maulanatech:gamerindo123@cluster1.hnojf.mongodb.net/socialnetworkdb?retryWrites=true&w=majority";
 mongoose
   .connect(uri, {
     useNewUrlParser: true,
