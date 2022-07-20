@@ -11,7 +11,7 @@ const PostsController = {
     if (username) {
       User.findOne({ username }).exec((err, result) => {
         if (err) throw err;
-        let friends = result.following.map((el) => el.username);
+        let friends = result?.following.map((el) => el.username);
         console.log("friends", friends);
         Posts.find({ username: { $in: friends } })
           .sort({ timestamps: -1 })
